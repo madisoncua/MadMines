@@ -17,7 +17,6 @@
 //13-ring
 //14-staff
 //15-wand
-//test
 //16-trash
 //Bit 5: LButtong 
 #define LButton (1<<5)

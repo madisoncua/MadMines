@@ -7,7 +7,7 @@ Player::Player(int x, int y){
 }
 
 Player::Player(){
-    xPos = 500;
+    xPos = 56;
     yPos = 70;
 }
 
