@@ -9,7 +9,7 @@ class machine{
 
 
     public:
-    updateSmelter(uint8_t);
+    updateSmelter(uint8_t); //update Smelter edit
     updateRefiner(uint8_t);
     updateRock(uint8_t);
     updateAnvil(uint8_t);
