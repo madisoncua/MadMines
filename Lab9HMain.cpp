@@ -247,7 +247,6 @@ int main(void){ // final main
   ST7735_FillScreen(0x630C);
   ST7735_DrawBitmap(67, 34, refiner, 61, 35); //draws the refiner
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
-  ST7735_DrawBitmap(, 159, anvilHighlight, 34, 66); //draws the to do list
 
   while(1){
     Sensor.Sync(); //checks for semaphore to be set and interrupt will occur
