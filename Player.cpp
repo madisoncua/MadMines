@@ -13,7 +13,7 @@
  int16_t Player::getXPos(){return posX;} //return xPos
  int16_t Player::getYPos(){return posY;} //return yPos
  uint8_t Player::getLast(){return last;} //return last
- uint8_t Player:getSize(){return size;}  //return size
+ uint8_t Player::getSize(){return size;}  //return size
 
 bool Player::moveUp(){
      if(last == 2 && posX < 116){//left->up
