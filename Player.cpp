@@ -3,15 +3,9 @@
  #include "Player.h"
  #include "../inc/ST7735.h"
 
-//  Player::Player(int x, int y){
-//      posX = x;
-//      posY = y;
-//      last = 0;
-//  }
-
  Player::Player(){
-     this->posX = 56;
-     this->posY = 70;
+     this->posX = 42;
+     this->posY = 102;
      this->last = 0;
  }
 

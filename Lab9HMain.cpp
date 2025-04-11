@@ -20,6 +20,7 @@
 #include "Sound.h"
 #include "images.h"
 #include "Player.h"
+#include "Machine.h"
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
 extern "C" void TIMG12_IRQHandler(void);
@@ -222,8 +223,10 @@ int main4(void){ uint32_t last=0,now;
 }
 
 Player p1; //player 1
+Machine m_refiner; //machine tester
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // final main
+//initializations
   __disable_irq();
   PLL_Init(); // set bus speed
   LaunchPad_Init();
@@ -237,11 +240,14 @@ int main(void){ // final main
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
     // initialize interrupts on TimerG12 at 30 Hz
-    TimerG12_IntArm(2666666, 2);
-
-  
+  TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
+
+  ST7735_FillScreen(0x630C);
+  ST7735_DrawBitmap(67, 34, refiner, 61, 35); //draws the refiner
+  ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
+  ST7735_DrawBitmap(, 159, anvilHighlight, 34, 66); //draws the to do list
 
   while(1){
     Sensor.Sync(); //checks for semaphore to be set and interrupt will occur
@@ -264,11 +270,8 @@ int main(void){ // final main
     if(change){
       ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, 44, 44);
     }
-    ST7735_SetRotation(0);
+    ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    // wait for semaphore
-       // clear semaphore
-       // update ST7735R
-    // check for end game or level switch
+    m_refiner.printRefiner();   
   }
 }
