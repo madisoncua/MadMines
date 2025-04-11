@@ -12,19 +12,14 @@
 class SlidePot{ private:
   uint32_t data;     // raw ADC value
   int32_t flag;      // 0 if data is not valid, 1 if valid
-  uint32_t distanceX;
-  uint32_t distanceY; // distance in 0.001cm
-// distance = (slope*data+offset)/4096
-  uint32_t slope;    // calibration coeffients
-  uint32_t offset;
+  uint16_t distanceX;
+  uint16_t distanceY; // distance in 0.001cm
 public:
   SlidePot(uint32_t m, uint32_t b); // initialize slide pot
   void Init(void);
   uint32_t In(void);                // return last ADC sample value (0 to 4095)
   void Save(uint32_t n);            // save ADC, set semaphore
   void Sync(void);                  // wait for semaphore
-  uint32_t Convert(uint32_t n);     // convert ADC to raw sample
-  float FloatConvert(uint32_t n);   // do not use this function
   uint32_t DistanceX(void);          // return last distance value (0 to 2000), 0.001cm
   uint32_t DistanceY(void);          // return last distance value (0 to 2000), 0.001cm
 };
