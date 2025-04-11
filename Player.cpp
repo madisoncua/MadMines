@@ -7,7 +7,7 @@
      this->posX = 42;
      this->posY = 102;
      this->last = 0;
-     this->size = 31;
+     this->size = 33;
  }
 
  int16_t Player::getXPos(){return posX;} //return xPos
@@ -16,7 +16,7 @@
  uint8_t Player::getSize(){return size;}  //return size
 
 bool Player::moveUp(){
-     if(last == 2 && posX < 116){//left->up
+     if(last == 2 && posX < (160-size)){//left->up
         uint16_t temp = posX;
         posX = posY-size;
         posY = 160-temp;
@@ -53,7 +53,7 @@ bool Player::moveDown(){
         if(posY <= size) {posY = size;}
         last = 1;
         return true;
-      }else if(last == 3 && posX < 116){//right->down
+      }else if(last == 3 && posX < (160-size)){//right->down
         uint16_t temp = posX;
         posX = posY-size;
         posY = 160-temp;
