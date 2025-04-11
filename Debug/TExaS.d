@@ -1,7 +1,7 @@
 # FIXED
 
 TExaS.o: \
- C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
+ C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/msp.h \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/DeviceFamily.h \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/m0p/mspm0g350x.h \
@@ -32,9 +32,9 @@ TExaS.o: \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/hw_debugss.h \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h \
  C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h \
- C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.h \
- C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Timer.h \
- C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Clock.h
+ C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.h \
+ C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.h \
+ C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.h
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/msp.h:
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/DeviceFamily.h:
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/m0p/mspm0g350x.h:
@@ -65,6 +65,6 @@ C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/hw_cpuss.h:
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/hw_debugss.h:
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/hw_sysctl.h:
 C:/ti/mspm0_sdk_2_03_00_07/source/ti/devices/msp/peripherals/m0p/sysctl/hw_sysctl_mspm0g1x0x_g3x0x.h:
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.h:
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Timer.h:
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Clock.h:
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.h:
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.h:
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.h:

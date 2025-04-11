@@ -21,7 +21,9 @@
 #include "images.h"
 #include "Player.h"
 #include "Machine.h"
-#include "Slidepot.h"
+#include "SlidePot.h"
+
+
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
 extern "C" void TIMG12_IRQHandler(void);

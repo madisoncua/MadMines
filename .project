@@ -51,11 +51,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/inc/ST7735.cpp</locationURI>
 		</link>
 		<link>
-			<name>SlidePot.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/inc/SlidePot.cpp</locationURI>
-		</link>
-		<link>
 			<name>TExaS.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/inc/TExaS.cpp</locationURI>

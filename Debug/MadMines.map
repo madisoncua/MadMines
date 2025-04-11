@@ -1,7 +1,7 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.1                      
 ******************************************************************************
->> Linked Fri Apr 11 16:07:27 2025
+>> Linked Fri Apr 11 16:36:47 2025
 
 OUTPUT FILE NAME:   <MadMines.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00009ee9
@@ -186,13 +186,13 @@ section   page    origin      length       input sections
                   000071d8    000004fb     ST7735.o (.rodata._ZL4Font)
                   000076d3    0000003b     ST7735.o (.rodata._ZL5Rcmd1)
                   0000770e    0000002b     ST7735.o (.rodata._ZL5Rcmd3)
-                  00007739    00000016     ST7735.o (.rodata.str1.145533100666594254441)
+                  00007739    00000016     ST7735.o (.rodata.str1.43788427057889536241)
                   0000774f    0000000d     ST7735.o (.rodata._ZL10Rcmd2green)
                   0000775c    0000000d     ST7735.o (.rodata._ZL8Rcmd2red)
-                  00007769    00000008     ST7735.o (.rodata.str1.74455504091578136031)
-                  00007771    00000007     ST7735.o (.rodata.str1.70397418904557661531)
-                  00007778    00000007     ST7735.o (.rodata.str1.94386759871288863331)
-                  0000777f    00000002     ST7735.o (.rodata.str1.79068154596109554801)
+                  00007769    00000008     ST7735.o (.rodata.str1.54535931475021008601)
+                  00007771    00000007     ST7735.o (.rodata.str1.103567388005067375301)
+                  00007778    00000007     ST7735.o (.rodata.str1.132933244321656697041)
+                  0000777f    00000002     ST7735.o (.rodata.str1.18657686242476325171)
                   00007781    00000007     --HOLE-- [fill = 0]
 
 .init_array 
@@ -276,7 +276,7 @@ MODULE SUMMARY
     +--+------------------------------+-------+---------+---------+
        Total:                         60      192       0      
                                                                
-    C:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/c/libc.a
+    C:\ti\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/c/libc.a
        memory.c.obj                   702     0         5      
        fopen.c.obj                    556     0         0      
        defs.c.obj                     0       0         404    
@@ -298,7 +298,7 @@ MODULE SUMMARY
     +--+------------------------------+-------+---------+---------+
        Total:                         2366    0         425    
                                                                
-    C:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/c/libsysbm.a
+    C:\ti\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/c/libsysbm.a
        trgmsg.c.obj                   104     0         288    
        add_device.c.obj               236     0         1      
        host_device.c.obj              0       0         200    
@@ -317,7 +317,7 @@ MODULE SUMMARY
     +--+------------------------------+-------+---------+---------+
        Total:                         1332    0         498    
                                                                
-    C:\ti\ccs2000\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/libclang_rt.builtins.a
+    C:\ti\ccs\tools\compiler\ti-cgt-armllvm_4.0.1.LTS\lib\armv6m-ti-none-eabi/libclang_rt.builtins.a
        aeabi_uidivmod.S.obj           64      0         0      
        aeabi_memset.S.obj             12      0         0      
        aeabi_memcpy.S.obj             8       0         0      
