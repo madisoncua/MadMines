@@ -9,6 +9,7 @@ class Machine{
     private:
     uint8_t input;
     uint8_t state;
+    
 
     public:
     void updateSmelter(uint8_t); //update Smelter edit
