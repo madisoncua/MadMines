@@ -15,7 +15,6 @@ class SlidePot{ private:
   uint16_t distanceX;
   uint16_t distanceY; // distance in 0.001cm
 public:
-  SlidePot(uint32_t m, uint32_t b); // initialize slide pot
   void Init(void);
   uint32_t In(void);                // return last ADC sample value (0 to 4095)
   void Save(uint32_t n);            // save ADC, set semaphore
