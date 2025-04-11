@@ -13,6 +13,7 @@
  int16_t Player::getXPos(){return posX;} //return xPos
  int16_t Player::getYPos(){return posY;} //return yPos
  uint8_t Player::getLast(){return last;} //return last
+ uint8_t Player:getSize(){return size;}  //return size
 
 bool Player::moveUp(){
      if(last == 2 && posX < 116){//left->up
@@ -22,51 +23,51 @@ bool Player::moveUp(){
         ST7735_SetRotation(0);
         posY-=2;
         last = 0;
-        if(posY <= 44){
-          posY = 44;
+        if(posY <= size){
+          posY = size;
           return false;
         }
-      }else if(last == 3 && posX > 44){//right->up
+      }else if(last == 3 && posX > size){//right->up
         uint16_t temp = posX;
         posX = 128-posY;
-        posY = temp+44;
+        posY = temp+size;
         ST7735_SetRotation(0);
         posY-=2;
         last = 0;
-        if(posY <= 44) {posY = 44;}
+        if(posY <= size) {posY = size;}
       }else if(last == 0){
         posY-=2;
-        if(posY <= 44) {posY = 44;}
+        if(posY <= size) {posY = size;}
         last = 0;
       }
       return true;
  }
 
 bool Player::moveDown(){
-     if(last == 2 && posX > 44){//left->down
+     if(last == 2 && posX > size){//left->down
         uint16_t temp = posX;
         posX = 128-posY;
-        posY = temp+44;
+        posY = temp+size;
         ST7735_SetRotation(2);
         posY-=2;
-        if(posY <= 44) {posY = 44;}
+        if(posY <= size) {posY = size;}
         last = 1;
         return true;
       }else if(last == 3 && posX < 116){//right->down
         uint16_t temp = posX;
-        posX = posY-44;
+        posX = posY-size;
         posY = 160-temp;
         ST7735_SetRotation(2);
         posY-=2;
-        if(posY <= 44){posY = 44;}
+        if(posY <= size){posY = size;}
         last = 1;
         return true;
       }else if(last == 0){//up->down
-        posY = 160-posY+44;
-        posX = 128-posX-44;
+        posY = 160-posY+size;
+        posX = 128-posX-size;
         ST7735_SetRotation(2);
         posY-=2;
-        if(posY <= 44){posY = 44;}
+        if(posY <= size){posY = size;}
         last = 1;
         return true;
       }
@@ -75,37 +76,37 @@ bool Player::moveDown(){
 bool Player::moveLeft(){
       //if(last == 0){//up->left
       uint16_t temp = posY;
-      posY = posX+44;
+      posY = posX+size;
       posX = 160-temp;
       ST7735_SetRotation(3);
       last = 2;
       posY-=2;
-      if(posY <= 44){posY = 44;}
+      if(posY <= size){posY = size;}
       return true;
  }
 bool Player::moveRight(){
       uint16_t temp = posX;
-      posX = posY-44;
+      posX = posY-size;
       posY = 128-temp;
       ST7735_SetRotation(1);
       last = 3;
       posY-=2;
-      if(posY <= 44){posY = 44;}
+      if(posY <= size){posY = size;}
       return true;
  }
 
  void Player::resetCoordinates(){
     if(last == 1){//down->up
-      posY = 160-posY+44;
-      posX = 128-posX-44;
+      posY = 160-posY+size;
+      posX = 128-posX-size;
     }else if(last == 2){//left->up
       uint16_t temp = posX;
-      posX = posY-44;
+      posX = posY-size;
       posY = 160-temp;
     }else if(last == 3){//right->up
       uint16_t temp = posX;
       posX = 128-posY;
-      posY = temp+44;
+      posY = temp+size;
     }
     last=0;
  }

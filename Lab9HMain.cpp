@@ -269,10 +269,10 @@ int main(void){ // final main
     }
 
     if(change){
-      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, 44, 44);
+      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    m_refiner.printRefiner();   
+    //m_refiner.printRefiner();   
   }
 }
