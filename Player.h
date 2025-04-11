@@ -4,12 +4,11 @@
  using namespace std;
  class Player{
      friend class machine; //machines can access
-     friend class Lab9HMain;
-
+    
      private:
      int possession;
-     uint8_t xPos;
-     uint8_t yPos;
+     int16_t posX;
+     int16_t posY;
      uint8_t last;
 
      public:
@@ -20,5 +19,8 @@
      bool moveLeft(void);
      bool moveRight(void);   
      void resetCoordinates(void);
+     int16_t getXPos(void);
+     int16_t getYPos(void);
+     uint8_t getLast(void);
  };
  #endif

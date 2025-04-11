@@ -19,6 +19,7 @@
 #include "Switch.h"
 #include "Sound.h"
 #include "images.h"
+#include "Player.h"
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
 extern "C" void TIMG12_IRQHandler(void);
@@ -40,7 +41,7 @@ uint32_t Random(uint32_t n){
   return (Random32()>>16)%n;
 }
 
-SlidePot Sensor(1500,0); // copy calibration from Lab 7
+SlidePot Sensor; // copy calibration from Lab 7
 
 // games  engine runs at 30Hz
 void TIMG12_IRQHandler(void){uint32_t pos,msg;
@@ -220,7 +221,7 @@ int main4(void){ uint32_t last=0,now;
   }
 }
 
-Player p1(); //player 1
+Player p1; //player 1
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // final main
   __disable_irq();
@@ -236,6 +237,8 @@ int main(void){ // final main
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
     // initialize interrupts on TimerG12 at 30 Hz
+    TimerG12_IntArm(2666666, 2);
+
   
   // initialize all data structures
   __enable_irq();
@@ -245,21 +248,21 @@ int main(void){ // final main
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
-    if(horiz < 500){
+    if(horiz < 1000){
       change |= p1.moveRight();
     }
-    if(horiz > 1500){
-      change |= p1.moveUp();
-    }
-    if(vert > 1500){
+    if(horiz > 3000){
       change |= p1.moveLeft();
     }
-    if(vert < 500){
-      change|= pi.moveDown();
+    if(vert > 3000){
+      change |= p1.moveUp();
+    }
+    if(vert < 1000){
+      change|= p1.moveDown();
     }
 
     if(change){
-      ST7735_DrawBitmap(posX, posY, miner2, 44, 44);
+      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, 44, 44);
     }
     ST7735_SetRotation(0);
     p1.resetCoordinates();
