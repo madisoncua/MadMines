@@ -273,5 +273,6 @@ int main(void){ // final main
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    m_refiner.printRefiner(); ;  }
+    //m_refiner.printRefiner();
+  }
 }
