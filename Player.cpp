@@ -7,6 +7,7 @@
      this->posX = 42;
      this->posY = 102;
      this->last = 0;
+     this->size = 32;
  }
 
  int16_t Player::getXPos(){return posX;} //return xPos
@@ -21,7 +22,10 @@ bool Player::moveUp(){
         ST7735_SetRotation(0);
         posY-=2;
         last = 0;
-        if(posY <= 44){posY = 44;}
+        if(posY <= 44){
+          posY = 44;
+          return false;
+        }
       }else if(last == 3 && posX > 44){//right->up
         uint16_t temp = posX;
         posX = 128-posY;

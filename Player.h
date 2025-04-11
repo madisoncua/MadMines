@@ -10,6 +10,7 @@
      int16_t posX;
      int16_t posY;
      uint8_t last;
+     uint8_t size;  //square so h == w
 
      public:
      Player();
