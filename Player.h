@@ -23,5 +23,6 @@
      int16_t getXPos(void);
      int16_t getYPos(void);
      uint8_t getLast(void);
+     uint8_t getSize(void);
  };
  #endif
