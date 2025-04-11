@@ -12,7 +12,6 @@
 #include "../inc/LaunchPad.h"
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
-#include "../inc/SlidePot.h"
 #include "../inc/DAC5.h"
 #include "SmallFont.h"
 #include "LED.h"
@@ -21,6 +20,8 @@
 #include "images.h"
 #include "Player.h"
 #include "Machine.h"
+#include "SlidePot.h"
+
 
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);

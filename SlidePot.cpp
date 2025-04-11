@@ -6,7 +6,6 @@
  */
 #include <ti/devices/msp/msp.h>
 #include "../inc/Clock.h"
-#include "../inc/SlidePot.h"
 #include "SlidePot.h"
 #define ADCVREF_VDDA 0x000
 #define ADCVREF_INT  0x200
