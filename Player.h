@@ -10,13 +10,15 @@
      int possession;
      uint8_t xPos;
      uint8_t yPos;
+     uint8_t last;
 
      public:
      Player();
      Player(uint8_t, uint8_t);
-     void moveUp(void);
-     void moveDown(void);
-     void moveLeft(void);
-     void moveRight(void);    
+     bool moveUp(void);
+     bool moveDown(void);
+     bool moveLeft(void);
+     bool moveRight(void);   
+     void resetCoordinates(void);
  };
  #endif

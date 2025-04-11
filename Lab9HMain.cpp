@@ -48,7 +48,9 @@ void TIMG12_IRQHandler(void){uint32_t pos,msg;
     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
     GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
 // game engine goes here
-    // 1) sample slide pot
+    // 1) sample joystick
+    pos = Sensor.In();
+    Sensor.Save(pos);
     // 2) read input switches
     // 3) move sprites
     // 4) start sounds
@@ -117,7 +119,7 @@ int main1(void){ // main1
 }
 
 // use main2 to observe graphics
-int main(void){ // main2
+int main2(void){ // main2
   __disable_irq();
   PLL_Init(); // set bus speed
   LaunchPad_Init();
@@ -217,8 +219,10 @@ int main4(void){ uint32_t last=0,now;
     // modify this to test all your sounds
   }
 }
+
+Player p1(); //player 1
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main5(void){ // final main
+int main(void){ // final main
   __disable_irq();
   PLL_Init(); // set bus speed
   LaunchPad_Init();
@@ -237,6 +241,28 @@ int main5(void){ // final main
   __enable_irq();
 
   while(1){
+    Sensor.Sync(); //checks for semaphore to be set and interrupt will occur
+    uint32_t vert = Sensor.DistanceY();
+    uint32_t horiz = Sensor.DistanceX();
+    uint8_t change = 0;
+    if(horiz < 500){
+      change |= p1.moveRight();
+    }
+    if(horiz > 1500){
+      change |= p1.moveUp();
+    }
+    if(vert > 1500){
+      change |= p1.moveLeft();
+    }
+    if(vert < 500){
+      change|= pi.moveDown();
+    }
+
+    if(change){
+      ST7735_DrawBitmap(posX, posY, miner2, 44, 44);
+    }
+    ST7735_SetRotation(0);
+    p1.resetCoordinates();
     // wait for semaphore
        // clear semaphore
        // update ST7735R
