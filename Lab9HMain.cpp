@@ -225,7 +225,8 @@ int main4(void){ uint32_t last=0,now;
 }
 
 Player p1; //player 1
-Machine m_refiner(61, 0, 160, 35); //machine tester
+Machine m_refiner(61, 0, 160, 35); //(top_left_x, top_left_y, top_right_x, top_right_y)
+Machine m_anvil(40, 100, 101, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // final main
@@ -275,7 +276,12 @@ int main(void){ // final main
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    input = p1.getMachineInput(m_refiner); //gets input for each of the machines
-    m_refiner.updateRefiner(input); 
+
+    input = p1.getMachineInput(m_refiner); //get the input for refiner
+    m_refiner.updateRefiner(input);  //update refiner
+
+    //updating anvil
+    input = p1.getMachineInput(m_anvil);
+    m_anvil.updateAnvil(input); 
   }
 }

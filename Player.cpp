@@ -121,12 +121,16 @@ bool Player::moveRight(){
  }
 
 uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine
- int16_t playerX = posX + this->getSize(); //get the top right X value
- int16_t playerY = posY - this->getSize(); //get the top right Y value
- if((playerX>=m.top_L_x) && (playerX<= m.bot_R_x) && (playerY <= (m.bot_R_y+5))){ //checks bounding box for the bottom side of a machine
+ if((posX>=m.top_L_x) && (posX<= m.bot_R_x) && (posY <= (m.bot_R_y+this->getSize()))){ //checks bounding box for the bottom side of a machine
     return 1;
  }
- if((playerX>= (m.top_L_x-2)) && (playerX >= m.top_L_y) && (playerY <= m.bot_R_y-3)){ //checks bounding box for left side of machine
+ if((posX>= (m.top_L_x-this->getSize())) && (posY >= m.top_L_y) && (posY <= m.bot_R_y)){ //checks bounding box for left side of machine
+    return 1;
+ }
+ if((posX>=m.top_L_x) && (posX<= m.bot_R_x) && (posY <= (m.bot_R_y-this->getSize()))){ //checks bounding box for top side of machine
+    return 1;
+ }
+ if((posX>= (m.top_L_x+this->getSize())) && (posY >= m.top_L_y) && (posY <= m.bot_R_y)){ //checks bounding box for right side of machine
     return 1;
  }
  return 0;

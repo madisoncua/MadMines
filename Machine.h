@@ -16,7 +16,7 @@ class Machine{
     uint8_t bot_R_y;
 
     public:
-    Machine(uint8_t, uint8_t, uint8_t, uint8_t);
+    Machine(uint8_t, uint8_t, uint8_t, uint8_t); //(top_left_x, top_left_y, top_right_x, top_right_y)
     void updateSmelter(uint8_t); //update Smelter edit
     void updateRefiner(uint8_t);
     void updateRock(uint8_t);

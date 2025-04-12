@@ -97,8 +97,21 @@
      static int8_t anvilLength;
      switch(state){
          case 0: //wait state
-             if((input&Prox)==0){return;}
-             //Highlight sprite
+            if((input&Prox) ==0){
+                if(mode ==1){return;}
+                else{ //print default state
+                mode = 1;
+                printAnvil(1);
+                return;
+                } 
+            }else{
+                if(mode==2){return;}
+                else{ //print highlighted state
+                mode = 2;
+                printAnvil(2);
+                return;
+                }
+            }
              if((input&LButton)==1){
                  //display menu
                  state++;
@@ -143,10 +156,21 @@
  void Machine::printRefiner(uint8_t mode){
     if(mode==1){ //default
         ST7735_DrawBitmap(67, 35, refiner, 61, 35);
-    }else if(mode==2){ //working refiner
+    }else if(mode==2){ //highlighted refiner
         ST7735_DrawBitmap(67, 35, refinerHighlight, 61, 35);
-    }else if(mode==3){ //highlighted refiner
+    }else if(mode==3){ //working refiner
         ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
+    }
+
+ }
+
+ void Machine::printAnvil(uint8_t mode){
+    if(mode==1){ //default
+        ST7735_DrawBitmap(40, 160, anvil, 66, 30);
+    }else if(mode==2){ //highlighted anvil
+        ST7735_DrawBitmap(40, 160, anvilHighlight, 66, 30);
+    }else if(mode==3){ //working anvil
+        ST7735_DrawBitmap(40, 160, anvilWorking, 66, 30);
     }
 
  }
