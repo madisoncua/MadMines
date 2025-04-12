@@ -240,8 +240,8 @@ int main(void){ // final main
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(ST7735_BLACK);
   Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
-  Switch_Init(); // initialize switches PA24, PA25
-  LED_Init();    // initialize LED
+  Switch_Init(); // initialize switches PA24, PA25  
+  //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
     // initialize interrupts on TimerG12 at 30 Hz
