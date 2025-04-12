@@ -45,9 +45,9 @@ uint32_t Random(uint32_t n){
 }
 
 SlidePot Sensor; // copy calibration from Lab 7
-
+uint8_t key;
 // games  engine runs at 30Hz
-void TIMG12_IRQHandler(void){uint32_t pos,msg;
+void TIMG12_IRQHandler(void){uint32_t pos, msg;
   if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
     //GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
     //GPIOB->DOUTTGL31_0 = GREEN; // toggle PB27 (minimally intrusive debugging)
@@ -56,6 +56,7 @@ void TIMG12_IRQHandler(void){uint32_t pos,msg;
     pos = Sensor.In();
     Sensor.Save(pos);
     // 2) read input switches
+    key = Switch_In();
     // 3) move sprites
     // 4) start sounds
     // 5) set semaphore
@@ -239,7 +240,7 @@ int main(void){ // final main
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(ST7735_BLACK);
   Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
-  Switch_Init(); // initialize switches
+  Switch_Init(); // initialize switches PA24, PA25
   LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
@@ -253,11 +254,11 @@ int main(void){ // final main
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
 
   while(1){
-    Sensor.Sync(); //checks for semaphore to be set and interrupt will occur
+    Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
-
+    //key is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
     if(horiz < 1000){
       change |= p1.moveRight();
@@ -278,10 +279,12 @@ int main(void){ // final main
     p1.resetCoordinates();
 
     input = p1.getMachineInput(m_refiner); //get the input for refiner
+    input |= key;
     m_refiner.updateRefiner(input);  //update refiner
 
     //updating anvil
     input = p1.getMachineInput(m_anvil);
+    input |= key;
     m_anvil.updateAnvil(input); 
   }
 }
