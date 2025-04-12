@@ -227,10 +227,9 @@ int main4(void){ uint32_t last=0,now;
 
 Player p1; //player 1
 Machine m_refiner(61, 0, 160, 35); //(top_left_x, top_left_y, top_right_x, top_right_y)
-Machine m_anvil(40, 100, 101, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // final main
+int main1P(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -281,6 +280,58 @@ int main(void){ // final main
     input = p1.getMachineInput(m_refiner); //get the input for refiner
     input |= key;
     m_refiner.updateRefiner(input);  //update refiner
+  }
+}
+
+
+Machine m_anvil(40, 100, 101, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+//initializations
+  __disable_irq();
+  PLL_Init(); // set bus speed
+  LaunchPad_Init();
+  ST7735_InitPrintf();
+    //note: if you colors are weird, see different options for
+    // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
+  ST7735_FillScreen(ST7735_BLACK);
+  Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
+  Switch_Init(); // initialize switches PA24, PA25  
+  //LED_Init();    // initialize LED
+  Sound_Init();  // initialize sound
+  TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
+    // initialize interrupts on TimerG12 at 30 Hz
+  TimerG12_IntArm(2666666, 2);
+  // initialize all data structures
+  __enable_irq();
+
+  ST7735_FillScreen(0x630C);
+  ST7735_DrawBitmap(67, 42, Rock, 39, 28); //draws the refiner
+  ST7735_DrawBitmap(41, 159, anvil, 66, 30); //draws the anvil
+
+  while(1){
+    Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
+    uint32_t vert = Sensor.DistanceY();
+    uint32_t horiz = Sensor.DistanceX();
+    uint8_t change = 0;
+    //key is global variable with PA25 and PA24 in bits 6-5
+    //updating player graphics 
+    if(horiz < 1000){
+      change |= p1.moveRight();
+    }
+    if(horiz > 3000){
+      change |= p1.moveLeft();
+    }
+    if(vert > 3000){
+      change |= p1.moveUp();
+    }
+    if(vert < 1000){
+      change|= p1.moveDown();
+    }
+    if(change){
+      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+    }
+    ST7735_SetRotation(0); 
+    p1.resetCoordinates();
 
     //updating anvil
     input = p1.getMachineInput(m_anvil);

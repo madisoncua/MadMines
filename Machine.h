@@ -9,7 +9,7 @@ class Machine{
     friend class Player;
     private:
     uint8_t state;
-    uint8_t mode; //keeps track of what output mode the machine is currently in;
+    uint8_t sprite; //keeps track of what sprite the machine is displaying
     uint8_t top_L_x;
     uint8_t top_L_y;
     uint8_t bot_R_x;
