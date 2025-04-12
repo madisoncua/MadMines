@@ -225,7 +225,7 @@ int main4(void){ uint32_t last=0,now;
 }
 
 Player p1; //player 1
-Machine m_refiner; //machine tester
+Machine m_refiner(61, 0, 160, 35); //machine tester
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // final main
 //initializations
@@ -255,6 +255,8 @@ int main(void){ // final main
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
+
+    //updating player graphics 
     if(horiz < 1000){
       change |= p1.moveRight();
     }
@@ -267,10 +269,14 @@ int main(void){ // final main
     if(vert < 1000){
       change|= p1.moveDown();
     }
-
     if(change){
       ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
     }
     ST7735_SetRotation(0); 
-    p1.resetCoordinates();  }
+    p1.resetCoordinates();
+    p1.checkProximity(m_refiner);
+    
+    m_refiner.updateRefiner();
+    //m_refiner.printRefiner();   
+  }
 }

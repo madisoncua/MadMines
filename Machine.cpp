@@ -6,6 +6,7 @@
 
 // //inputs (bits 0-4)
  #define material 0x1F
+ enum materials {empty, silver_ore, gold_ore, diamond_ore, ruby_ore, emerald_ore, silver, gold, diamond, ruby, emerald, sword, sheild, ring, staff, wand, trash};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -29,6 +30,13 @@
  #define RButton (1<<6)
 // //Bit 7:player proximity
  #define Prox (1<<7)
+
+ Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
+    top_L_x = TLX;
+    top_L_y = TLY;
+    bot_R_x = BRX;
+    bot_R_y = BRY;
+ }
 
  void Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
      switch(state){

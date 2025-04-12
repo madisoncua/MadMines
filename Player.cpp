@@ -2,6 +2,7 @@
 #include <iostream>
  #include "Player.h"
  #include "../inc/ST7735.h"
+ enum Machines {Smelter, Refiner, Rock, Anvil};
 
  Player::Player(){
      this->posX = 42;
@@ -109,4 +110,9 @@ bool Player::moveRight(){
       posY = temp+size;
     }
     last=0;
+ }
+
+ uint8_t checkProximity(Machine m){ //check the proximity to any given machine
+
+    return Anvil;  
  }

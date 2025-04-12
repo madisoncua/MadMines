@@ -2,6 +2,7 @@
  #define _Player_h
  #include <iostream>
  using namespace std;
+ 
  class Player{
      friend class machine; //machines can access
     
@@ -24,5 +25,7 @@
      int16_t getYPos(void);
      uint8_t getLast(void);
      uint8_t getSize(void);
+     uint8_t checkProximity(Machine); //checks the proximity to any machine
+     
  };
  #endif
