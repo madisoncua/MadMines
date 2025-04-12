@@ -226,6 +226,7 @@ int main4(void){ uint32_t last=0,now;
 
 Player p1; //player 1
 Machine m_refiner(61, 0, 160, 35); //machine tester
+uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // final main
 //initializations
@@ -274,9 +275,7 @@ int main(void){ // final main
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    p1.checkProximity(m_refiner);
-    
-    m_refiner.updateRefiner();
-    //m_refiner.printRefiner();   
+    input = p1.getMachineInput(m_refiner); //gets input for each of the machines
+    m_refiner.updateRefiner(input); 
   }
 }

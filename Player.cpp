@@ -2,9 +2,10 @@
 #include <iostream>
  #include "Player.h"
  #include "../inc/ST7735.h"
- enum Machines {Smelter, Refiner, Rock, Anvil};
+ #include "Machine.h"
 
  Player::Player(){
+    possession = 0;
      this->posX = 42;
      this->posY = 102;
      this->last = 0;
@@ -112,7 +113,21 @@ bool Player::moveRight(){
     last=0;
  }
 
- uint8_t checkProximity(Machine m){ //check the proximity to any given machine
+ uint8_t Player::getMachineInput(Machine m){ //configures the input for a given machine
+    uint8_t input = 0;
+    input |= possession; //get the player's posession in bits 0-4
+    input |= (checkProximity(m)<<7);
+    return input;
+ }
 
-    return Anvil;  
+uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine
+ int16_t playerX = posX + this->getSize(); //get the top right X value
+ int16_t playerY = posY - this->getSize(); //get the top right Y value
+ if((playerX>=m.top_L_x) && (playerX<= m.bot_R_x) && (playerY <= (m.bot_R_y+5))){ //checks bounding box for the bottom side of a machine
+    return 1;
+ }
+ if((playerX>= (m.top_L_x-2)) && (playerX >= m.top_L_y) && (playerY <= m.bot_R_y-3)){ //checks bounding box for left side of machine
+    return 1;
+ }
+ return 0;
  }

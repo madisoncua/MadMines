@@ -6,7 +6,8 @@
 
 // //inputs (bits 0-4)
  #define material 0x1F
- enum materials {empty, silver_ore, gold_ore, diamond_ore, ruby_ore, emerald_ore, silver, gold, diamond, ruby, emerald, sword, sheild, ring, staff, wand, trash};
+ enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHEILD, RING, STAFF, WAND, TRASH};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -32,6 +33,7 @@
  #define Prox (1<<7)
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
+    mode = 0;
     top_L_x = TLX;
     top_L_y = TLY;
     bot_R_x = BRX;
@@ -62,6 +64,21 @@
  void Machine::updateRefiner(uint8_t input){
      switch(state){
          case 0: //wait state
+         if((input&Prox) ==0){
+            if(mode ==1){return;}
+            else{ //print default state
+                mode = 1;
+                printRefiner(1);
+                return;
+            } 
+         }else{
+            if(mode==2){return;}
+            else{ //print highlighted state
+                mode = 2;
+                printRefiner(2);
+                return;
+            }
+         }
          case 1://working state
          case 2: //done
      }
@@ -123,19 +140,13 @@
  }
 
  
- void Machine::printRefiner(){
-    static int i = 0;
-    i++;
-    if(i==1){
+ void Machine::printRefiner(uint8_t mode){
+    if(mode==1){ //default
         ST7735_DrawBitmap(67, 35, refiner, 61, 35);
-        Clock_Delay1ms(500);
-    }else if(i==2){
-        ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
-        Clock_Delay1ms(500);
-    }else{
+    }else if(mode==2){ //working refiner
         ST7735_DrawBitmap(67, 35, refinerHighlight, 61, 35);
-        Clock_Delay1ms(500);
-        i=0;
+    }else if(mode==3){ //highlighted refiner
+        ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
     }
 
  }
