@@ -226,7 +226,7 @@ int main4(void){ uint32_t last=0,now;
 }
 
 Player p1; //player 1
-Machine m_refiner(61, 0, 160, 35); //(top_left_x, top_left_y, top_right_x, top_right_y)
+Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
