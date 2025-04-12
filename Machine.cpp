@@ -34,6 +34,7 @@
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
     sprite = 0;
+    holdItem = 0;
     top_L_x = TLX;
     top_L_y = TLY;
     bot_R_x = BRX;
@@ -67,20 +68,22 @@
  void Machine::updateRefiner(uint8_t input){
      switch(state){
          case 0: //wait state
-         if((input&Prox) ==0){      //ser to default state
+        if((input&Prox) ==0){      //ser to default state
             if(sprite ==0){return;} //don't reprint if already default
             else{
                 sprite = 0;
                 printRefiner(0);
                 return;
             } 
-         }else{
-            if(sprite==2){return;}
-            else{ //print highlighted state
-                sprite = 2;
-                printRefiner(2);
+         }else{//print highlighted state
+            if(sprite==1){return;} //don't reprint if already highlighted
+            else{ 
+                sprite = 1;
+                printRefiner(1);
                 return;
             }
+         }              //take item in for playing to work on
+         if((input&LButton) == 1 && (input&material) != EMPTY){
          }
          case 1://working state
          case 2: //done

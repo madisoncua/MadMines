@@ -120,6 +120,12 @@ bool Player::moveRight(){
     return input;
  }
 
+ uint8_t Player::takePosession(){ //to put item in the machine
+  uint8_t temp = possession;
+  possession = 0;    //player hand is empty
+  return temp;      //give machine player item
+ }
+
 uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine
  if((posX>=m.top_L_x) && (posX<= m.bot_R_x) && (posY <= (m.bot_R_y+this->getSize()))){ //checks bounding box for the bottom side of a machine
     return 1;
