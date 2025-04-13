@@ -2,8 +2,9 @@
  #include "Machine.h"
  #include "../inc/ST7735.h"
  #include "images.h"
-#include "../inc/Clock.h"
+ #include "../inc/Clock.h"
 
+extern "C" uint32_t Random32(void);
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
@@ -67,12 +68,11 @@ int8_t Machine::updateRefiner(uint8_t input){
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
-            if(sprite ==0){return -1;} //don't reprint if already default
-        else{
+            if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
                 printRefiner(sprite);
-                return -1;
-        }
+            }
+            return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
@@ -135,10 +135,46 @@ int8_t Machine::updateRefiner(uint8_t input){
 
  int8_t Machine::updateRock(uint8_t input){
     switch(state){
-        case 0: //wait state
-        case 1://mining
+      case 0: //wait state
+        if((input&Prox) ==0){      //ser to default state
+            if(sprite !=0){ //don't reprint if already default
+                sprite = 0;
+                printRefiner(sprite);
+            }
+            return -1;
+        }else{//print highlighted state
+            if(sprite!=1){
+                sprite = 1;
+                printRefiner(sprite);
+            } //don't reprint if already highlighted
+        }
+        if((input&RButton) == 0x40){
+            state++;
+            workTimer = 150;    //5 sec of work time
+            sprite = 1; //breaking rock sprite
+            printRock(sprite);
+            //also print progress bar
+        }
+        return -1;
+      case 1://mining
+        if((input&RButton) == 0 || (input&Prox) == 0){
+            return -1;
+        }
+        workTimer--;
+        if(workTimer%15 == 0){
+            //update progress bar
+            //maybe short sound effect?
+        }
+        if(workTimer == 0){
+            sprite = 0;
+            state = 0;
+            printRock(sprite);
+            uint8_t randOre = Random32()%5+1; //should return random 1-5 (not sure how random though)
+            return randOre;
+        }
+        return -1;
     }
-
+    return -1;
  }
 
  int8_t Machine::updateAnvil(uint8_t input){
@@ -221,4 +257,12 @@ int8_t Machine::updateRefiner(uint8_t input){
         ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
     }
 
+ }
+
+ void Machine::printRock(uint8_t sprite){
+    if(sprite == 0){
+        ST7735_DrawBitmap(67, 42, Rock, 39, 28);
+    }else if(sprite == 1){
+        ST7735_DrawBitmap(67, 42, Rock, 39, 28);    //replace this with breaking rock when imported
+    }
  }
