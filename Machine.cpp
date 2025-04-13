@@ -83,6 +83,11 @@
             holdItem = input&material;
             return EMPTY;               //tells the main to empty player's hand
          }
+         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != Empty){ //give item with no work done to player
+            int8_t temp = holdItem;
+            holdItem = 0;
+            return temp;          //tells main item to return
+         }
          if((input&RButton) == 1 && holdItem !=0){ //start working and item to work on
             state++;
             //print progress bar
@@ -120,6 +125,8 @@
                 uint8_t temp = holdItem;
                 holdItem = 0;
                 return temp+5;
+            }else{
+                return TRASH;   //input was invalid to refining failed
             }
      }
 
