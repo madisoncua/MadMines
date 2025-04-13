@@ -65,6 +65,7 @@ extern "C" uint32_t Random32(void);
 }
 
 int8_t Machine::updateRefiner(uint8_t input){
+    static uint8_t wasWorking = 0;
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
@@ -90,15 +91,19 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
             state++;
-            //print progress bar
             sprite = 2;
             printRefiner(sprite);
-            workTimer = 150;    //150 updates at 30Hz = 5 sec work time
+            if(!wasWorking){
+                wasWorking = 1;
+                workTimer = 150;    //150 updates at 30Hz = 5 sec work time
+                //print progress bar
+            }
             return -1;
         }
         return -1;
       case 1://working state
         if(((input&Prox) == 0) || (input&RButton) == 0){
+            state--;
             return -1;
         }
         workTimer--;
@@ -120,6 +125,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
       case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
+        wasWorking = 0;
         if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
             uint8_t temp = holdItem;
             holdItem = EMPTY;
@@ -139,13 +145,13 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
-                printRefiner(sprite);
+                printRock(sprite);
             }
             return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
-                printRefiner(sprite);
+                printRock(sprite);
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0x40){
