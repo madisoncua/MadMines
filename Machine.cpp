@@ -65,124 +65,124 @@
 
 int8_t Machine::updateRefiner(uint8_t input){
     switch(state){
-        case 0: //wait state
+      case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
             if(sprite ==0){return -1;} //don't reprint if already default
-            else{
+        else{
                 sprite = 0;
                 printRefiner(sprite);
                 return -1;
-            }
-         }else{//print highlighted state
+        }
+        }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
                 printRefiner(sprite);
             } //don't reprint if already highlighted
-         }              
-         if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
+        }              
+        if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
             holdItem = input&material;
             return EMPTY;               //tells the main to empty player's hand
-         }
-         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
+        }
+        if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
             int8_t temp = holdItem;
             holdItem = 0;
             return temp;          //tells main item to return
-         }
-         if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
+        }
+        if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
             state++;
             //print progress bar
             sprite = 2;
             printRefiner(sprite);
             workTimer = 150;    //150 updates at 30Hz = 5 sec work time
             return -1;
-         }
-         return -1;
-         case 1://working state
-            if(((input&Prox) == 0) || (input&RButton) == 0){
-                return -1;
-            }
-            workTimer--;
-            if(workTimer%15 == 0){
-                if(sprite == 2){
-                    sprite = 0;
-                    printRefiner(sprite);
-                }else{
-                    sprite = 2;
-                    printRefiner(sprite);
-                }
-
-                //update progress bar every 10%
-            }
-            if(workTimer == 0){
+        }
+        return -1;
+      case 1://working state
+        if(((input&Prox) == 0) || (input&RButton) == 0){
+            return -1;
+        }
+        workTimer--;
+        if(workTimer%15 == 0){
+            if(sprite == 2){
                 sprite = 0;
                 printRefiner(sprite);
-                state = 2;
-                return -1;
-            }
-        return -1;
-         case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
-            if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
-                uint8_t temp = holdItem;
-                holdItem = EMPTY;
-                return temp+5;
             }else{
-                holdItem = EMPTY;
-                return TRASH;   //input was invalid to refining failed
+                sprite = 2;
+                printRefiner(sprite);
             }
-     }
+            //update progress bar every 10%
+        }
+        if(workTimer == 0){
+            sprite = 0;
+            printRefiner(sprite);
+            state = 2;
+            return -1;
+        }
+        return -1;
+      case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
+        if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
+            uint8_t temp = holdItem;
+            holdItem = EMPTY;
+            state = 0;
+            return temp+5;
+        }else{
+            holdItem = EMPTY;
+            state = 0;
+            return TRASH;   //input was invalid to refining failed
+        }
+    }
  }
 
  int8_t Machine::updateRock(uint8_t input){
-     switch(state){
-         case 0: //wait state
-         case 1://mining
-     }
+    switch(state){
+        case 0: //wait state
+        case 1://mining
+    }
 
  }
 
  int8_t Machine::updateAnvil(uint8_t input){
-     static int8_t AnvilItems[5];
-     static int8_t anvilLength;
-     switch(state){
-         case 0: //wait state
-            if((input&Prox) ==0){
-                if(sprite ==0){return -1;}
-                else{ //print default state
-                sprite = 0;
-                printAnvil(0);
-                return -1;
-                } 
-            }else{
-                if(sprite==1){return -1;}
-                else{ //print highlighted state
+    static int8_t AnvilItems[5];
+    static int8_t anvilLength;
+    switch(state){
+        case 0: //wait state
+        if((input&Prox) ==0){
+            if(sprite ==0){return -1;}
+            else{ //print default state
+            sprite = 0;
+            printAnvil(0);
+            return -1;
+            } 
+        }else{
+            if(sprite!=1){//print highlighted state
                 sprite = 1;
                 printAnvil(1);
-                return -1;
-                }
             }
-             if((input&LButton)==1){
-                 //display menu
-                 state++;
-                 return -1;
-             }
-             if(((input&RButton)==1) && anvilLength!=0){
-                 //change sprite to working sprite
-                 state+=2; //going to the working state
-                 return -1;
-             } 
-         case 1://menu
-             if((input&LButton)==1){ //if LButton is pressed, eject from the menu screen (decrement state)
-                 state--;
-                 return -1;
-             }
-             if(((input&RButton)==1) && (((input&material)>=6) && ((input&material)<=10)) && anvilLength<=5){ //
-                 anvilLength++;
-                 AnvilItems[anvilLength-1] = (input&material);
-                 return -1;
-             }
+            return -1;
+        }
+        if((input&LButton)==1){
+            //display menu
+            state++;
+            return -1;
+        }
+        if(((input&RButton)==1) && anvilLength!=0){
+            //change sprite to working sprite
+            state+=2; //going to the working state
+            return -1;
+        } 
+    case 1://menu
+        if((input&LButton)==1){ //if LButton is pressed, eject from the menu screen (decrement state)
+            state--;
+            return -1;
+        }
+        if(((input&RButton)==1) && (((input&material)>=6) && ((input&material)<=10)) && anvilLength<=5){ //
+            anvilLength++;
+            AnvilItems[anvilLength-1] = (input&material);
+            return -1;
+        }
 
-         case 2: //working
-         case 3: //done
+        case 2: //working
+        case 3: //done
      }
 
  }
