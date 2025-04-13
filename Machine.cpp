@@ -79,7 +79,7 @@
                 printRefiner(sprite);
             } //don't reprint if already highlighted
          }              
-         if((input&LButton) == 0x60 && (input&material) != EMPTY){ //take item in for playing to work on
+         if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
             holdItem = input&material;
             return EMPTY;               //tells the main to empty player's hand
          }
