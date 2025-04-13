@@ -203,11 +203,11 @@ int8_t Machine::updateRefiner(uint8_t input){
  
  void Machine::printRefiner(uint8_t sprite){
     if(sprite==0){ //default
-        ST7735_DrawBitmap(67, 35, refiner, 61, 35);
+        ST7735_DrawBitmap(67, 34, refiner, 61, 35);
     }else if(sprite==1){ //highlighted refiner
-        ST7735_DrawBitmap(67, 35, refinerHighlight, 61, 35);
+        ST7735_DrawBitmap(67, 34, refinerHighlight, 61, 35);
     }else if(sprite==2){ //working refiner
-        ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
+        ST7735_DrawBitmap(67, 34, refinerWorking, 61, 35);
     }
 
  }
