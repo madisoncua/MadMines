@@ -10,6 +10,7 @@ class Machine{
     private:
     uint8_t state;
     uint8_t holdItem;
+    uint8_t workTimer;
     uint8_t sprite; //keeps track of what sprite the machine is displaying
     uint8_t top_L_x;
     uint8_t top_L_y;
@@ -18,11 +19,11 @@ class Machine{
 
     public:
     Machine(uint8_t, uint8_t, uint8_t, uint8_t); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
-    void updateSmelter(uint8_t); //update Smelter edit
-    void updateRefiner(uint8_t);
-    void updateRock(uint8_t);
-    void updateAnvil(uint8_t);
-    void updateTurnInArea(uint8_t);
+    uint8_t updateSmelter(uint8_t); //update Smelter edit
+    uint8_t updateRefiner(uint8_t);
+    uint8_t updateRock(uint8_t);
+    uint8_t updateAnvil(uint8_t);
+    uint8_t updateTurnInArea(uint8_t);
     void printSmelter(uint8_t);
     void printRock(uint8_t);
     void printRefiner(uint8_t);

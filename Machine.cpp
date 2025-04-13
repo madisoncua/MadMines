@@ -33,27 +33,28 @@
  #define Prox (1<<7)
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
-    sprite = 0;
+    sprite = 100;   //start of game engine prints default
     top_L_x = TLX;
     top_L_y = TLY;
     bot_R_x = BRX;
     bot_R_y = BRY;
+    workTimer = 0;
  }
 
- void Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
+ uint8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
      switch(state){
          case 0: //wait state
-             if((input&Prox)==0){return;} //player is not in proximity
+             if((input&Prox)==0){return -1;} //player is not in proximity
              //highlight sprite here -->update graphic 
 
-             if(input&LButton){return;}  //no interaction 
+             if(input&LButton){return -1;}  //no interaction 
 
              if((input&material)==1 || (input&material)==2){
                  //set work timer
                  //change sprite to working sprite 
                  state++;
                  //output a sound??
-                 return;
+                 return -1;
             }
          case 1://working state
          case 2: //done
@@ -61,30 +62,64 @@
      }
  }
 
- void Machine::updateRefiner(uint8_t input){
+ uint8_t Machine::updateRefiner(uint8_t input){
      switch(state){
          case 0: //wait state
-         if((input&Prox) ==0){
-            if(sprite ==0){return;}
-            else{ //print default state
+        if((input&Prox) ==0){      //ser to default state
+            if(sprite ==0){return -1;} //don't reprint if already default
+            else{
                 sprite = 0;
-                printRefiner(0);
-                return;
-            } 
-         }else{
-            if(sprite==1){return;}
-            else{ //print highlighted state
-                sprite = 1;
-                printRefiner(1);
-                return;
+                printRefiner(sprite);
+                return -1;
             }
+         }else{//print highlighted state
+            if(sprite!=1){
+                sprite = 1;
+                printRefiner(sprite);
+            } //don't reprint if already highlighted
+         }              
+         if((input&LButton) == 0x60 && (input&material) != EMPTY){ //take item in for playing to work on
+            holdItem = input&material;
+            return EMPTY;               //tells the main to empty player's hand
          }
+         if((input&RButton) == 1 && holdItem !=0){ //start working and item to work on
+            state++;
+            //print progress bar
+            sprite = 2;
+            printRefiner(sprite);
+            workTimer = 150;    //150 updates at 30Hz = 5 sec work time
+            return -1;
+         }
+         return -1;
          case 1://working state
-         case 2: //done
+            if(((input&Prox) == 0) || (input&RButton) == 0){
+                return -1;
+            }
+            workTimer--;
+            if(workTimer%15 == 0){
+                if(sprite == 2){
+                    sprite = 0;
+                    printRefiner(sprite);
+                }else{
+                    sprite = 2;
+                    printAnvil(sprite);
+                }
+
+                //update progress bar every 10%
+            }
+            if(workTimer == 0){
+                sprite = 0;
+                printRefiner(sprite);
+                state = 2;
+                return -1;
+            }
+        return -1;
+         case 2: //done (is this state actually necessary if we auto output to nearby counter?)
      }
+
  }
 
- void Machine::updateRock(uint8_t input){
+ uint8_t Machine::updateRock(uint8_t input){
      switch(state){
          case 0: //wait state
          case 1://mining
@@ -92,45 +127,45 @@
 
  }
 
- void Machine::updateAnvil(uint8_t input){
+ uint8_t Machine::updateAnvil(uint8_t input){
      static int8_t AnvilItems[5];
      static int8_t anvilLength;
      switch(state){
          case 0: //wait state
             if((input&Prox) ==0){
-                if(sprite ==0){return;}
+                if(sprite ==0){return -1;}
                 else{ //print default state
                 sprite = 0;
                 printAnvil(0);
-                return;
+                return -1;
                 } 
             }else{
-                if(sprite==1){return;}
+                if(sprite==1){return -1;}
                 else{ //print highlighted state
                 sprite = 1;
                 printAnvil(1);
-                return;
+                return -1;
                 }
             }
              if((input&LButton)==1){
                  //display menu
                  state++;
-                 return;
+                 return -1;
              }
              if(((input&RButton)==1) && anvilLength!=0){
                  //change sprite to working sprite
                  state+=2; //going to the working state
-                 return;
+                 return -1;
              } 
          case 1://menu
              if((input&LButton)==1){ //if LButton is pressed, eject from the menu screen (decrement state)
                  state--;
-                 return;
+                 return -1;
              }
              if(((input&RButton)==1) && (((input&material)>=6) && ((input&material)<=10)) && anvilLength<=5){ //
                  anvilLength++;
                  AnvilItems[anvilLength-1] = (input&material);
-                 return;
+                 return -1;
              }
 
          case 2: //working
@@ -139,8 +174,8 @@
 
  }
 
- void Machine::updateTurnInArea(uint8_t input){
-     if((input&Prox) == 0){return;}
+ uint8_t Machine::updateTurnInArea(uint8_t input){
+     if((input&Prox) == 0){return -1;}
      //Highlight sprite
      if(((input&LButton)==1) && ((input&material)>=1 && (input&material)<=16)){ //checks for interaction and input
          //update order graphic
@@ -153,23 +188,23 @@
  }
 
  
- void Machine::printRefiner(uint8_t mode){
-    if(mode==1){ //default
+ void Machine::printRefiner(uint8_t sprite){
+    if(sprite==0){ //default
         ST7735_DrawBitmap(67, 35, refiner, 61, 35);
-    }else if(mode==2){ //highlighted refiner
+    }else if(sprite==1){ //highlighted refiner
         ST7735_DrawBitmap(67, 35, refinerHighlight, 61, 35);
-    }else if(mode==3){ //working refiner
+    }else if(sprite==2){ //working refiner
         ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
     }
 
  }
 
- void Machine::printAnvil(uint8_t mode){
-    if(mode==0){ //default
+ void Machine::printAnvil(uint8_t sprite){
+    if(sprite==0){ //default
         ST7735_DrawBitmap(20, 160, anvil, 66, 30);
-    }else if(mode==1){ //highlighted anvil
+    }else if(sprite==1){ //highlighted anvil
         ST7735_DrawBitmap(20, 160, anvilHighlight, 66, 30);
-    }else if(mode==2){ //working anvil
+    }else if(sprite==2){ //working anvil
         ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
     }
 
