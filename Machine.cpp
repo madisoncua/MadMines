@@ -34,6 +34,7 @@
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
     sprite = 100;   //start of game engine prints default
+    state = 0;
     top_L_x = TLX;
     top_L_y = TLY;
     bot_R_x = BRX;
@@ -41,7 +42,7 @@
     workTimer = 0;
  }
 
- uint8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
+ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
      switch(state){
          case 0: //wait state
              if((input&Prox)==0){return -1;} //player is not in proximity
@@ -62,7 +63,7 @@
      }
  }
 
- uint8_t Machine::updateRefiner(uint8_t input){
+ int8_t Machine::updateRefiner(uint8_t input){
      switch(state){
          case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
@@ -114,12 +115,17 @@
                 return -1;
             }
         return -1;
-         case 2: //done (is this state actually necessary if we auto output to nearby counter?)
+         case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
+            if((input&material) > 2 && (input&material) < 6){   //makes sure gem
+                uint8_t temp = holdItem;
+                holdItem = 0;
+                return temp+5;
+            }
      }
 
  }
 
- uint8_t Machine::updateRock(uint8_t input){
+ int8_t Machine::updateRock(uint8_t input){
      switch(state){
          case 0: //wait state
          case 1://mining
@@ -127,7 +133,7 @@
 
  }
 
- uint8_t Machine::updateAnvil(uint8_t input){
+ int8_t Machine::updateAnvil(uint8_t input){
      static int8_t AnvilItems[5];
      static int8_t anvilLength;
      switch(state){
@@ -174,7 +180,7 @@
 
  }
 
- uint8_t Machine::updateTurnInArea(uint8_t input){
+ int8_t Machine::updateTurnInArea(uint8_t input){
      if((input&Prox) == 0){return -1;}
      //Highlight sprite
      if(((input&LButton)==1) && ((input&material)>=1 && (input&material)<=16)){ //checks for interaction and input

@@ -19,11 +19,11 @@ class Machine{
 
     public:
     Machine(uint8_t, uint8_t, uint8_t, uint8_t); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
-    uint8_t updateSmelter(uint8_t); //update Smelter edit
-    uint8_t updateRefiner(uint8_t);
-    uint8_t updateRock(uint8_t);
-    uint8_t updateAnvil(uint8_t);
-    uint8_t updateTurnInArea(uint8_t);
+    int8_t updateSmelter(uint8_t); //update Smelter edit
+    int8_t updateRefiner(uint8_t);
+    int8_t updateRock(uint8_t);
+    int8_t updateAnvil(uint8_t);
+    int8_t updateTurnInArea(uint8_t);
     void printSmelter(uint8_t);
     void printRock(uint8_t);
     void printRefiner(uint8_t);

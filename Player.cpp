@@ -5,11 +5,11 @@
  #include "Machine.h"
 
  Player::Player(){
-    possession = 0;
-     this->posX = 42;
-     this->posY = 102;
-     this->last = 0;
-     this->size = 33;
+    this->possession = 0; 
+    this->posX = 42;    
+    this->posY = 102;
+    this->last = 0; 
+    this->size = 33;
  }
 
  int16_t Player::getXPos(){return posX;} //return xPos
@@ -76,7 +76,6 @@ bool Player::moveDown(){
       return false;
  }
 bool Player::moveLeft(){
-      //if(last == 0){//up->left
       uint16_t temp = posY;
       posY = posX+size;
       posX = 160-temp;
@@ -120,10 +119,8 @@ bool Player::moveRight(){
     return input;
  }
 
- uint8_t Player::takePosession(){ //to put item in the machine
-  uint8_t temp = possession;
-  possession = 0;    //player hand is empty
-  return temp;      //give machine player item
+ void Player::setPossession(uint8_t newItem){ //to put item in the machine
+  possession = newItem;
  }
 
 uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine

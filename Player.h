@@ -8,10 +8,10 @@
      friend class Machine; //machines can access
     
      private:
-     uint8_t possession;
-     int16_t posX;
+     uint8_t possession;    //player's item held
+     int16_t posX;  //lower left coordinate
      int16_t posY;
-     uint8_t last;
+     uint8_t last;  //last orientation
      uint8_t size;  //square so h == w
 
      public:
@@ -27,7 +27,7 @@
      uint8_t getLast(void);
      uint8_t getSize(void);
      uint8_t getPosession(void);
-     uint8_t takePosession(void);
+     void setPossession(uint8_t);
 
      uint8_t checkProximity(Machine); //checks the proximity to any machine
      uint8_t getMachineInput(Machine);

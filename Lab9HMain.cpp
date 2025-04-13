@@ -247,9 +247,9 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
-  
-  ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
 
+  ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
+  p1.setPossession(3);//just giving them a diamond ore for testing
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -274,10 +274,13 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-
+    int8_t refinerOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
     input |= key;
-    m_refiner.updateRefiner(input);  //update refiner
+    refinerOut = m_refiner.updateRefiner(input);  //update refiner
+    if(refinerOut > -1){
+      p1.setPossession(refinerOut);
+    }
   }
 }
 
