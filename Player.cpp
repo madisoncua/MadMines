@@ -127,18 +127,11 @@ bool Player::moveRight(){
  }
 
 uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine
+//note: there is no size account for the top and right side of the machine because bottom left corner is "close" to those sides for any given time
 uint8_t buffer = 5;
- if((posX>= m.top_L_x - size) && (posX<= m.bot_R_x) && (posY <= (m.bot_R_y+size+buffer))){ //checks bounding box for the bottom side of a machine
+//left --> right --> bottom --> top
+ if((posX >= (m.top_L_x-size-buffer)) && (posX<= (m.bot_R_x+buffer)) && (posY <= (m.bot_R_y+size+buffer)) && (posY >= (m.top_L_y-buffer))){ //checks bounding box 
     return 1;
- }
- if((posX >= (m.top_L_x-size-buffer)) && (posY >= m.top_L_y) && (posY <= m.bot_R_y)){ //checks bounding box for left side of machine
-    return 1;
- }
- if((posX>=m.top_L_x - size) && (posX<= m.bot_R_x) && (posY <= (m.bot_R_y-size-buffer))){ //checks bounding box for top side of machine
-    return 1;
- }
- if((posX>= (m.top_L_x+size+buffer)) && (posY >= m.top_L_y) && (posY <= m.bot_R_y)){ //checks bounding box for right side of machine
-    return 1;
- }
+ } 
  return 0;
  }

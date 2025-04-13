@@ -25,16 +25,15 @@
 // //14-staff
 // //15-wand
 // //16-trash
-// //Bit 5: LButton pick up/put down
+// //Bit 5: LButtong 
  #define LButton (1<<5)
-// //Bit 6: RButton interaction
+// //Bit 6: RButton
  #define RButton (1<<6)
 // //Bit 7:player proximity
  #define Prox (1<<7)
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
     sprite = 0;
-    holdItem = 0;
     top_L_x = TLX;
     top_L_y = TLY;
     bot_R_x = BRX;
@@ -44,10 +43,7 @@
  void Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
      switch(state){
          case 0: //wait state
-             if((input&Prox)==0){
-
-                return;
-            } //player is not in proximity
+             if((input&Prox)==0){return;} //player is not in proximity
              //highlight sprite here -->update graphic 
 
              if(input&LButton){return;}  //no interaction 
@@ -68,22 +64,20 @@
  void Machine::updateRefiner(uint8_t input){
      switch(state){
          case 0: //wait state
-        if((input&Prox) ==0){      //ser to default state
-            if(sprite ==0){return;} //don't reprint if already default
-            else{
+         if((input&Prox) ==0){
+            if(sprite ==0){return;}
+            else{ //print default state
                 sprite = 0;
                 printRefiner(0);
                 return;
             } 
-         }else{//print highlighted state
-            if(sprite==1){return;} //don't reprint if already highlighted
-            else{ 
+         }else{
+            if(sprite==1){return;}
+            else{ //print highlighted state
                 sprite = 1;
                 printRefiner(1);
                 return;
             }
-         }              //take item in for playing to work on
-         if((input&LButton) == 1 && (input&material) != EMPTY){
          }
          case 1://working state
          case 2: //done
@@ -104,17 +98,17 @@
      switch(state){
          case 0: //wait state
             if((input&Prox) ==0){
-                if(sprite ==1){return;}
+                if(sprite ==0){return;}
                 else{ //print default state
-                sprite = 1;
-                printAnvil(1);
+                sprite = 0;
+                printAnvil(0);
                 return;
                 } 
             }else{
-                if(sprite==2){return;}
+                if(sprite==1){return;}
                 else{ //print highlighted state
-                sprite = 2;
-                printAnvil(2);
+                sprite = 1;
+                printAnvil(1);
                 return;
                 }
             }
@@ -159,24 +153,24 @@
  }
 
  
- void Machine::printRefiner(uint8_t sprite){
-    if(sprite==0){ //default wait
+ void Machine::printRefiner(uint8_t mode){
+    if(mode==1){ //default
         ST7735_DrawBitmap(67, 35, refiner, 61, 35);
-    }else if(sprite==1){ //highlighted refiner
+    }else if(mode==2){ //highlighted refiner
         ST7735_DrawBitmap(67, 35, refinerHighlight, 61, 35);
-    }else if(sprite==2){ //working refiner
+    }else if(mode==3){ //working refiner
         ST7735_DrawBitmap(67, 35, refinerWorking, 61, 35);
     }
 
  }
 
- void Machine::printAnvil(uint8_t sprite){
-    if(sprite==0){ //default wait
-        ST7735_DrawBitmap(40, 160, anvil, 66, 30);
-    }else if(sprite==1){ //highlighted anvil
-        ST7735_DrawBitmap(40, 160, anvilHighlight, 66, 30);
-    }else if(sprite==2){ //working anvil
-        ST7735_DrawBitmap(40, 160, anvilWorking, 66, 30);
+ void Machine::printAnvil(uint8_t mode){
+    if(mode==0){ //default
+        ST7735_DrawBitmap(20, 160, anvil, 66, 30);
+    }else if(mode==1){ //highlighted anvil
+        ST7735_DrawBitmap(20, 160, anvilHighlight, 66, 30);
+    }else if(mode==2){ //working anvil
+        ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
     }
 
  }

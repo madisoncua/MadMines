@@ -229,7 +229,7 @@ Player p1; //player 1
 Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -249,7 +249,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   __enable_irq();
 
   ST7735_FillScreen(0x630C);
-  ST7735_DrawBitmap(67, 34, refiner, 61, 35); //draws the refiner
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
 
   while(1){
@@ -284,8 +283,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 }
 
 
-Machine m_anvil(40, 100, 101, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -305,8 +304,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
 
   ST7735_FillScreen(0x630C);
-  ST7735_DrawBitmap(67, 42, Rock, 39, 28); //draws the refiner
-  ST7735_DrawBitmap(41, 159, anvil, 66, 30); //draws the anvil
+  ST7735_DrawBitmap(67, 42, Rock, 39, 28);
 
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
