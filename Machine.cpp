@@ -43,7 +43,7 @@
  }
 
  int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
-     switch(state){
+    switch(state){
          case 0: //wait state
              if((input&Prox)==0){return -1;} //player is not in proximity
              //highlight sprite here -->update graphic 
@@ -60,12 +60,12 @@
          case 1://working state
          case 2: //done
          case 3: //failure
-     }
- }
+    }
+}
 
- int8_t Machine::updateRefiner(uint8_t input){
-     switch(state){
-         case 0: //wait state
+int8_t Machine::updateRefiner(uint8_t input){
+    switch(state){
+        case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
             if(sprite ==0){return -1;} //don't reprint if already default
             else{
@@ -83,12 +83,12 @@
             holdItem = input&material;
             return EMPTY;               //tells the main to empty player's hand
          }
-         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != Empty){ //give item with no work done to player
+         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
             int8_t temp = holdItem;
             holdItem = 0;
             return temp;          //tells main item to return
          }
-         if((input&RButton) == 1 && holdItem !=0){ //start working and item to work on
+         if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
             state++;
             //print progress bar
             sprite = 2;
@@ -108,7 +108,7 @@
                     printRefiner(sprite);
                 }else{
                     sprite = 2;
-                    printAnvil(sprite);
+                    printRefiner(sprite);
                 }
 
                 //update progress bar every 10%
@@ -121,15 +121,15 @@
             }
         return -1;
          case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
-            if((input&material) > 2 && (input&material) < 6){   //makes sure gem
+            if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
                 uint8_t temp = holdItem;
-                holdItem = 0;
+                holdItem = EMPTY;
                 return temp+5;
             }else{
+                holdItem = EMPTY;
                 return TRASH;   //input was invalid to refining failed
             }
      }
-
  }
 
  int8_t Machine::updateRock(uint8_t input){
