@@ -133,7 +133,7 @@ int main2(void){ // main2
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   //ST7735_FillScreen(ST7735_BLACK);
   ST7735_FillScreen(ST7735_Color565(0x96, 0x4B, 0x00));
-  ST7735_DrawBitmap(60, 80, Rock, 39,28);
+  ST7735_DrawBitmap(60, 80, rock, 44,34);
   ST7735_DrawBitmap(90, 95, Emerald, 9,12);
   ST7735_DrawBitmap(70, 95, Ruby, 9,12);
   ST7735_DrawBitmap(50, 95, Diamond, 9,12);
@@ -305,7 +305,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
 
   ST7735_FillScreen(0x630C);
-  ST7735_DrawBitmap(67, 42, Rock, 39, 28);
+  ST7735_DrawBitmap(67, 42, rock, 44, 34);
 
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured

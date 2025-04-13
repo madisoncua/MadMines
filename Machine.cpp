@@ -157,7 +157,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&RButton) == 0x40){
             state++;
             workTimer = 150;    //5 sec of work time
-            sprite = 1; //breaking rock sprite
+            sprite = 2; //breaking rock sprite
             printRock(sprite);
             //also print progress bar
         }
@@ -266,8 +266,10 @@ int8_t Machine::updateRefiner(uint8_t input){
 
  void Machine::printRock(uint8_t sprite){
     if(sprite == 0){
-        ST7735_DrawBitmap(67, 42, Rock, 39, 28);
+        ST7735_DrawBitmap(67, 42, rock, 44, 34);    //default rock
     }else if(sprite == 1){
-        ST7735_DrawBitmap(67, 42, Rock, 39, 28);    //replace this with breaking rock when imported
+        ST7735_DrawBitmap(67, 42, highlightRock, 44, 34);
+    }else if(sprite == 2){
+        ST7735_DrawBitmap(67, 42, workingRock, 44, 34);
     }
  }
