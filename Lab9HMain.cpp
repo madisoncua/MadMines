@@ -249,7 +249,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   __enable_irq();
 
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
-  p1.setPossession(3);//just giving them a diamond ore for testing
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
