@@ -216,6 +216,16 @@ int main4(void){ uint32_t last=0,now;
   }
 }
 
+typedef struct itemHeld{
+  const uint16_t* image;
+  uint8_t w;
+  uint8_t h;
+}itemHeld;
+//{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
+//SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
+itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
+            {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
+            {shield, 16, 21}, {ring, 18, 20}, {watch, 20, 21}, {key, 18, 19}, {trash, 20, 20}};
 Player p1; //player 1
 Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
 uint8_t input = 0;
@@ -297,8 +307,9 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
 
   ST7735_FillScreen(0x630C);
-  ST7735_DrawBitmap(67, 42, rock, 44, 34);
-
+  //ST7735_DrawBitmap(67, 42, rock, 44, 34);
+  ST7735_DrawFastHLine(106, 138, 2, 0x0);   //trying to make a box outline in the corner
+  ST7735_DrawFastVLine(106, 138, 2, 0x0);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -331,12 +342,20 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     outMachine = m_anvil.updateAnvil(input); 
     if(outMachine > -1){
       p1.setPossession(outMachine);
+      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      if(outMachine != 0){
+        ST7735_DrawBitmap(107, 159, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+      }
     }
     input = p1.getMachineInput(m_rock);
     input |= buttons;
     outMachine = m_rock.updateRock(input);
     if(outMachine > -1){
       p1.setPossession(outMachine);
+      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      if(outMachine != 0){
+        ST7735_DrawBitmap(107, 159, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+      }
     }
   }
 }
