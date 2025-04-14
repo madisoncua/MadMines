@@ -45,7 +45,7 @@ uint32_t Random(uint32_t n){
 }
 
 SlidePot Sensor; // copy calibration from Lab 7
-uint8_t key;
+uint8_t buttons;
 // games  engine runs at 30Hz
 void TIMG12_IRQHandler(void){uint32_t pos, msg;
   if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
@@ -56,7 +56,7 @@ void TIMG12_IRQHandler(void){uint32_t pos, msg;
     pos = Sensor.In();
     Sensor.Save(pos);
     // 2) read input switches
-    key = Switch_In();
+    buttons = Switch_In();
     // 3) move sprites
     // 4) start sounds
     // 5) set semaphore
@@ -254,7 +254,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
-    //key is global variable with PA25 and PA24 in bits 6-5
+    //buttons is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
     if(horiz < 1000){
       change |= p1.moveRight();
@@ -275,7 +275,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     p1.resetCoordinates();
     int8_t refinerOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
-    input |= key;
+    input |= buttons;
     refinerOut = m_refiner.updateRefiner(input);  //update refiner
     if(refinerOut > -1){
       p1.setPossession(refinerOut);
@@ -312,7 +312,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
-    //key is global variable with PA25 and PA24 in bits 6-5
+    //buttons is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
     if(horiz < 1000){
       change |= p1.moveRight();
@@ -334,7 +334,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 
     //updating anvil
     input = p1.getMachineInput(m_anvil);
-    input |= key;
+    input |= buttons;
     m_anvil.updateAnvil(input); 
   }
 }
