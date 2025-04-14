@@ -15,7 +15,7 @@ uint32_t Random(uint32_t n){
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
- SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHEILD, RING, STAFF, WAND, TRASH};
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
