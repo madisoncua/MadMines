@@ -35,15 +35,6 @@ void PLL_Init(void){ // set phase lock loop (PLL)
   Clock_Init80MHz(0);   // run this line for 80MHz
 }
 
-uint32_t M=1;
-uint32_t Random32(void){
-  M = 1664525*M+1013904223;
-  return M;
-}
-uint32_t Random(uint32_t n){
-  return (Random32()>>16)%n;
-}
-
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 // games  engine runs at 30Hz
@@ -285,6 +276,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 
 
 Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
+Machine m_rock(67, 8, 86, 42);
 int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
@@ -332,9 +324,19 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
 
+    int8_t outMachine = 0;
     //updating anvil
     input = p1.getMachineInput(m_anvil);
     input |= buttons;
-    m_anvil.updateAnvil(input); 
+    outMachine = m_anvil.updateAnvil(input); 
+    if(outMachine > -1){
+      p1.setPossession(outMachine);
+    }
+    input = p1.getMachineInput(m_rock);
+    input |= buttons;
+    outMachine = m_rock.updateRock(input);
+    if(outMachine > -1){
+      p1.setPossession(outMachine);
+    }
   }
 }

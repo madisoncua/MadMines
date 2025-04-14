@@ -4,7 +4,14 @@
  #include "images.h"
  #include "../inc/Clock.h"
 
-extern "C" uint32_t Random32(void);
+uint32_t M=1;
+uint32_t Random32(void){
+  M = 1664525*M+1013904223;
+  return M;
+}
+uint32_t Random(uint32_t n){
+  return (Random32()>>16)%n;
+}
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
@@ -164,7 +171,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
       case 1://mining
-        if((input&RButton) == 0 || (input&Prox) == 0 && workTimer < 75){
+        if((input&RButton) == 0 || (input&Prox) == 0 && workTimer > 75){
             state--;
             return -1;
         }
