@@ -140,6 +140,7 @@ int8_t Machine::updateRefiner(uint8_t input){
  }
 
  int8_t Machine::updateRock(uint8_t input){
+    static uint8_t wasWorking = 0;
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
@@ -156,14 +157,15 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         if((input&RButton) == 0x40){
             state++;
-            workTimer = 150;    //5 sec of work time
-            sprite = 2; //breaking rock sprite
-            printRock(sprite);
-            //also print progress bar
+            if(!wasWorking){
+                workTimer = 150;    //5 sec of work time
+                wasWorking = 1;
+            }
         }
         return -1;
       case 1://mining
-        if((input&RButton) == 0 || (input&Prox) == 0){
+        if((input&RButton) == 0 || (input&Prox) == 0 && workTimer < 75){
+            state--;
             return -1;
         }
         workTimer--;
@@ -171,7 +173,12 @@ int8_t Machine::updateRefiner(uint8_t input){
             //update progress bar
             //maybe short sound effect?
         }
+        if(workTimer == 75){    //print cracked halfway through
+            sprite = 2;
+            printRock(sprite);
+        }
         if(workTimer == 0){
+            wasWorking = 0;
             sprite = 0;
             state = 0;
             printRock(sprite);
