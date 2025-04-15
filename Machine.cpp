@@ -39,6 +39,12 @@ extern uint8_t menuOpen;
  #define RButton (1<<6)
 // //Bit 7:player proximity
  #define Prox (1<<7)
+typedef struct itemHeld{
+  const uint16_t* image;
+  uint8_t w;
+  uint8_t h;
+}itemHeld;
+extern itemHeld sprites[17];
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
     sprite = 100;   //start of game engine prints default
@@ -229,9 +235,21 @@ int8_t Machine::updateRefiner(uint8_t input){
             sprite = 3;
             printAnvil(sprite);
             menuDebounce = 3;
-
-            //specific item printing here
-
+            if(anvilLength > 0){
+                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
+            }
+            if(anvilLength > 1){
+                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
+            }
+            if(anvilLength > 2){
+                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[2]].image, sprites[AnvilItems[2]].w, sprites[AnvilItems[2]].h);
+            }
+            if(anvilLength > 3){
+                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[3]].image, sprites[AnvilItems[3]].w, sprites[AnvilItems[3]].h);
+            }
+            if(anvilLength > 4){
+                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[4]].image, sprites[AnvilItems[4]].w, sprites[AnvilItems[4]].h);
+            }
             state++; //going to the menu state
             return -1;
         }
