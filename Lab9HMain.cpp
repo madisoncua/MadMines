@@ -35,10 +35,6 @@ void PLL_Init(void){ // set phase lock loop (PLL)
   Clock_Init80MHz(0);   // run this line for 80MHz
 }
 
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 // games  engine runs at 30Hz
@@ -258,7 +254,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
-  ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
+  ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list
   p1.setPossession(1);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
@@ -293,7 +289,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       p1.setPossession(machineOut);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 159-sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
     }
 
@@ -372,17 +368,18 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(outMachine != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
     }
     input = p1.getMachineInput(m_rock);
     input |= buttons;
     outMachine = m_rock.updateRock(input);
     if(outMachine > -1){
+      outMachine = 14;
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(outMachine != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
     }
   }

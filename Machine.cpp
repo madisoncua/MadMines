@@ -126,11 +126,14 @@ uint32_t Random(uint32_t n){
              return -1;
          case 3: //failure
             if((input&Prox)==0){
-                //output the failure sprite
+                if(sprite!=4){
+                    sprite = 4;
+                    printSmelter(sprite);
+                }
                 return -1;
             }else{
-                if(sprite!=1){
-                    sprite = 1;
+                if(sprite!=5){
+                    sprite = 5;
                     printSmelter(sprite);
                 }
                 if((input&LButton) == 0x20 && (input&material) != EMPTY){
@@ -267,6 +270,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
     }
+    return -1;
  }
 
  int8_t Machine::updateAnvil(uint8_t input){
@@ -379,8 +383,8 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         ST7735_DrawBitmap(34, 159, red, 60, 48);
     }else if(sprite==4){//failed
-
+        ST7735_DrawBitmap(34, 159, smelterFail, 60, 48);  
     }else if(sprite==5){//failed highlight
-
+        ST7735_DrawBitmap(34, 159, smelterFailHighlight, 60, 48);
     }
  }
