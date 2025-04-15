@@ -1,3 +1,6 @@
+ #include <stdio.h>
+ #include <stdint.h>
+ #include <ti/devices/msp/msp.h> 
  #include <iostream>
  #include "Machine.h"
  #include "../inc/ST7735.h"
@@ -59,21 +62,85 @@ uint32_t Random(uint32_t n){
  int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
     switch(state){
          case 0: //wait state
-             if((input&Prox)==0){return -1;} //player is not in proximity
+             if((input&Prox)==0){//player is not in proximity
              //highlight sprite here -->update graphic 
-
-             if(input&LButton){return -1;}  //no interaction 
-
-             if((input&material)==1 || (input&material)==2){
-                 //set work timer
-                 //change sprite to working sprite 
-                 state++;
+                if(sprite!=0){
+                    sprite=0;
+                    printSmelter(sprite);
+                }
+                return -1;
+             }else{
+                if(sprite!=1){
+                    sprite=1;
+                    printSmelter(sprite);
+                }
+             }
+             if((input&LButton) == 0x20 && (input&material)==1 || (input&material)==2){
+                holdItem = input&material;
+                workTimer = 150; //set work timer
+                sprite = 2; //set sprite to working sprite
+                printSmelter(sprite);
+                state++;
                  //output a sound??
-                 return -1;
+                return EMPTY;               //tells the main to empty player's hand
             }
+            return -1;
          case 1://working state
+            workTimer--;
+            if(workTimer==0){
+                //output sound???
+                state++;
+                workTimer = 150;//this is the done timer
+            }
+            return -1;
          case 2: //done
+            workTimer--;
+            if(workTimer==0){
+                //play fail sound 
+                state++;
+                return -1;
+            }
+             if((input&Prox)==0){//player is not in proximity
+                if(workTimer%15==0){
+                     if(sprite == 3){ //sprite ==3 represents the red scaled image
+                        sprite = 2;
+                        printSmelter(sprite);
+                    }else{
+                        sprite = 3;
+                        printSmelter(sprite);
+                     }
+                }
+             }else{
+                if((input&LButton) == 0){
+                    if(sprite!=1){
+                    sprite = 1;
+                    printSmelter(sprite);
+                    }
+                }else{
+                    state = 0;
+                    int temp = holdItem+5;
+                    holdItem = EMPTY;
+                    return temp;
+                }
+             }
+             return -1;
          case 3: //failure
+            if((input&Prox)==0){
+                //output the failure sprite
+                return -1;
+            }else{
+                if(sprite!=1){
+                    sprite = 1;
+                    printSmelter(sprite);
+                }
+                if((input&LButton) == 0x20 && (input&material) != EMPTY){
+                    state = 0;
+                    sprite = 0;
+                    printSmelter(sprite);
+                    return TRASH;
+                }
+            }
+            return -1;
     }
 }
 
@@ -291,5 +358,29 @@ int8_t Machine::updateRefiner(uint8_t input){
         ST7735_DrawBitmap(67, 42, highlightRock, 44, 34);
     }else if(sprite == 2){
         ST7735_DrawBitmap(67, 42, workingRock, 44, 34);
+    }
+ }
+
+ void Machine::printSmelter(uint8_t sprite){
+    if(sprite == 0){//defaul 
+        ST7735_DrawBitmap(34, 159, smelter, 60, 48);    
+    }else if(sprite == 1){ //highlight
+        ST7735_DrawBitmap(34, 159, smelterHighlight, 60, 48);
+    }else if(sprite == 2){//working
+        ST7735_DrawBitmap(34, 159, smelterWorking, 60, 48);
+    }else if(sprite == 3){ //red scaled image
+        unsigned short red[2880];
+        for(int i=0; i<2880; i++){
+            if(smelterWorking[i]==0x630C){
+                red[i] = 0x630C;
+            }else{
+                red[i] = (smelterWorking[i]>>11)&0x1F;
+            }
+        }
+        ST7735_DrawBitmap(34, 159, red, 60, 48);
+    }else if(sprite==4){//failed
+
+    }else if(sprite==5){//failed highlight
+
     }
  }

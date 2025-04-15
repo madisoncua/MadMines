@@ -35,6 +35,10 @@ void PLL_Init(void){ // set phase lock loop (PLL)
   Clock_Init80MHz(0);   // run this line for 80MHz
 }
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 // games  engine runs at 30Hz
@@ -228,9 +232,10 @@ itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {ra
             {shield, 16, 21}, {ring, 18, 20}, {watch, 20, 21}, {key, 18, 19}, {trash, 20, 20}};
 Player p1; //player 1
 Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
+Machine m_smelter(34, 111, 94, 159);
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -254,6 +259,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
+  p1.setPossession(1);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -278,10 +284,22 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
+    //refiner
     int8_t machineOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
     input |= buttons;
     machineOut = m_refiner.updateRefiner(input);  //update refiner
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      if(machineOut != 0){
+        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 159-sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+      }
+    }
+
+    input = p1.getMachineInput(m_smelter);
+    input|= buttons;
+    machineOut = m_smelter.updateSmelter(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
@@ -294,8 +312,8 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 
 
 Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
-Machine m_rock(67, 8, 86, 42);
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+Machine m_rock(67, 8, 86, 42);//(top_left_x, top_left_y, top_right_x, top_right_y)
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
