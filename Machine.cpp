@@ -200,6 +200,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
     }
+    return -1;
  }
 
  int8_t Machine::updateAnvil(uint8_t input){
