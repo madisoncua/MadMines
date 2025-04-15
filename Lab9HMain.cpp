@@ -249,6 +249,10 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   // initialize all data structures
   __enable_irq();
   p1.setPossession(3);
+    ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
+  ST7735_DrawFastVLine(106, 138, 22, 0x0);
+  ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
+  ST7735_DrawFastVLine(105, 137, 24, 0x0);
   ST7735_DrawBitmap(0, 159, todo, 25, 160); //draws the to do list
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
