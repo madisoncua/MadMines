@@ -24,10 +24,12 @@ class Machine{
     int8_t updateRock(uint8_t);
     int8_t updateAnvil(uint8_t);
     int8_t updateTurnInArea(uint8_t);
+    int8_t updateCart(uint8_t);
     void printSmelter(uint8_t);
     void printRock(uint8_t);
     void printRefiner(uint8_t);
     void printAnvil(uint8_t);
+    void printCart(uint8_t);
     uint8_t computeRecipe(int8_t*, int8_t);
     void updateAnvilMenu(int8_t*, int8_t);
 };
