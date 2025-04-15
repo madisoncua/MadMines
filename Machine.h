@@ -17,6 +17,9 @@ class Machine{
     uint8_t bot_R_x;
     uint8_t bot_R_y;
 
+    uint8_t progress_bar_x;
+    uint8_t progress_bar_y;
+
     public:
     Machine(uint8_t, uint8_t, uint8_t, uint8_t); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
     int8_t updateSmelter(uint8_t); //update Smelter edit

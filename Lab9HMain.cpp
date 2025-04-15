@@ -37,6 +37,7 @@ void PLL_Init(void){ // set phase lock loop (PLL)
 
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
+int8_t menuOpen;
 // games  engine runs at 30Hz
 void TIMG12_IRQHandler(void){uint32_t pos, msg;
   if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
@@ -226,6 +227,8 @@ typedef struct itemHeld{
 itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
             {shield, 16, 21}, {ring, 18, 20}, {watch, 20, 21}, {key, 18, 19}, {trash, 20, 20}};
+
+
 Player p1; //player 1
 Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
 Machine m_smelter(34, 111, 94, 159);
@@ -254,7 +257,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
-  ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list
   p1.setPossession(1);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
@@ -327,7 +329,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
-
+  menuOpen = 0;
   ST7735_FillScreen(0x630C);
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
@@ -341,41 +343,45 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint8_t change = 0;
     //buttons is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
-    if(horiz < 1000){
-      change |= p1.moveRight();
+    if(!menuOpen){
+      if(horiz < 1000){
+        change |= p1.moveRight();
+      }
+      if(horiz > 3000){
+        change |= p1.moveLeft();
+      }
+      if(vert > 3000){
+        change |= p1.moveUp();
+      }
+      if(vert < 1000){
+        change|= p1.moveDown();
+      }
+      if(change){
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }
+      ST7735_SetRotation(0); 
+      p1.resetCoordinates();
     }
-    if(horiz > 3000){
-      change |= p1.moveLeft();
-    }
-    if(vert > 3000){
-      change |= p1.moveUp();
-    }
-    if(vert < 1000){
-      change|= p1.moveDown();
-    }
-    if(change){
-      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
-    }
-    ST7735_SetRotation(0); 
-    p1.resetCoordinates();
-
     int8_t outMachine = 0;
     //updating anvil
     input = p1.getMachineInput(m_anvil);
     input |= buttons;
     outMachine = m_anvil.updateAnvil(input); 
     if(outMachine > -1){
-      p1.setPossession(outMachine);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
-      if(outMachine != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+      if(outMachine == 1){
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }else{
+        p1.setPossession(outMachine);
+        ST7735_FillRect(107, 159, 20, 21, 0x630C);
+        if(outMachine != 0){
+          ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        }
       }
     }
     input = p1.getMachineInput(m_rock);
     input |= buttons;
     outMachine = m_rock.updateRock(input);
     if(outMachine > -1){
-      outMachine = 14;
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(outMachine != 0){

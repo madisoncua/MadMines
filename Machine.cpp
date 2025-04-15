@@ -1,6 +1,3 @@
- #include <stdio.h>
- #include <stdint.h>
- #include <ti/devices/msp/msp.h> 
  #include <iostream>
  #include "Machine.h"
  #include "../inc/ST7735.h"
@@ -13,18 +10,11 @@
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
 
-uint32_t M=1;
-uint32_t Random32(void){
-  M = 1664525*M+1013904223;
-  return M;
-}
-uint32_t Random(uint32_t n){
-  return (Random32()>>16)%n;
-}
+extern uint8_t menuOpen;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
- SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, TRASH};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -275,44 +265,62 @@ int8_t Machine::updateRefiner(uint8_t input){
 
  int8_t Machine::updateAnvil(uint8_t input){
     static int8_t AnvilItems[5];
-    static int8_t anvilLength;
+    static int8_t anvilLength = 0;
+    static int8_t menuDebounce = 0;
     switch(state){
         case 0: //wait state
         if((input&Prox) ==0){
-            if(sprite ==0){return -1;}
-            else{ //print default state
-            sprite = 0;
-            printAnvil(0);
-            return -1;
+            if(sprite ==0){
+                return -1;
+            }else{ //print default state
+                sprite = 0;
+                printAnvil(0);
+                return -1;
             } 
         }else{
             if(sprite!=1){//print highlighted state
                 sprite = 1;
                 printAnvil(1);
             }
-            return -1;
         }
-        if((input&LButton)==1){
-            //display menu
-            state++;
-            return -1;
-        }
-        if(((input&RButton)==1) && anvilLength!=0){
-            //change sprite to working sprite
-            state+=2; //going to the working state
-            return -1;
-        } 
-    case 1://menu
-        if((input&LButton)==1){ //if LButton is pressed, eject from the menu screen (decrement state)
-            state--;
-            return -1;
-        }
-        if(((input&RButton)==1) && (((input&material)>=6) && ((input&material)<=10)) && anvilLength<=5){ //
-            anvilLength++;
-            AnvilItems[anvilLength-1] = (input&material);
-            return -1;
-        }
+        if((input&LButton)==0x20){ 
+            if(menuDebounce > 0){   //debounce time after removing menu
+                menuDebounce--;
+                return -1;
+            }
+            //print menu sprite and disable movement
+            menuOpen = 1;
+            sprite = 3;
+            printAnvil(sprite);
+            menuDebounce = 3;
 
+            //specific item printing here
+
+            state++; //going to the menu state
+            return -1;
+        }
+        return -1;
+    case 1://menu
+        if((input&LButton)!=0){ //if LButton is pressed, eject from the menu screen (decrement state)
+            if(menuDebounce > 0){   //debounce time after printing menu
+                menuDebounce--;
+                return -1;
+            }
+            sprite = 0;
+            ST7735_FillRect(29, 52, 69, 57, 0x630C);//cover menu
+            menuOpen = 0;
+            state--;
+            menuDebounce = 3;
+            return 1;
+        }
+        if(((input&RButton)!=0) && anvilLength<5 && (input&material) != EMPTY){ //add player item
+            AnvilItems[anvilLength++] = (input&material);
+            return 0;
+        }
+        if(((input&RButton)!=0) && anvilLength>0 && (input&material) == EMPTY){ //give player item
+            return AnvilItems[--anvilLength];
+        }
+        return -1;
         case 2: //working
         case 3: //done
      }
@@ -320,16 +328,73 @@ int8_t Machine::updateRefiner(uint8_t input){
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){
-     if((input&Prox) == 0){return -1;}
-     //Highlight sprite
-     if(((input&LButton)==1) && ((input&material)>=1 && (input&material)<=16)){ //checks for interaction and input
-         //update order graphic
-         //update score
-         //output good ding sound effect 
-     }else{
-         //deduct from score
-         //output stinky ding
-     }
+    static int itemsArr[5]; 
+    static score = 0;
+    switch(state){
+        case 0:
+        if((input&Prox) == 0){
+            return -1;
+        }else{
+            if(sprite!=1){
+            sprite = 1;
+            //print out the highlighted sprite
+            }
+            if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=16)){
+                holdItem = item&material;
+                workTimer = 100; //set work timer
+                state++;
+                if(holdItem>=SWORD && holdItem<=KEY){ //fix array
+                    if(itemArr[holdItem-11]>0){
+                        itemArr[holdItem-11]--; //decrement the item in the arr
+                        score+=200;
+                        //output good ding
+                    }
+                }else{
+                    score -= 100;
+                    //output bad ding
+                }
+            }
+            if((RButton&input)==1){
+                sprite = 2;
+                printTurnInArea(sprite);
+                state = 2;
+            }
+        }
+        return -1;
+        case 1:
+            workTimer--
+            if(workTimer == 0){ //resets the score after "turn in processing is complete"
+                sprite = 0;
+                printTurnInArea(sprite); //set turn in area back to default
+                int temp = score;
+                int x_cursor = 110;
+                while(temp!=0){
+                    ST7735_SetCursor(x_cursor, 134);
+                    ST7735_OutChar(score%10);
+                    score /=10;
+                    x_cursor -=2;
+                }
+                state=0;
+            }
+            if(workTime%15 == 0){//flashes 
+                if(sprite==0){
+                    sprite = 1;
+                    printTurnInArea(sprite);
+                }else{
+                    sprite = 0;
+                    printTurnInArea(sprite);
+                }
+            }
+        return -1;
+        case 2:
+            if((RButton&input)==1){
+                sprite = 0;
+                printCounter();
+                state = 0;
+                return 100; //tell the cart to print 
+            }
+    }
+    
  }
 
  
@@ -351,6 +416,8 @@ int8_t Machine::updateRefiner(uint8_t input){
         ST7735_DrawBitmap(20, 160, anvilHighlight, 66, 30);
     }else if(sprite==2){ //working anvil
         ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
+    }else if(sprite == 3){//print menu
+        ST7735_DrawBitmap(29, 108, anvilMenu, 69, 57);
     }
 
  }
@@ -378,7 +445,14 @@ int8_t Machine::updateRefiner(uint8_t input){
             if(smelterWorking[i]==0x630C){
                 red[i] = 0x630C;
             }else{
-                red[i] = (smelterWorking[i]>>11)&0x1F;
+                uint16_t p = smelterWorking[i];
+                uint8_t r = (p >> 11) & 0x1F, g = (p >> 5) & 0x3F, b = p & 0x1F;
+
+                // Approximate brightness: weights ≈ R*4 + G*2 + B
+                uint8_t bright = (r << 2) + (g >> 1) + (b >> 2);
+
+                // Keep red dominant, scale back to 5-bit
+                red[i] = (bright & 0xF8) << 8;
             }
         }
         ST7735_DrawBitmap(34, 159, red, 60, 48);
@@ -387,4 +461,23 @@ int8_t Machine::updateRefiner(uint8_t input){
     }else if(sprite==5){//failed highlight
         ST7735_DrawBitmap(34, 159, smelterFailHighlight, 60, 48);
     }
+ }
+
+ void Machine::printTurnInArea(uint8_t sprite, int* arr){
+    if(sprite==0){//default state of turn in area
+    }else if(sprite==1){ //twirling state of turn in area
+
+    }else if(sprite==2){//to do menu with numbers
+        ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list
+        int y_cursor = 40;
+        for(int i=0; i<5; i++){
+            ST7735_SetCursor(5, y_cursor);
+            ST7735_OutChar(arr[i]+48);
+            y_cursor+=40;
+        }
+    }
+ }
+
+ void Machine::printCounter(uint8_t sprite){
+
  }
