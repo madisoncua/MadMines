@@ -45,6 +45,9 @@ typedef struct itemHeld{
   uint8_t h;
 }itemHeld;
 extern itemHeld sprites[17];
+const uint8_t recipes[5][5] = {{SILVER, DIAMOND, RUBY, 0, 0}, {SILVER, GOLD, DIAMOND, EMERALD, 0}, 
+        {GOLD, GOLD, DIAMOND, DIAMOND, 0}, {GOLD, GOLD, DIAMOND, RUBY, EMERALD}, {SILVER, SILVER, EMERALD, 0, 0}};
+
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY){
     sprite = 100;   //start of game engine prints default
@@ -92,7 +95,7 @@ int8_t Machine::updateRefiner(uint8_t input){
                 sprite = 1;
                 printRefiner(sprite);
             } //don't reprint if already highlighted
-        }              
+        }
         if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
             holdItem = input&material;
             return EMPTY;               //tells the main to empty player's hand
@@ -205,10 +208,25 @@ int8_t Machine::updateRefiner(uint8_t input){
     return -1;
  }
 
+uint8_t computeRecipe(int8_t* list, int8_t len){
+    if(len <3)return TRASH;
+    uint8_t item = TRASH;
+    uint8_t used[len];
+    for (int i = 0; i<len; i++) {
+        used[i] = 0;
+    }
+    for (int i = 0; i < 3; i++) { //testing the sword
+        
+
+    }
+    
+}
+
  int8_t Machine::updateAnvil(uint8_t input){
     static int8_t AnvilItems[5];
     static int8_t anvilLength = 0;
     static int8_t menuDebounce = 0;
+    static uint8_t wasWorking = 0;
     switch(state){
         case 0: //wait state
         if((input&Prox) ==0){
@@ -229,9 +247,18 @@ int8_t Machine::updateRefiner(uint8_t input){
             menuDebounce--;
             return -1;
         }
-        if((input&LButton)==0x20){ 
-            
-            //print menu sprite and disable movement
+        if((input&RButton) == 0x40 && anvilLength > 0){
+            //NOT testing if this is a valid combination
+            state+=2;
+            sprite = 2;
+            printAnvil(sprite);
+            if(!wasWorking){
+                workTimer = 150;
+                wasWorking = 1;
+            }
+            return -1;
+        }
+        if((input&LButton)==0x20){ //print menu sprite and disable movement
             menuOpen = 1;
             sprite = 3;
             printAnvil(sprite);
@@ -273,6 +300,7 @@ int8_t Machine::updateRefiner(uint8_t input){
             menuDebounce = 10;
             return 20;  //number that isn't an item to indicate reprint player
         }
+        if(wasWorking)return -1; //don't let player add or remove items when in the middle of working
         if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TRASH)){ //add player's item
             AnvilItems[anvilLength++] = (input&material);
             menuDebounce = 10;
@@ -284,7 +312,27 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
         case 2: //working
-            
+            if((input&Prox) == 0 || (input&RButton) == 0){
+                state-=2;
+                return -1;
+            }
+            workTimer--;
+            if(workTimer%15 == 0){
+                if(sprite == 0){
+                    sprite = 2;
+                }else{
+                    sprite = 0;
+                }
+                printAnvil(sprite);
+            }
+            if(workTimer == 0){
+                wasWorking = 0;
+                uint8_t creation = computeRecipe(AnvilItems, anvilLength);
+                anvilLength = 0;
+                sprite = 0;
+                state = 0;
+                return creation;
+            }
         case 3: //done
      }
 
