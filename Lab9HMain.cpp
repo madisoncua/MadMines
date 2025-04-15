@@ -229,12 +229,12 @@ itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {ra
 
 
 Player p1; //player 1
-Machine m_refiner(67, 10, 121, 45, 59, 15); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-Machine m_smelter(34, 112, 94, 160, 33, 112);
-Machine m_portal(104, 75, 128, 125, 103, 75);
+Machine m_refiner(67, 10, 121, 45, 61, 15); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
+Machine m_smelter(34, 112, 94, 160, 28, 127);
+Machine m_portal(104, 70, 128, 125, 0, 0);
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -253,7 +253,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   // initialize all data structures
   __enable_irq();
   p1.setPossession(3);
-    ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
+  ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
@@ -325,9 +325,9 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 }
 
 
-Machine m_anvil(20, 130, 86, 160, 19, 130); //(top_left_x, top_left_y, top_right_x, top_right_y, progX, progY)
-Machine m_rock(67, 8, 86, 42, 66, 8);//(top_left_x, top_left_y, top_right_x, top_right_y)
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+Machine m_anvil(20, 130, 86, 160, 13, 136); //(top_left_x, top_left_y, top_right_x, top_right_y, progX, progY)
+Machine m_rock(67, 8, 86, 42, 60, 17);//(top_left_x, top_left_y, top_right_x, top_right_y)
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed

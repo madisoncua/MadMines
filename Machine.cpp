@@ -85,6 +85,11 @@ uint8_t progH = 22;
                 workTimer = 150; //set work timer
                 sprite = 2; //set sprite to working sprite
                 printSmelter(sprite);
+                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
+                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
+                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
+                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
+                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
                 state++;
                  //output a sound??
                 return EMPTY;               //tells the main to empty player's hand
@@ -94,8 +99,13 @@ uint8_t progH = 22;
             workTimer--;
             if(workTimer==0){
                 //output sound???
+                ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
                 state++;
                 workTimer = 150;//this is the done timer
+                return -1;
+            }
+            if(workTimer%15==0){
+                ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
             }
             return -1;
          case 2: //done
@@ -154,8 +164,10 @@ uint8_t progH = 22;
 
 int8_t Machine::updateRefiner(uint8_t input){
     static uint8_t wasWorking = 0;
+    static int8_t debounce = 0;
     switch(state){
       case 0: //wait state
+        if(debounce > 0)debounce--;
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
@@ -167,15 +179,6 @@ int8_t Machine::updateRefiner(uint8_t input){
                 sprite = 1;
                 printRefiner(sprite);
             } //don't reprint if already highlighted
-        }
-        if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
-            holdItem = input&material;
-            return EMPTY;               //tells the main to empty player's hand
-        }
-        if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
-            int8_t temp = holdItem;
-            holdItem = 0;
-            return temp;          //tells main item to return
         }
         if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
             state++;
@@ -195,6 +198,18 @@ int8_t Machine::updateRefiner(uint8_t input){
                 
             }
             return -1;
+        }
+        if(debounce > 0)return -1;//wait .03 sec before pickup/put down again
+        if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
+            holdItem = input&material;
+            debounce = 10;
+            return EMPTY;               //tells the main to empty player's hand
+        }
+        if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
+            int8_t temp = holdItem;
+            holdItem = 0;
+            debounce = 10;
+            return temp;          //tells main item to return
         }
         return -1;
       case 1://working state
@@ -255,10 +270,17 @@ int8_t Machine::updateRefiner(uint8_t input){
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0x40){
+            sprite = 0;
+            printRock(sprite);
             state++;
             if(!wasWorking){
                 workTimer = 150;    //5 sec of work time
                 wasWorking = 1;
+                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
+                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
+                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
+                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
+                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
             }
         }
         return -1;
@@ -271,7 +293,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&RButton) == 0)return -1;
         workTimer--;
         if(workTimer%15 == 0){
-            //update progress bar
+            ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
             //maybe short sound effect?
         }
         if(workTimer == 75){    //print cracked halfway through
@@ -281,12 +303,22 @@ int8_t Machine::updateRefiner(uint8_t input){
         if(workTimer == 0){
             wasWorking = 0;
             sprite = 0;
-            state = 0;
+            state ++;
+            workTimer = 50;
             printRock(sprite);
+            ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
             return randOre;
         }
         return -1;
+
+        case 2:
+            workTimer--;
+            if(workTimer==0){
+                state = 0;
+            }
+            return -1;
+
     }
     return -1;
  }
@@ -376,6 +408,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             if(!wasWorking){
                 workTimer = 150;
                 wasWorking = 1;
+                //progress bar
+                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
+                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
+                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
+                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
+                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
             }
             return -1;
         }
@@ -427,12 +465,14 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 }else{
                     sprite = 0;
                 }
+                ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
                 printAnvil(sprite);
             }
             if(workTimer == 0){
                 wasWorking = 0;
                 uint8_t creation = computeRecipe(AnvilItems, anvilLength);
                 anvilLength = 0;
+                ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
                 sprite = 0;
                 state = 0;
                 return creation;
@@ -441,6 +481,59 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         case 3: //done
      }
 
+ }
+
+ int8_t Machine::updateCart(uint8_t input){
+    static uint8_t wasWorking = 0;
+    switch(state){
+      case 0: //wait state
+        if((input&Prox) ==0){      //ser to default state
+            if(sprite !=0){ //don't reprint if already default
+                sprite = 0;
+                printRock(sprite);
+            }
+            return -1;
+        }else{//print highlighted state
+            if(sprite!=1){
+                sprite = 1;
+                printRock(sprite);
+            } //don't reprint if already highlighted
+        }
+        if((input&RButton) == 0x40){
+            state++;
+            if(!wasWorking){
+                workTimer = 150;    //5 sec of work time
+                wasWorking = 1;
+            }
+        }
+        return -1;
+      case 1://mining
+        if(((input&RButton) == 0 || (input&Prox) == 0) && workTimer > 75){
+            state--;
+            wasWorking = 1;
+            return -1;
+        }
+        if((input&RButton) == 0)return -1;
+        workTimer--;
+        if(workTimer%15 == 0){
+            //update progress bar
+            //maybe short sound effect?
+        }
+        if(workTimer == 75){    //print cracked halfway through
+            sprite = 2;
+            printRock(sprite);
+        }
+        if(workTimer == 0){
+            wasWorking = 0;
+            sprite = 0;
+            state = 0;
+            printRock(sprite);
+            uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
+            return randOre;
+        }
+        return -1;
+    }
+    return -1;
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){
@@ -540,6 +633,19 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         ST7735_DrawBitmap(25, 112, anvilMenu, 78, 64);
     }
 
+ }
+
+ void Machine::printCart(uint8_t sprite){
+    static int i = 0;
+    if(sprite == 0){
+        ST7735_DrawBitmap(20, 54, cart, 46, 43);
+    }else if(sprite == 1){
+        ST7735_DrawBitmap(20, 54, cartHighlight, 46, 43);
+    }else if(sprite == 3){//cart leaving
+        ST7735_DrawBitmap(20, 52-i*7, cart, 46, 41);
+        i++;
+        i%=6;
+    }
  }
 
  void Machine::printRock(uint8_t sprite){
