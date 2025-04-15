@@ -3,7 +3,6 @@
 // Lab 9 ECE319H
 // Evan Roberts and Madison Cua
 // Last Modified: 4/11/2025
-
 #include <stdio.h>
 #include <stdint.h>
 #include <ti/devices/msp/msp.h>
@@ -230,8 +229,9 @@ itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {ra
 
 
 Player p1; //player 1
-Machine m_refiner(61, 0, 121, 35); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
-Machine m_smelter(34, 111, 94, 159);
+Machine m_refiner(67, 10, 121, 45, 59, 15); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
+Machine m_smelter(34, 112, 94, 160, 33, 112);
+Machine m_portal(104, 75, 128, 125, 103, 75);
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
@@ -258,6 +258,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   p1.setPossession(1);
+  ST7735_SetCursor(10, 0);
+  ST7735_OutString((char*) "SCORE: ");
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -289,7 +291,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     machineOut = m_refiner.updateRefiner(input);  //update refiner
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
       if(machineOut != 0){
         ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
@@ -300,17 +302,31 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     machineOut = m_smelter.updateSmelter(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
       if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 159-sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
+    }
+
+    input = p1.getMachineInput(m_portal);
+    input|= buttons;
+    machineOut = m_portal.updateTurnInArea(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
+      if(machineOut != 0){
+        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+      }
+    }
+    if(machineOut==100){
+      //print out the cart
     }
   }
 }
 
 
-Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, top_right_x, top_right_y)
-Machine m_rock(67, 8, 86, 42);//(top_left_x, top_left_y, top_right_x, top_right_y)
+Machine m_anvil(20, 130, 86, 160, 19, 130); //(top_left_x, top_left_y, top_right_x, top_right_y, progX, progY)
+Machine m_rock(67, 8, 86, 42, 66, 8);//(top_left_x, top_left_y, top_right_x, top_right_y)
 int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
@@ -368,11 +384,11 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     input |= buttons;
     outMachine = m_anvil.updateAnvil(input); 
     if(outMachine > -1){
-      if(outMachine == 1){
+      if(outMachine == 20){
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }else{
         p1.setPossession(outMachine);
-        ST7735_FillRect(107, 159, 20, 21, 0x630C);
+        ST7735_FillRect(107, 139, 20, 21, 0x630C);
         if(outMachine != 0){
           ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
         }
@@ -383,7 +399,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     outMachine = m_rock.updateRock(input);
     if(outMachine > -1){
       p1.setPossession(outMachine);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
       if(outMachine != 0){
         ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
