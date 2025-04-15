@@ -1,4 +1,5 @@
- #include <iostream>
+ #include <cstdint>
+#include <iostream>
  #include "Machine.h"
  #include "../inc/ST7735.h"
  #include "images.h"
@@ -10,18 +11,11 @@
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
 
-uint32_t M=1;
-uint32_t Random32(void){
-  M = 1664525*M+1013904223;
-  return M;
-}
-uint32_t Random(uint32_t n){
-  return (Random32()>>16)%n;
-}
+extern uint8_t menuOpen;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
- SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, TRASH};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -205,44 +199,62 @@ int8_t Machine::updateRefiner(uint8_t input){
 
  int8_t Machine::updateAnvil(uint8_t input){
     static int8_t AnvilItems[5];
-    static int8_t anvilLength;
+    static int8_t anvilLength = 0;
+    static int8_t menuDebounce = 0;
     switch(state){
         case 0: //wait state
         if((input&Prox) ==0){
-            if(sprite ==0){return -1;}
-            else{ //print default state
-            sprite = 0;
-            printAnvil(0);
-            return -1;
+            if(sprite ==0){
+                return -1;
+            }else{ //print default state
+                sprite = 0;
+                printAnvil(0);
+                return -1;
             } 
         }else{
             if(sprite!=1){//print highlighted state
                 sprite = 1;
                 printAnvil(1);
             }
-            return -1;
         }
-        if((input&LButton)==1){
-            //display menu
-            state++;
-            return -1;
-        }
-        if(((input&RButton)==1) && anvilLength!=0){
-            //change sprite to working sprite
-            state+=2; //going to the working state
-            return -1;
-        } 
-    case 1://menu
-        if((input&LButton)==1){ //if LButton is pressed, eject from the menu screen (decrement state)
-            state--;
-            return -1;
-        }
-        if(((input&RButton)==1) && (((input&material)>=6) && ((input&material)<=10)) && anvilLength<=5){ //
-            anvilLength++;
-            AnvilItems[anvilLength-1] = (input&material);
-            return -1;
-        }
+        if((input&LButton)==0x20){ 
+            if(menuDebounce > 0){   //debounce time after removing menu
+                menuDebounce--;
+                return -1;
+            }
+            //print menu sprite and disable movement
+            menuOpen = 1;
+            sprite = 3;
+            printAnvil(sprite);
+            menuDebounce = 3;
 
+            //specific item printing here
+
+            state++; //going to the menu state
+            return -1;
+        }
+        return -1;
+    case 1://menu
+        if((input&LButton)!=0){ //if LButton is pressed, eject from the menu screen (decrement state)
+            if(menuDebounce > 0){   //debounce time after printing menu
+                menuDebounce--;
+                return -1;
+            }
+            sprite = 0;
+            ST7735_FillRect(29, 52, 69, 57, 0x630C);//cover menu
+            menuOpen = 0;
+            state--;
+            menuDebounce = 3;
+            return 1;
+        }
+        if(((input&RButton)!=0) && anvilLength<5 && (input&material) != EMPTY){ //add player item
+            AnvilItems[anvilLength++] = (input&material);
+            return 0;
+        }
+        if(((input&RButton)!=0) && anvilLength>0 && (input&material) == EMPTY){ //give player item
+            return AnvilItems[--anvilLength];
+        }
+        return -1;
         case 2: //working
         case 3: //done
      }
@@ -281,6 +293,8 @@ int8_t Machine::updateRefiner(uint8_t input){
         ST7735_DrawBitmap(20, 160, anvilHighlight, 66, 30);
     }else if(sprite==2){ //working anvil
         ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
+    }else if(sprite == 3){//print menu
+        ST7735_DrawBitmap(29, 108, anvilMenu, 69, 57);
     }
 
  }
