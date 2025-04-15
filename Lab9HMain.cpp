@@ -274,12 +274,16 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     }
     ST7735_SetRotation(0); 
     p1.resetCoordinates();
-    int8_t refinerOut = -1;
+    int8_t machineOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
     input |= buttons;
-    refinerOut = m_refiner.updateRefiner(input);  //update refiner
-    if(refinerOut > -1){
-      p1.setPossession(refinerOut);
+    machineOut = m_refiner.updateRefiner(input);  //update refiner
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      if(machineOut != 0){
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+      }
     }
   }
 }
