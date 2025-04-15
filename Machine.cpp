@@ -236,7 +236,7 @@ int8_t Machine::updateRefiner(uint8_t input){
             printAnvil(sprite);
             menuDebounce = 3;
             if(anvilLength > 0){
-                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
+                ST7735_DrawBitmap(28, 85, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
             }
             if(anvilLength > 1){
                 ST7735_DrawBitmap(100, 20, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
@@ -261,13 +261,13 @@ int8_t Machine::updateRefiner(uint8_t input){
                 return -1;
             }
             sprite = 0;
-            ST7735_FillRect(29, 52, 69, 57, 0x630C);//cover menu
+            ST7735_FillRect(25, 48, 78, 65, 0x630C);//cover menu
             menuOpen = 0;
             state--;
             menuDebounce = 3;
-            return 1;
+            return 20;  //number that isn't an item to indicate reprint player
         }
-        if(((input&RButton)!=0) && anvilLength<5 && (input&material) != EMPTY){ //add player item
+        if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TRASH)){ //add player's item
             AnvilItems[anvilLength++] = (input&material);
             return 0;
         }
@@ -308,13 +308,13 @@ int8_t Machine::updateRefiner(uint8_t input){
 
  void Machine::printAnvil(uint8_t sprite){
     if(sprite==0){ //default
-        ST7735_DrawBitmap(20, 160, anvil, 66, 30);
+        ST7735_DrawBitmap(20, 159, anvil, 66, 30);
     }else if(sprite==1){ //highlighted anvil
-        ST7735_DrawBitmap(20, 160, anvilHighlight, 66, 30);
+        ST7735_DrawBitmap(20, 159, anvilHighlight, 66, 30);
     }else if(sprite==2){ //working anvil
-        ST7735_DrawBitmap(20, 160, anvilWorking, 66, 30);
+        ST7735_DrawBitmap(20, 159, anvilWorking, 66, 30);
     }else if(sprite == 3){//print menu
-        ST7735_DrawBitmap(29, 108, anvilMenu, 69, 57);
+        ST7735_DrawBitmap(25, 112, anvilMenu, 78, 64);
     }
 
  }

@@ -353,7 +353,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     input |= buttons;
     outMachine = m_anvil.updateAnvil(input); 
     if(outMachine > -1){
-      if(outMachine == 1){
+      if(outMachine == 20){
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }else{
         p1.setPossession(outMachine);
