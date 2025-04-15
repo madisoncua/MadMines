@@ -171,10 +171,12 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1;
       case 1://mining
-        if((input&RButton) == 0 || (input&Prox) == 0 && workTimer > 75){
+        if(((input&RButton) == 0 || (input&Prox) == 0) && workTimer > 75){
             state--;
+            wasWorking = 1;
             return -1;
         }
+        if((input&RButton) == 0)return -1;
         workTimer--;
         if(workTimer%15 == 0){
             //update progress bar
