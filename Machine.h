@@ -28,6 +28,8 @@ class Machine{
     void printRock(uint8_t);
     void printRefiner(uint8_t);
     void printAnvil(uint8_t);
+    uint8_t computeRecipe(int8_t*, int8_t);
+    void updateAnvilMenu(int8_t*, int8_t);
 };
 
 #endif

@@ -208,18 +208,56 @@ int8_t Machine::updateRefiner(uint8_t input){
     return -1;
  }
 
-uint8_t computeRecipe(int8_t* list, int8_t len){
+uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
     if(len <3)return TRASH;
-    uint8_t item = TRASH;
     uint8_t used[len];
-    for (int i = 0; i<len; i++) {
-        used[i] = 0;
+    for (int k = 0; k < 5; k++) {
+        for (int i = 0; i<len; i++) {
+            used[i] = 0;
+        }
+        uint8_t isItem = 1;
+        for (int i = 0; i < 3; i++) { //testing the sword
+            uint8_t found = 0;
+            for (int j = 0; list[j]>0 || j < 5; j++) {
+                if(used[j])continue;
+                if(recipes[k][i] == list[j]){
+                    found = 1;
+                    used[j] = 1;
+                    break;
+                }
+            }
+            if(!found){
+                isItem = 0;
+                break;
+            }
+        }
+        if(isItem)return SWORD+k;
     }
-    for (int i = 0; i < 3; i++) { //testing the sword
-        
+    return TRASH;
+}
 
+void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
+    printAnvil(sprite);
+    if(anvilLength > 0){
+        ST7735_FillRect(28, 63, 22, 22, 0x630C);
+        ST7735_DrawBitmap(39-sprites[AnvilItems[0]].w/2, 74+sprites[AnvilItems[0]].h/2, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
     }
-    
+    if(anvilLength > 1){
+        ST7735_FillRect(53, 63, 22, 22, 0x630C);
+        ST7735_DrawBitmap(64-sprites[AnvilItems[1]].w/2, 74+sprites[AnvilItems[1]].h/2, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
+    }
+    if(anvilLength > 2){
+        ST7735_FillRect(78, 63, 22, 22, 0x630C);
+        ST7735_DrawBitmap(89-sprites[AnvilItems[2]].w/2, 74+sprites[AnvilItems[2]].h/2, sprites[AnvilItems[2]].image, sprites[AnvilItems[2]].w, sprites[AnvilItems[2]].h);
+    }
+    if(anvilLength > 3){
+        ST7735_FillRect(41, 88, 22, 22, 0x630C);
+        ST7735_DrawBitmap(52-sprites[AnvilItems[3]].w/2, 99+sprites[AnvilItems[3]].h/2, sprites[AnvilItems[3]].image, sprites[AnvilItems[3]].w, sprites[AnvilItems[3]].h);
+    }
+    if(anvilLength > 4){
+        ST7735_FillRect(66, 88, 22, 22, 0x630C);
+        ST7735_DrawBitmap(77-sprites[AnvilItems[4]].w/2, 99+sprites[AnvilItems[4]].h/2, sprites[AnvilItems[4]].image, sprites[AnvilItems[4]].w, sprites[AnvilItems[4]].h);
+    }
 }
 
  int8_t Machine::updateAnvil(uint8_t input){
@@ -261,28 +299,8 @@ uint8_t computeRecipe(int8_t* list, int8_t len){
         if((input&LButton)==0x20){ //print menu sprite and disable movement
             menuOpen = 1;
             sprite = 3;
-            printAnvil(sprite);
             menuDebounce = 10;
-            if(anvilLength > 0){
-                ST7735_FillRect(28, 63, 22, 22, 0x630C);
-                ST7735_DrawBitmap(39-sprites[AnvilItems[0]].w/2, 74+sprites[AnvilItems[0]].h/2, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
-            }
-            if(anvilLength > 1){
-                ST7735_FillRect(53, 63, 22, 22, 0x630C);
-                ST7735_DrawBitmap(64-sprites[AnvilItems[1]].w/2, 74+sprites[AnvilItems[1]].h/2, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
-            }
-            if(anvilLength > 2){
-                ST7735_FillRect(78, 63, 22, 22, 0x630C);
-                ST7735_DrawBitmap(89-sprites[AnvilItems[2]].w/2, 74+sprites[AnvilItems[2]].h/2, sprites[AnvilItems[2]].image, sprites[AnvilItems[2]].w, sprites[AnvilItems[2]].h);
-            }
-            if(anvilLength > 3){
-                ST7735_FillRect(41, 88, 22, 22, 0x630C);
-                ST7735_DrawBitmap(52-sprites[AnvilItems[3]].w/2, 99+sprites[AnvilItems[3]].h/2, sprites[AnvilItems[3]].image, sprites[AnvilItems[3]].w, sprites[AnvilItems[3]].h);
-            }
-            if(anvilLength > 4){
-                ST7735_FillRect(66, 88, 22, 22, 0x630C);
-                ST7735_DrawBitmap(77-sprites[AnvilItems[4]].w/2, 99+sprites[AnvilItems[4]].h/2, sprites[AnvilItems[4]].image, sprites[AnvilItems[4]].w, sprites[AnvilItems[4]].h);
-            }
+            updateAnvilMenu(AnvilItems, anvilLength);
             state++; //going to the menu state
             return -1;
         }
@@ -304,11 +322,14 @@ uint8_t computeRecipe(int8_t* list, int8_t len){
         if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TRASH)){ //add player's item
             AnvilItems[anvilLength++] = (input&material);
             menuDebounce = 10;
+            updateAnvilMenu(AnvilItems, anvilLength);
             return 0;
         }
         if(((input&RButton)!=0) && anvilLength>0 && (input&material) == EMPTY){ //give player item
-        menuDebounce = 10;
-            return AnvilItems[--anvilLength];
+            menuDebounce = 10;
+            uint8_t temp = AnvilItems[--anvilLength];
+            updateAnvilMenu(AnvilItems, anvilLength);
+            return temp;
         }
         return -1;
         case 2: //working
@@ -333,6 +354,7 @@ uint8_t computeRecipe(int8_t* list, int8_t len){
                 state = 0;
                 return creation;
             }
+            return -1;
         case 3: //done
      }
 
