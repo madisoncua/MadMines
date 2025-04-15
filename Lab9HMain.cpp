@@ -310,8 +310,8 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
-  ST7735_DrawFastHLine(106, 138, 22, 0x0);   //thickening box
-  ST7735_DrawFastVLine(106, 138, 22, 0x0);
+  ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
+  ST7735_DrawFastVLine(105, 137, 24, 0x0);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
