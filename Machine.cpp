@@ -225,57 +225,66 @@ int8_t Machine::updateRefiner(uint8_t input){
                 printAnvil(1);
             }
         }
+        if(menuDebounce > 0){   //debounce time after button press in menu
+            menuDebounce--;
+            return -1;
+        }
         if((input&LButton)==0x20){ 
-            if(menuDebounce > 0){   //debounce time after removing menu
-                menuDebounce--;
-                return -1;
-            }
+            
             //print menu sprite and disable movement
             menuOpen = 1;
             sprite = 3;
             printAnvil(sprite);
-            menuDebounce = 3;
+            menuDebounce = 10;
             if(anvilLength > 0){
-                ST7735_DrawBitmap(28, 85, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
+                ST7735_FillRect(28, 63, 22, 22, 0x630C);
+                ST7735_DrawBitmap(39-sprites[AnvilItems[0]].w/2, 74+sprites[AnvilItems[0]].h/2, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
             }
             if(anvilLength > 1){
-                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
+                ST7735_FillRect(53, 63, 22, 22, 0x630C);
+                ST7735_DrawBitmap(64-sprites[AnvilItems[1]].w/2, 74+sprites[AnvilItems[1]].h/2, sprites[AnvilItems[1]].image, sprites[AnvilItems[1]].w, sprites[AnvilItems[1]].h);
             }
             if(anvilLength > 2){
-                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[2]].image, sprites[AnvilItems[2]].w, sprites[AnvilItems[2]].h);
+                ST7735_FillRect(78, 63, 22, 22, 0x630C);
+                ST7735_DrawBitmap(89-sprites[AnvilItems[2]].w/2, 74+sprites[AnvilItems[2]].h/2, sprites[AnvilItems[2]].image, sprites[AnvilItems[2]].w, sprites[AnvilItems[2]].h);
             }
             if(anvilLength > 3){
-                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[3]].image, sprites[AnvilItems[3]].w, sprites[AnvilItems[3]].h);
+                ST7735_FillRect(41, 88, 22, 22, 0x630C);
+                ST7735_DrawBitmap(52-sprites[AnvilItems[3]].w/2, 99+sprites[AnvilItems[3]].h/2, sprites[AnvilItems[3]].image, sprites[AnvilItems[3]].w, sprites[AnvilItems[3]].h);
             }
             if(anvilLength > 4){
-                ST7735_DrawBitmap(100, 20, sprites[AnvilItems[4]].image, sprites[AnvilItems[4]].w, sprites[AnvilItems[4]].h);
+                ST7735_FillRect(66, 88, 22, 22, 0x630C);
+                ST7735_DrawBitmap(77-sprites[AnvilItems[4]].w/2, 99+sprites[AnvilItems[4]].h/2, sprites[AnvilItems[4]].image, sprites[AnvilItems[4]].w, sprites[AnvilItems[4]].h);
             }
             state++; //going to the menu state
             return -1;
         }
         return -1;
     case 1://menu
+        if(menuDebounce > 0){   //debounce time after printing menu
+            menuDebounce--;
+            return -1;
+        }
         if((input&LButton)!=0){ //if LButton is pressed, eject from the menu screen (decrement state)
-            if(menuDebounce > 0){   //debounce time after printing menu
-                menuDebounce--;
-                return -1;
-            }
             sprite = 0;
             ST7735_FillRect(25, 48, 78, 65, 0x630C);//cover menu
             menuOpen = 0;
             state--;
-            menuDebounce = 3;
+            menuDebounce = 10;
             return 20;  //number that isn't an item to indicate reprint player
         }
         if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TRASH)){ //add player's item
             AnvilItems[anvilLength++] = (input&material);
+            menuDebounce = 10;
             return 0;
         }
         if(((input&RButton)!=0) && anvilLength>0 && (input&material) == EMPTY){ //give player item
+        menuDebounce = 10;
             return AnvilItems[--anvilLength];
         }
         return -1;
         case 2: //working
+            
         case 3: //done
      }
 

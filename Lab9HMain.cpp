@@ -285,7 +285,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     machineOut = m_refiner.updateRefiner(input);  //update refiner
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
       if(machineOut != 0){
         ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
@@ -357,7 +357,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }else{
         p1.setPossession(outMachine);
-        ST7735_FillRect(107, 159, 20, 21, 0x630C);
+        ST7735_FillRect(107, 139, 20, 21, 0x630C);
         if(outMachine != 0){
           ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
         }
@@ -368,7 +368,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     outMachine = m_rock.updateRock(input);
     if(outMachine > -1){
       p1.setPossession(outMachine);
-      ST7735_FillRect(107, 159, 20, 21, 0x630C);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
       if(outMachine != 0){
         ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
