@@ -310,6 +310,8 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
+  ST7735_DrawFastHLine(106, 138, 22, 0x0);   //thickening box
+  ST7735_DrawFastVLine(106, 138, 22, 0x0);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -344,7 +346,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(outMachine != 0){
-        ST7735_DrawBitmap(107, 159, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
     }
     input = p1.getMachineInput(m_rock);
@@ -354,7 +356,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(outMachine != 0){
-        ST7735_DrawBitmap(107, 159, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
       }
     }
   }
