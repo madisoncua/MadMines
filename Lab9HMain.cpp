@@ -286,7 +286,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
       p1.setPossession(machineOut);
       ST7735_FillRect(107, 159, 20, 21, 0x630C);
       if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 159-sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 159-sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
     }
   }
