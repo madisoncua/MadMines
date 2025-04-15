@@ -3,6 +3,12 @@
  #include "../inc/ST7735.h"
  #include "images.h"
  #include "../inc/Clock.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <ti/devices/msp/msp.h>
+#include "../inc/LaunchPad.h"
+#include "../inc/TExaS.h"
+#include "../inc/Timer.h"
 
 uint32_t M=1;
 uint32_t Random32(void){
@@ -189,7 +195,7 @@ int8_t Machine::updateRefiner(uint8_t input){
             sprite = 0;
             state = 0;
             printRock(sprite);
-            uint8_t randOre = Random32()%5+1; //should return random 1-5 (not sure how random though)
+            uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
             return randOre;
         }
         return -1;

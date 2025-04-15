@@ -361,3 +361,13 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     }
   }
 }
+
+void SysTick_Handler(void){ //place holder until sound set up
+  // if(songOn && songIndex < 20112){
+  //   DAC_Out(adventuring_song[songIndex++]);
+  // //}else if(songIndex < 23000){
+  // //  songIndex++;
+  // }else{
+  //   songIndex = 0;
+  // }
+}
