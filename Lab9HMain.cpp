@@ -325,9 +325,9 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 }
 
 
-Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
-Machine m_rock(67, 8, 86, 42);
-Machine m_cart(20,8, 63, 54);
+Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
+Machine m_rock(67, 8, 111, 42, 113, 17);
+Machine m_cart(5, 8, 36, 50, 0, 0);
 int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
@@ -407,7 +407,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     }
     input = p1.getMachineInput(m_cart);
     input |= buttons;
-    outMachine = m_cart.updateRock(input);
+    outMachine = m_cart.updateCart(input);
     if(outMachine > -1){
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 139, 20, 21, 0x630C);

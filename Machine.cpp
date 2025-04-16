@@ -503,31 +503,34 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         }
         if((input&RButton) == 0x40){
             state++;
-            workTimer = 90;
+            workTimer = 60;
             sprite = 2;
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x0);    //clear item shown in cart
             return -1;
         }
         if(debounce > 0)return -1;
         if((input&LButton) == 0x20 && (input&material) != EMPTY){   //player puts item in cart
             debounce = 10;
-            holdItem = input&material;
+            holdItem = input&material;      //print item in cart
+            ST7735_DrawBitmap(top_L_x+21-sprites[holdItem].w/2, bot_R_y-25+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             return 0;
         }
         if((input&LButton) == 0x20 && (input&material) == EMPTY){   //player takes item from cart
             debounce = 10;
             int8_t temp = holdItem;
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x0);    //clear item shown in cart
             holdItem = 0;
             return temp;
         }
         return -1;
       case 1://leaving
-        workTimer--;
-        if(workTimer%18){
+        if(workTimer%12 == 0){
             printCart(sprite);
         }
         if(workTimer == 0){
             state++;
         }
+        workTimer--;
         return -1;
       case 2://empty cart cannot interact
         //wait for the uart????? probably have a flag to set
@@ -637,11 +640,11 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  void Machine::printCart(uint8_t sprite){
     static int i = 0;
     if(sprite == 0){
-        ST7735_DrawBitmap(20, 54, cart, 46, 43);
+        ST7735_DrawBitmap(top_L_x, bot_R_y+4, cart, 46, 43);
     }else if(sprite == 1){
-        ST7735_DrawBitmap(20, 54, cartHighlight, 46, 43);
-    }else if(sprite == 3){//cart leaving
-        ST7735_DrawBitmap(20, 52-i*7, cart, 46, 41);
+        ST7735_DrawBitmap(top_L_x, bot_R_y+4, cartHighlight, 46, 43);
+    }else if(sprite == 2){//cart leaving
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-i*7, cart, 46, 41);
         i++;
         i%=6;
     }
