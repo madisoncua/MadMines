@@ -613,22 +613,22 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  
  void Machine::printRefiner(uint8_t sprite){
     if(sprite==0){ //default
-        ST7735_DrawBitmap(67, 45, refiner, 61, 35);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, refiner, 61, 35);
     }else if(sprite==1){ //highlighted refiner
-        ST7735_DrawBitmap(67, 45, refinerHighlight, 61, 35);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, refinerHighlight, 61, 35);
     }else if(sprite==2){ //working refiner
-        ST7735_DrawBitmap(67, 45, refinerWorking, 61, 35);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, refinerWorking, 61, 35);
     }
 
  }
 
  void Machine::printAnvil(uint8_t sprite){
     if(sprite==0){ //default
-        ST7735_DrawBitmap(20, 159, anvil, 66, 30);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, anvil, 66, 30);
     }else if(sprite==1){ //highlighted anvil
-        ST7735_DrawBitmap(20, 159, anvilHighlight, 66, 30);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, anvilHighlight, 66, 30);
     }else if(sprite==2){ //working anvil
-        ST7735_DrawBitmap(20, 159, anvilWorking, 66, 30);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, anvilWorking, 66, 30);
     }else if(sprite == 3){//print menu
         ST7735_DrawBitmap(25, 112, anvilMenu, 78, 64);
     }
@@ -650,21 +650,21 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  void Machine::printRock(uint8_t sprite){
     if(sprite == 0){
-        ST7735_DrawBitmap(67, 42, rock, 44, 34);    //default rock
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rock, 44, 34);    //default rock
     }else if(sprite == 1){
-        ST7735_DrawBitmap(67, 42, highlightRock, 44, 34);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, 44, 34);
     }else if(sprite == 2){
-        ST7735_DrawBitmap(67, 42, workingRock, 44, 34);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, 44, 34);
     }
  }
 
  void Machine::printSmelter(uint8_t sprite){
     if(sprite == 0){//defaul 
-        ST7735_DrawBitmap(34, 160, smelter, 60, 48);    
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelter, 60, 48);    
     }else if(sprite == 1){ //highlight
-        ST7735_DrawBitmap(34, 160, smelterHighlight, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterHighlight, 60, 48);
     }else if(sprite == 2){//working
-        ST7735_DrawBitmap(34, 160, smelterWorking, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterWorking, 60, 48);
     }else if(sprite == 3){ //red scaled image
         unsigned short red[2880];
         for(int i=0; i<2880; i++){
@@ -686,19 +686,19 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 red[i] = (red565 >> 8) | (red565 << 8);
             }
         }
-        ST7735_DrawBitmap(34, 160, red, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, red, 60, 48);
     }else if(sprite==4){//failed
-        ST7735_DrawBitmap(34, 160, smelterFail, 60, 48);  
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFail, 60, 48);  
     }else if(sprite==5){//failed highlight
-        ST7735_DrawBitmap(34, 160, smelterFailHighlight, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFailHighlight, 60, 48);
     }
  }
-//ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list    
+ 
  void Machine::printTurnInArea(uint8_t sprite, int* arr){
     if(sprite==0){//default state of turn in area
-        ST7735_DrawBitmap(104, 125, Portal, 24, 50); //draws the to do list
+        ST7735_DrawBitmap(top_L_x, bot_R_y, Portal, 24, 50); 
     }else if(sprite==1){ //twirling state of turn in area
-        ST7735_DrawBitmap(104, 125, PortalHighlight, 24, 50); //draws the to do list
+        ST7735_DrawBitmap(top_L_x, bot_R_y, PortalHighlight, 24, 50);
     }else if(sprite==2){//to do menu with numbers
         unsigned short invertedPortal[1200];
         for(int i=0; i<1200; i++){
@@ -724,10 +724,11 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 invertedPortal[i] = (inverted >> 8) | (inverted << 8);
             }
         }
-        ST7735_DrawBitmap(104, 125, invertedPortal, 24, 50);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, invertedPortal, 24, 50);
     }
  }
 
  void Machine::printCounter(uint8_t sprite){
+    ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list   
 
  }
