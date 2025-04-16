@@ -485,55 +485,54 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  int8_t Machine::updateCart(uint8_t input){
     static uint8_t wasWorking = 0;
+    static int8_t debounce = 0;
     switch(state){
       case 0: //wait state
+        if(debounce > 0)debounce--;
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
-                printRock(sprite);
+                printCart(sprite);
             }
             return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
-                printRock(sprite);
+                printCart(sprite);
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0x40){
             state++;
-            if(!wasWorking){
-                workTimer = 150;    //5 sec of work time
-                wasWorking = 1;
-            }
-        }
-        return -1;
-      case 1://mining
-        if(((input&RButton) == 0 || (input&Prox) == 0) && workTimer > 75){
-            state--;
-            wasWorking = 1;
+            workTimer = 90;
+            sprite = 2;
             return -1;
         }
-        if((input&RButton) == 0)return -1;
-        workTimer--;
-        if(workTimer%15 == 0){
-            //update progress bar
-            //maybe short sound effect?
+        if(debounce > 0)return -1;
+        if((input&LButton) == 0x20 && (input&material) != EMPTY){   //player puts item in cart
+            debounce = 10;
+            holdItem = input&material;
+            return 0;
         }
-        if(workTimer == 75){    //print cracked halfway through
-            sprite = 2;
-            printRock(sprite);
-        }
-        if(workTimer == 0){
-            wasWorking = 0;
-            sprite = 0;
-            state = 0;
-            printRock(sprite);
-            uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
-            return randOre;
+        if((input&LButton) == 0x20 && (input&material) == EMPTY){   //player takes item from cart
+            debounce = 10;
+            int8_t temp = holdItem;
+            holdItem = 0;
+            return temp;
         }
         return -1;
+      case 1://leaving
+        workTimer--;
+        if(workTimer%18){
+            printCart(sprite);
+        }
+        if(workTimer == 0){
+            state++;
+        }
+        return -1;
+      case 2://empty cart cannot interact
+        //wait for the uart????? probably have a flag to set
+        return -1;
     }
-    return -1;
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){

@@ -234,7 +234,7 @@ Machine m_smelter(34, 112, 94, 160, 28, 127);
 Machine m_portal(104, 70, 128, 125, 0, 0);
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -325,9 +325,10 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 }
 
 
-Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-Machine m_rock(67, 8, 111, 42, 113, 17);//(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+Machine m_anvil(20, 130, 86, 160); //(top_left_x, top_left_y, bot_right_x, bot_right_y)
+Machine m_rock(67, 8, 86, 42);
+Machine m_cart(20,8, 63, 54);
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -397,6 +398,16 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     input = p1.getMachineInput(m_rock);
     input |= buttons;
     outMachine = m_rock.updateRock(input);
+    if(outMachine > -1){
+      p1.setPossession(outMachine);
+      ST7735_FillRect(107, 139, 20, 21, 0x630C);
+      if(outMachine != 0){
+        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
+      }
+    }
+    input = p1.getMachineInput(m_cart);
+    input |= buttons;
+    outMachine = m_cart.updateRock(input);
     if(outMachine > -1){
       p1.setPossession(outMachine);
       ST7735_FillRect(107, 139, 20, 21, 0x630C);
