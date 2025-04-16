@@ -644,7 +644,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }else if(sprite == 1){
         ST7735_DrawBitmap(top_L_x, bot_R_y+4, cartHighlight, 46, 43);
     }else if(sprite == 2){//cart leaving
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-i*7, cart, 46, 41);
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-i*7, cart+92, 46, 41);
         i++;
         i%=6;
     }
