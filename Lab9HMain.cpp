@@ -230,8 +230,9 @@ itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {ra
 
 Player p1; //player 1
 Machine m_refiner(67, 10, 121, 45, 61, 15); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-Machine m_smelter(34, 112, 94, 160, 28, 127);
-Machine m_portal(104, 70, 128, 125, 0, 0);
+Machine m_smelter(34, 112, 94, 160, 92, 130);
+Machine m_portal(104, 50, 128, 100, 0, 0);
+Machine m_todo(0, 0, 32, 159, 0, 0);
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
@@ -258,8 +259,17 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   p1.setPossession(1);
-  ST7735_SetCursor(10, 0);
-  ST7735_OutString((char*) "SCORE: ");
+  uint8_t scoreStart = 64;
+  uint8_t scoreY = 2;
+  uint8_t letterOffset = 6;
+  uint16_t color = 0xFFFF;
+  ST7735_DrawChar(scoreStart, scoreY, 'S', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset, scoreY, 'C', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*2, scoreY, 'O', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*3, scoreY, 'R', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*4, scoreY, 'E', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -318,9 +328,10 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
         ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
       }
     }
-    if(machineOut==100){
-      //print out the cart
-    }
+    
+    input = p1.getMachineInput(m_todo);
+    input|= buttons;
+    machineOut = m_todo.updateToDo(input);
   }
 }
 

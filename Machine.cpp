@@ -52,6 +52,9 @@ const uint8_t recipes[5][5] = {{SILVER, DIAMOND, RUBY, 0, 0}, {SILVER, GOLD, DIA
 uint8_t progW = 6;
 uint8_t progH = 22;
 
+//the To do list 
+static int ToDoArr[5] = {1,2,3,4,5}; 
+
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY){
     sprite = 100;   //start of game engine prints default
     state = 0;
@@ -187,13 +190,6 @@ int8_t Machine::updateRefiner(uint8_t input){
             if(!wasWorking){
                 wasWorking = 1;
                 workTimer = 150;    //150 updates at 30Hz = 5 sec work time
-                //outline of progress bar
-                
-                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
-                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
-                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
-                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
-                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
                 //print progress bar
                 
             }
@@ -203,12 +199,19 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
             holdItem = input&material;
             debounce = 10;
+            //outline of progress bar
+            ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
+            ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
+            ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
+            ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
+            ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
             return EMPTY;               //tells the main to empty player's hand
         }
         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
             int8_t temp = holdItem;
             holdItem = 0;
             debounce = 10;
+            ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             return temp;          //tells main item to return
         }
         return -1;
@@ -539,28 +542,27 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){
-    static int itemsArr[5] = {1,2,3,4,5}; 
     static int score = 0;
     switch(state){
         case 0:
         if((input&Prox) == 0){
             if(sprite!=0){
                 sprite = 0;
-                printTurnInArea(sprite, itemsArr);
+                printTurnInArea(sprite);
             }
             return -1;
         }else{
             if(sprite!=1){
                 sprite = 1;
-                printTurnInArea(sprite, itemsArr);
+                printTurnInArea(sprite);
             }
             if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=16)){
                 holdItem = input&material;
                 workTimer = 100; //set work timer
                 state++;
                 if(holdItem>=SWORD && holdItem<=KEY){ //fix array
-                    if(itemsArr[holdItem-11]>0){
-                        itemsArr[holdItem-11]--; //decrement the item in the arr
+                    if(ToDoArr[holdItem-11]>0){
+                        ToDoArr[holdItem-11]--; //decrement the item in the arr
                         score+=200;
                         //output good ding
                     }
@@ -575,8 +577,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             workTimer--;
             if(workTimer == 0){ //resets the score after "turn in processing is complete"
                 sprite = 0;
-                printTurnInArea(sprite, itemsArr); //set turn in area back to default
-                int x_cursor = 19;
+                printTurnInArea(sprite); //set turn in area back to default
+                int x_cursor = 120;
                 bool isNeg = false;
                 if(score<0){
                     isNeg = true;
@@ -585,16 +587,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     score = -999;
                 }
                 uint8_t temp = score*-1;
-                ST7735_SetTextColor(0xFFFF);
                 while(temp!=0){
-                    ST7735_SetCursor(x_cursor, 0);
-                    ST7735_OutChar((temp%10)+48);
+                    ST7735_DrawChar(x_cursor, 2, (temp%10)+48, 0xFFFF, 0x630C, 1);
                     temp /=10;
-                    x_cursor--;
+                    x_cursor-=6;
                 }
                 if(isNeg){
-                    ST7735_SetCursor(x_cursor, 0);
-                    ST7735_OutChar('-');
+                    ST7735_DrawChar(x_cursor, 2, '-', 0xFFFF, 0x630C, 1);
                 }
                 state=0;
                 return EMPTY;
@@ -602,14 +601,30 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             if(workTimer%15 == 0){//flashes 
                 if(sprite==0){
                     sprite = 2;
-                    printTurnInArea(sprite, itemsArr);
+                    printTurnInArea(sprite);
                 }else{
                     sprite = 0;
-                    printTurnInArea(sprite, itemsArr);
+                    printTurnInArea(sprite);
                 }
             }
         return -1;
     }
+ }
+
+ uint8_t Machine::updateToDo(uint8_t input){
+    static int counterArr[5];
+    switch(state){
+        case 0: //not on
+            if(sprite!=0){
+                sprite = 0;
+                printToDo(sprite);
+            }
+            return -1;
+            
+        case 1:
+        case 2:
+    }
+
  }
 
  
@@ -696,7 +711,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
  
- void Machine::printTurnInArea(uint8_t sprite, int* arr){
+ void Machine::printTurnInArea(uint8_t sprite){
     if(sprite==0){//default state of turn in area
         ST7735_DrawBitmap(top_L_x, bot_R_y, Portal, 24, 50); 
     }else if(sprite==1){ //twirling state of turn in area
@@ -730,7 +745,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
 
- void Machine::printCounter(uint8_t sprite){
-    ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list   
-
+ void Machine::printToDo(uint8_t sprite){
+    if(sprite == 0){
+        ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list 
+        uint8_t y_cursor = 14;
+        for(int i=0; i<5; i++){
+            ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
+            y_cursor+=30;
+        }  
+    }
  }
