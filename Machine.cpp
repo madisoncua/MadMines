@@ -637,12 +637,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         return -1;
       case 4://return after getting message
         if(workTimer%12 == 0){
-            printCart(sprite);
+            printCart();
         }
         if(workTimer == 0){
             state = 0;
             sprite = 0;
-            printCart(sprite);
+            printCart();
             if(holdItem != EMPTY){  //print the item in the cart
                 ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
                 ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
@@ -876,7 +876,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  }
 
- void Machine::printCart(uint8_t sprite){
+ void Machine::printCart(){
     static int8_t sent = 0;
     static int8_t in = 5;
     if(sprite == 0){
