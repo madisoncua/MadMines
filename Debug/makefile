@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS
+CG_TOOL_ROOT := C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -12,6 +12,8 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./Clock.o" \
 "./DAC5.o" \
+"./FIFO2.o" \
+"./IRxmt.o" \
 "./LED.o" \
 "./Lab9HMain.o" \
 "./LaunchPad.o" \
@@ -25,6 +27,7 @@ ORDERED_OBJS += \
 "./Switch.o" \
 "./TExaS.o" \
 "./Timer.o" \
+"./UART2.o" \
 "./ticlang/startup_mspm0g3507_ticlang.o" \
 "../mspm0g3507.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -152,16 +155,16 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 MadMines.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"MadMines.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg" -Wl,-i"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="MadMines_linkInfo.xml" -Wl,--rom_model -o "MadMines.out" $(ORDERED_OBJS)
+	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -D__MSPM0G3507__ -gdwarf-3 -Wl,-m"MadMines.map" -Wl,--heap_size=512 -Wl,--stack_size=512 -Wl,-i"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg" -Wl,-i"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="MadMines_linkInfo.xml" -Wl,--rom_model -o "MadMines.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Clock.o" "DAC5.o" "LED.o" "Lab9HMain.o" "LaunchPad.o" "Machine.o" "Player.o" "SPI.o" "ST7735.o" "SlidePot.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "Clock.o" "DAC5.o" "FIFO2.o" "IRxmt.o" "LED.o" "Lab9HMain.o" "LaunchPad.o" "Machine.o" "Player.o" "SPI.o" "ST7735.o" "SlidePot.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "UART2.o" "ticlang\startup_mspm0g3507_ticlang.o" 
 	-$(RM) "ticlang\startup_mspm0g3507_ticlang.d" 
-	-$(RM) "Clock.d" "DAC5.d" "LED.d" "Lab9HMain.d" "LaunchPad.d" "Machine.d" "Player.d" "SPI.d" "ST7735.d" "SlidePot.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" 
+	-$(RM) "Clock.d" "DAC5.d" "FIFO2.d" "IRxmt.d" "LED.d" "Lab9HMain.d" "LaunchPad.d" "Machine.d" "Player.d" "SPI.d" "ST7735.d" "SlidePot.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "UART2.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
