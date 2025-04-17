@@ -42,6 +42,15 @@ void UART2_Init(void){
     // RSTCLR to GPIOA and UART2 peripherals
    // write this
 }
+
+void UART2_Disable(void){
+  UART2->CTL0 &= ~(0x1);
+}
+
+void UART2_Enable(void){
+  UART2->CTL0 |= 0x1;
+}
+
 //------------UART2_InChar------------
 // Get new serial port receive data from FIFO2
 // Input: none

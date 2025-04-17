@@ -48,7 +48,13 @@ void UART2_Init(void);
  */
 char UART2_InChar(void);
 
+//added by Evan Roberts
+//friendly clears UART2->CTL0 to disable
+void UART2_Disable(void);
 
+//added by Evan Roberts
+//friendly sets UART2->CTL0 to enable (only if already initialized)
+void UART2_Enable(void);
 
 
 #endif // __UART2_H__

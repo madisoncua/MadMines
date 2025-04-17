@@ -565,10 +565,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         msg[1] = '<';
         msg[2] = contents;
         msg[3] = contents;
+        UART2_Disable();
         for (int i = 0; i < 4; i++) {
             IRxmt_OutChar(msg[i]);
         }
+        UART2_Enable();
         state++;
+        holdItem = 0;
         return -1;
       case 3://wait state until cart is returned
         uint8_t start0;
