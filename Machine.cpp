@@ -608,6 +608,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             IRxmt_OutChar(msg[i]);
         }
         UART2_Enable();
+        sprite = 4;
         state++;
         holdItem = 0;
         return -1;
