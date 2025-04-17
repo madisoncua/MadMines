@@ -1,6 +1,9 @@
- #include <iostream>
+ #include <cstdint>
+#include <iostream>
  #include "Machine.h"
  #include "../inc/ST7735.h"
+#include "IRxmt.h"
+#include "UART2.h"
  #include "images.h"
  #include "../inc/Clock.h"
 #include <stdio.h>
@@ -512,7 +515,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         if((input&LButton) == 0x20 && (input&material) != EMPTY){   //player puts item in cart
             debounce = 10;
             holdItem = input&material;      //print item in cart
-            ST7735_DrawBitmap(top_L_x+21-sprites[holdItem].w/2, bot_R_y-25+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             return 0;
         }
         if((input&LButton) == 0x20 && (input&material) == EMPTY){   //player takes item from cart
@@ -532,10 +536,94 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         }
         workTimer--;
         return -1;
-      case 2://empty cart cannot interact
-        //wait for the uart????? probably have a flag to set
+      case 2://send cart state
+        char contents;
+        contents = holdItem;
+        /*message:
+            2 start bytes "<"
+            2 content bytes:
+                bit 7: finished item
+                bit 6: processed resource
+                bit 5: raw material
+                *EMPTY == bits 7-5 all 0
+                *TRASH == bits 7-5 all 1
+                bits 4-0: value of the item sent
+        */
+        if(holdItem != EMPTY){
+            if(holdItem < 6){
+                contents |= 0x20;
+            }else if(holdItem < 11){
+                contents |= 0x40;
+            }else if(holdItem < 16){
+                contents |= 0x80;
+            }else{//this is trash
+                contents |= 0xE0;
+            }
+        }
+        char msg[4];
+        msg[0] = '<';
+        msg[1] = '<';
+        msg[2] = contents;
+        msg[3] = contents;
+        for (int i = 0; i < 4; i++) {
+            IRxmt_OutChar(msg[i]);
+        }
+        state++;
+        return -1;
+      case 3://wait state until cart is returned
+        uint8_t start0 = UART2_InChar();
+        if(start0 == '<'){
+            uint8_t val1, val2;
+            uint8_t start1;
+            start1 = UART2_InChar();
+            if(start1 == '<'){
+                val1 = UART2_InChar();
+            }else{
+                val1 = start1;
+            }
+            val2 = UART2_InChar();
+            if(val1 == val2){
+                holdItem = val1&material;
+            }else{
+                holdItem = cartSendError(val1, val2);
+            }
+            //received an item
+            sprite = 0;
+            state = 0;
+            printCart(sprite);
+            if(holdItem != EMPTY){  //print the item in the cart
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+            }
+        }
         return -1;
     }
+ }
+
+ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
+    if((val1&material) == (val2&material)){//same item, different parity bits (assume item is right)
+        return val1&material;
+    }else if((val1&0xE0) == (val2&0xE0)){//different item, same parity bits
+        uint8_t parity = val1&0xE0;
+        val1&=material; //just grab the item now
+        val2&=material;
+        if(parity == 0)return EMPTY;
+        if(parity == 0xE0)return TRASH;
+        if(parity == 0x80){ //item should be a finished product
+            if(val1 > EMERALD && val1 < TRASH)return val1;  //return whichever item fits the parity
+            if(val2 > EMERALD && val2 < TRASH)return val2;
+        }
+        if(parity == 0x40){ //item should be a processed material
+            if(val1 > EMERALD_ORE && val1 < SWORD)return val1;  //return whichever item fits the parity
+            if(val2 > EMERALD_ORE && val2 < SWORD)return val2;
+        }
+        if(parity == 0x20){ //item should be raw material
+            if(val1 > EMPTY && val1 < SILVER)return val1;  //return whichever item fits the parity
+            if(val2 > EMPTY && val2 < SILVER)return val2;
+        }
+    }
+    //now none of the parity or material bits match
+    return EMPTY;   //give player empty as "shipping error"
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){

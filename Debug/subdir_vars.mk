@@ -8,6 +8,8 @@ SHELL = cmd.exe
 CPP_SRCS += \
 C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp \
 C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/DAC5.cpp \
+../FIFO2.cpp \
+../IRxmt.cpp \
 ../LED.cpp \
 ../Lab9HMain.cpp \
 C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp \
@@ -20,7 +22,8 @@ C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/ST7735.cpp 
 ../Sound.cpp \
 ../Switch.cpp \
 C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp 
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp \
+../UART2.cpp 
 
 CMD_SRCS += \
 ../mspm0g3507.cmd 
@@ -28,6 +31,8 @@ CMD_SRCS += \
 OBJS += \
 ./Clock.o \
 ./DAC5.o \
+./FIFO2.o \
+./IRxmt.o \
 ./LED.o \
 ./Lab9HMain.o \
 ./LaunchPad.o \
@@ -40,11 +45,14 @@ OBJS += \
 ./Sound.o \
 ./Switch.o \
 ./TExaS.o \
-./Timer.o 
+./Timer.o \
+./UART2.o 
 
 CPP_DEPS += \
 ./Clock.d \
 ./DAC5.d \
+./FIFO2.d \
+./IRxmt.d \
 ./LED.d \
 ./Lab9HMain.d \
 ./LaunchPad.d \
@@ -57,11 +65,14 @@ CPP_DEPS += \
 ./Sound.d \
 ./Switch.d \
 ./TExaS.d \
-./Timer.d 
+./Timer.d \
+./UART2.d 
 
 OBJS__QUOTED += \
 "Clock.o" \
 "DAC5.o" \
+"FIFO2.o" \
+"IRxmt.o" \
 "LED.o" \
 "Lab9HMain.o" \
 "LaunchPad.o" \
@@ -74,11 +85,14 @@ OBJS__QUOTED += \
 "Sound.o" \
 "Switch.o" \
 "TExaS.o" \
-"Timer.o" 
+"Timer.o" \
+"UART2.o" 
 
 CPP_DEPS__QUOTED += \
 "Clock.d" \
 "DAC5.d" \
+"FIFO2.d" \
+"IRxmt.d" \
 "LED.d" \
 "Lab9HMain.d" \
 "LaunchPad.d" \
@@ -91,11 +105,14 @@ CPP_DEPS__QUOTED += \
 "Sound.d" \
 "Switch.d" \
 "TExaS.d" \
-"Timer.d" 
+"Timer.d" \
+"UART2.d" 
 
 CPP_SRCS__QUOTED += \
 "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp" \
 "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/DAC5.cpp" \
+"../FIFO2.cpp" \
+"../IRxmt.cpp" \
 "../LED.cpp" \
 "../Lab9HMain.cpp" \
 "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp" \
@@ -108,6 +125,7 @@ CPP_SRCS__QUOTED += \
 "../Sound.cpp" \
 "../Switch.cpp" \
 "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp" \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp" 
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp" \
+"../UART2.cpp" 
 
 

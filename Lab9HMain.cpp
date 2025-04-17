@@ -20,7 +20,9 @@
 #include "Player.h"
 #include "Machine.h"
 #include "SlidePot.h"
-
+#include "IRxmt.h"
+#include "UART2.h"
+#include "FIFO2.h"
 
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
@@ -33,7 +35,7 @@ void PLL_Init(void){ // set phase lock loop (PLL)
   // Clock_Init40MHz(); // run this line for 40MHz
   Clock_Init80MHz(0);   // run this line for 80MHz
 }
-
+//Queue FIFO;   //unsure if this is necessary
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 int8_t menuOpen;
@@ -225,7 +227,7 @@ typedef struct itemHeld{
 //SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
 itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
-            {shield, 16, 21}, {ring, 18, 20}, {watch, 20, 21}, {key, 18, 19}, {trash, 20, 20}};
+            {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {trash, 20, 20}};
 
 
 Player p1; //player 1
@@ -338,7 +340,11 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(ST7735_BLACK);
   Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
-  Switch_Init(); // initialize switches PA24, PA25  
+  Switch_Init(); // initialize switches PA24, PA25
+  //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
+
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
