@@ -41,12 +41,12 @@ extern uint8_t menuOpen;
  #define RButton (1<<6)
 // //Bit 7:player proximity
  #define Prox (1<<7)
-typedef struct itemHeld{
-  const uint16_t* image;
-  uint8_t w;
-  uint8_t h;
-}itemHeld;
-extern itemHeld sprites[17];
+
+//{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
+//SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
+itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
+            {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
+            {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {trash, 20, 20}};
 const uint8_t recipes[5][5] = {{SILVER, DIAMOND, RUBY, 0, 0}, {SILVER, GOLD, DIAMOND, EMERALD, 0}, 
         {GOLD, GOLD, DIAMOND, DIAMOND, 0}, {GOLD, GOLD, DIAMOND, RUBY, EMERALD}, {SILVER, SILVER, EMERALD, 0, 0}};
 
@@ -54,6 +54,9 @@ const uint8_t recipes[5][5] = {{SILVER, DIAMOND, RUBY, 0, 0}, {SILVER, GOLD, DIA
  //for progress bar
 uint8_t progW = 6;
 uint8_t progH = 22;
+
+//the To do list 
+static int ToDoArr[5] = {1,2,3,4,5}; 
 
  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY){
     sprite = 100;   //start of game engine prints default
@@ -65,6 +68,42 @@ uint8_t progH = 22;
     workTimer = 0;
     progX = PBX;
     progY = PBY;
+    proXL = TLX;
+    proXR =  BRX; //right proximity
+    proYT =  TLY; //top proximity
+    proYB =  BRY; //bottom proximity
+ }
+
+  Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB, uint8_t s){
+    sprite = 100;   //start of game engine prints default
+    state = s;
+    top_L_x = TLX;
+    top_L_y = TLY;
+    bot_R_x = BRX;
+    bot_R_y = BRY;
+    workTimer = 0;
+    progX = 0;
+    progY = 0;
+    proXL = XL;
+    proXR =  XR; //right proximity
+    proYT =  YT; //top proximity
+    proYB =  YB; //bottom proximity
+ }
+
+ Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB){
+    sprite = 100;   //start of game engine prints default
+    state = 0;
+    top_L_x = TLX;
+    top_L_y = TLY;
+    bot_R_x = BRX;
+    bot_R_y = BRY;
+    workTimer = 0;
+    progX = 0;
+    progY = 0;
+    proXL = XL;
+    proXR =  XR; //right proximity
+    proYT =  YT; //top proximity
+    proYB =  YB; //bottom proximity
  }
 
  int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machine, which will only call its own update function
@@ -74,20 +113,20 @@ uint8_t progH = 22;
              //highlight sprite here -->update graphic 
                 if(sprite!=0){
                     sprite=0;
-                    printSmelter(sprite);
+                    printSmelter();
                 }
                 return -1;
              }else{
                 if(sprite!=1){
                     sprite=1;
-                    printSmelter(sprite);
+                    printSmelter();
                 }
              }
              if((input&LButton) == 0x20 && (input&material)==1 || (input&material)==2){
                 holdItem = input&material;
                 workTimer = 150; //set work timer
                 sprite = 2; //set sprite to working sprite
-                printSmelter(sprite);
+                printSmelter();
                 ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
                 ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
                 ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
@@ -122,17 +161,17 @@ uint8_t progH = 22;
                 if(workTimer%15==0){
                      if(sprite == 3){ //sprite ==3 represents the red scaled image
                         sprite = 2;
-                        printSmelter(sprite);
+                        printSmelter();
                     }else{
                         sprite = 3;
-                        printSmelter(sprite);
+                        printSmelter();
                      }
                 }
              }else{
                 if((input&LButton) == 0){
                     if(sprite!=1){
                     sprite = 1;
-                    printSmelter(sprite);
+                    printSmelter();
                     }
                 }else{
                     state = 0;
@@ -146,18 +185,18 @@ uint8_t progH = 22;
             if((input&Prox)==0){
                 if(sprite!=4){
                     sprite = 4;
-                    printSmelter(sprite);
+                    printSmelter();
                 }
                 return -1;
             }else{
                 if(sprite!=5){
                     sprite = 5;
-                    printSmelter(sprite);
+                    printSmelter();
                 }
                 if((input&LButton) == 0x20 && (input&material) == EMPTY){
                     state = 0;
                     sprite = 0;
-                    printSmelter(sprite);
+                    printSmelter();
                     return TRASH;
                 }
             }
@@ -174,29 +213,22 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
-                printRefiner(sprite);
+                printRefiner();
             }
             return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
-                printRefiner(sprite);
+                printRefiner();
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0X40 && holdItem !=0){ //start working and item to work on
             state++;
             sprite = 2;
-            printRefiner(sprite);
+            printRefiner();
             if(!wasWorking){
                 wasWorking = 1;
                 workTimer = 150;    //150 updates at 30Hz = 5 sec work time
-                //outline of progress bar
-                
-                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
-                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
-                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
-                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
-                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
                 //print progress bar
                 
             }
@@ -206,12 +238,19 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item in for playing to work on
             holdItem = input&material;
             debounce = 10;
+            //outline of progress bar
+            ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
+            ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
+            ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
+            ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
+            ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
             return EMPTY;               //tells the main to empty player's hand
         }
         if((input&LButton) == 0x20 && (input&material) == EMPTY && holdItem != EMPTY){ //give item with no work done to player
             int8_t temp = holdItem;
             holdItem = 0;
             debounce = 10;
+            ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             return temp;          //tells main item to return
         }
         return -1;
@@ -224,17 +263,17 @@ int8_t Machine::updateRefiner(uint8_t input){
         if(workTimer%15 == 0){
             if(sprite == 2){
                 sprite = 0;
-                printRefiner(sprite);
+                printRefiner();
             }else{
                 sprite = 2;
-                printRefiner(sprite);
+                printRefiner();
             }
             //update progress bar every 10%
             ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
         }
         if(workTimer == 0){
             sprite = 0;
-            printRefiner(sprite);
+            printRefiner();
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             state = 2;
             return -1;
@@ -263,18 +302,18 @@ int8_t Machine::updateRefiner(uint8_t input){
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
-                printRock(sprite);
+                printRock();
             }
             return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
-                printRock(sprite);
+                printRock();
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0x40){
             sprite = 0;
-            printRock(sprite);
+            printRock();
             state++;
             if(!wasWorking){
                 workTimer = 150;    //5 sec of work time
@@ -301,14 +340,14 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         if(workTimer == 75){    //print cracked halfway through
             sprite = 2;
-            printRock(sprite);
+            printRock();
         }
         if(workTimer == 0){
             wasWorking = 0;
             sprite = 0;
             state ++;
             workTimer = 50;
-            printRock(sprite);
+            printRock();
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
             return randOre;
@@ -355,7 +394,7 @@ uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
 }
 
 void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
-    printAnvil(sprite);
+    printAnvil();
     if(anvilLength > 0){
         ST7735_FillRect(28, 63, 22, 22, 0x630C);
         ST7735_DrawBitmap(39-sprites[AnvilItems[0]].w/2, 74+sprites[AnvilItems[0]].h/2, sprites[AnvilItems[0]].image, sprites[AnvilItems[0]].w, sprites[AnvilItems[0]].h);
@@ -390,13 +429,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 return -1;
             }else{ //print default state
                 sprite = 0;
-                printAnvil(0);
+                printAnvil();
                 return -1;
             } 
         }else{
             if(sprite!=1){//print highlighted state
                 sprite = 1;
-                printAnvil(1);
+                printAnvil();
             }
         }
         if(menuDebounce > 0){   //debounce time after button press in menu
@@ -407,7 +446,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             //NOT testing if this is a valid combination
             state+=2;
             sprite = 2;
-            printAnvil(sprite);
+            printAnvil();
             if(!wasWorking){
                 workTimer = 150;
                 wasWorking = 1;
@@ -469,7 +508,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     sprite = 0;
                 }
                 ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
-                printAnvil(sprite);
+                printAnvil();
             }
             if(workTimer == 0){
                 wasWorking = 0;
@@ -481,7 +520,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 return creation;
             }
             return -1;
-        case 3: //done
      }
 
  }
@@ -495,13 +533,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         if((input&Prox) ==0){      //ser to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
-                printCart(sprite);
+                printCart();
             }
             return -1;
         }else{//print highlighted state
             if(sprite!=1){
                 sprite = 1;
-                printCart(sprite);
+                printCart();
             } //don't reprint if already highlighted
         }
         if((input&RButton) == 0x40){
@@ -529,7 +567,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         return -1;
       case 1://leaving animation
         if(workTimer%12 == 0){
-            printCart(sprite);
+            printCart();
         }
         if(workTimer == 0){
             state++;
@@ -599,12 +637,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         return -1;
       case 4://return after getting message
         if(workTimer%12 == 0){
-            printCart(sprite);
+            printCart();
         }
         if(workTimer == 0){
             state = 0;
             sprite = 0;
-            printCart(sprite);
+            printCart();
             if(holdItem != EMPTY){  //print the item in the cart
                 ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
                 ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
@@ -643,28 +681,27 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){
-    static int itemsArr[5] = {1,2,3,4,5}; 
     static int score = 0;
     switch(state){
         case 0:
         if((input&Prox) == 0){
             if(sprite!=0){
                 sprite = 0;
-                printTurnInArea(sprite, itemsArr);
+                printTurnInArea();
             }
             return -1;
         }else{
             if(sprite!=1){
                 sprite = 1;
-                printTurnInArea(sprite, itemsArr);
+                printTurnInArea();
             }
             if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=16)){
                 holdItem = input&material;
                 workTimer = 100; //set work timer
                 state++;
                 if(holdItem>=SWORD && holdItem<=KEY){ //fix array
-                    if(itemsArr[holdItem-11]>0){
-                        itemsArr[holdItem-11]--; //decrement the item in the arr
+                    if(ToDoArr[holdItem-11]>0){
+                        ToDoArr[holdItem-11]--; //decrement the item in the arr
                         score+=200;
                         //output good ding
                     }
@@ -679,8 +716,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             workTimer--;
             if(workTimer == 0){ //resets the score after "turn in processing is complete"
                 sprite = 0;
-                printTurnInArea(sprite, itemsArr); //set turn in area back to default
-                int x_cursor = 19;
+                printTurnInArea(); //set turn in area back to default
+                int x_cursor = 120;
                 bool isNeg = false;
                 if(score<0){
                     isNeg = true;
@@ -689,16 +726,13 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     score = -999;
                 }
                 uint8_t temp = score*-1;
-                ST7735_SetTextColor(0xFFFF);
                 while(temp!=0){
-                    ST7735_SetCursor(x_cursor, 0);
-                    ST7735_OutChar((temp%10)+48);
+                    ST7735_DrawChar(x_cursor, 2, (temp%10)+48, 0xFFFF, 0x630C, 1);
                     temp /=10;
-                    x_cursor--;
+                    x_cursor-=6;
                 }
                 if(isNeg){
-                    ST7735_SetCursor(x_cursor, 0);
-                    ST7735_OutChar('-');
+                    ST7735_DrawChar(x_cursor, 2, '-', 0xFFFF, 0x630C, 1);
                 }
                 state=0;
                 return EMPTY;
@@ -706,18 +740,119 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             if(workTimer%15 == 0){//flashes 
                 if(sprite==0){
                     sprite = 2;
-                    printTurnInArea(sprite, itemsArr);
+                    printTurnInArea();
                 }else{
                     sprite = 0;
-                    printTurnInArea(sprite, itemsArr);
+                    printTurnInArea();
                 }
             }
         return -1;
     }
  }
 
+ int8_t Machine::updateCounters(uint8_t input, Machine* m){
+    static int8_t debounce = 0;
+    switch(state){
+        case 0: //to do state 
+            if((input&Prox) == 0){
+                if(sprite!=0){
+                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list
+                    sprite = 0;
+                    printCounters(m);
+                    uint8_t y_cursor = 14;
+                    for(int i=0; i<5; i++){
+                        ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
+                        y_cursor+=30;
+                    }
+                }
+                return 50;
+            }else{
+                if(sprite!=1){ //highlighted counter
+                    sprite = 1;
+                    printCounters(m);
+                }
+                if(debounce>0){
+                    debounce--;
+                    return 50;
+                }
+                if((input&RButton) == 0x40){//refreshes the counter
+                    debounce = 20;
+                    state = 3;
+                    ST7735_FillRect(0, 0, 34, 159, 0x630C);
+                    ST7735_DrawFastHLine(bot_R_x, top_L_y, 32, 0x0); //right line again
+                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo+4800, 32, 10); //draws the to do button at the bottom
+                    return 22;
+                }
+            }
+            return 50; // the to do is open
+        case 1: //at an empty counter
+            if(debounce>0){
+                debounce--;
+                return -1;
+            }
+            if((input&Prox) == 0){ //not highlighted counter
+                if(sprite!=4){
+                    sprite = 4;
+                    printCounters(m);
+                }
+                return -1;
+            }else{
+                if(sprite!=3){ //highlighted counter
+                    sprite = 3;
+                    printCounters(m);
+                }
+                if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item from player
+                    holdItem = input&material;
+                    sprite = 4;
+                    printCounters(m); 
+                    debounce = 20;
+                    return EMPTY;               //tells the main to empty player's hand
+                }
+                if((input&LButton) == 0x20 && (input&material) == EMPTY && (holdItem != EMPTY)){ //give item with no work done to player
+                    int8_t temp = holdItem;
+                    sprite = 4;
+                    holdItem = 0;
+                    printCounters(m);
+                    debounce = 20;
+                    return temp;          //tells main item to return
+                }
+                return -1;
+            }
+        case 3://this is the state with the counter where the person can reactivate the counter
+            if((input&Prox) == 0){ //
+                if(sprite!=6 && sprite!=4){//to do
+                    sprite = 6;
+                    printCounters(m);
+                }
+                return -1;
+            }else{
+                if(sprite!=5){
+                    sprite = 5;
+                    printCounters(m);
+                }
+                if(debounce>0){
+                    debounce--;
+                    return -1;
+                }
+                if((input&RButton) == 0x40){
+                    state = 0;
+                    sprite = 0;
+                    debounce = 20;
+                    printCounters(m);
+                    ST7735_FillRect(0, 0, 34, 156, 0x630C);
+                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list 
+                    uint8_t y_cursor = 14;
+                    for(int i=0; i<5; i++){
+                        ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
+                        y_cursor+=30;
+                    }
+                }
+            }
+            return -1;
+    }
+}
  
- void Machine::printRefiner(uint8_t sprite){
+ void Machine::printRefiner(){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, refiner, 61, 35);
     }else if(sprite==1){ //highlighted refiner
@@ -728,7 +863,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  }
 
- void Machine::printAnvil(uint8_t sprite){
+ void Machine::printAnvil(){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvil, 66, 30);
     }else if(sprite==1){ //highlighted anvil
@@ -741,7 +876,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  }
 
- void Machine::printCart(uint8_t sprite){
+ void Machine::printCart(){
     static int8_t sent = 0;
     static int8_t in = 5;
     if(sprite == 0){
@@ -768,7 +903,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
 
- void Machine::printRock(uint8_t sprite){
+ void Machine::printRock(){
     if(sprite == 0){
         ST7735_DrawBitmap(top_L_x, bot_R_y, rock, 44, 34);    //default rock
     }else if(sprite == 1){
@@ -778,7 +913,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
 
- void Machine::printSmelter(uint8_t sprite){
+ void Machine::printSmelter(){
     if(sprite == 0){//defaul 
         ST7735_DrawBitmap(top_L_x, bot_R_y, smelter, 60, 48);    
     }else if(sprite == 1){ //highlight
@@ -814,7 +949,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
  
- void Machine::printTurnInArea(uint8_t sprite, int* arr){
+ void Machine::printTurnInArea(){
     if(sprite==0){//default state of turn in area
         ST7735_DrawBitmap(top_L_x, bot_R_y, Portal, 24, 50); 
     }else if(sprite==1){ //twirling state of turn in area
@@ -848,7 +983,49 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }
  }
 
- void Machine::printCounter(uint8_t sprite){
-    ST7735_DrawBitmap(0, 159, todo, 32, 160); //draws the to do list   
+ void Machine::printCounters(Machine* m){
+    if(sprite == 0){
+        ST7735_DrawFastVLine(bot_R_x, top_L_y, 160, 0x630C); //right line
+        ST7735_DrawFastVLine(bot_R_x+1, top_L_y, 160, 0x630C); //right line again    
+    }else if(sprite ==1){//highlight to do
+        ST7735_DrawFastVLine(bot_R_x, top_L_y, 160, 0x475F); //right line
+        ST7735_DrawFastVLine(bot_R_x+1, top_L_y, 160, 0x475F); //right line again
+
+    }else if(sprite ==3){//highlight single counter
+        ST7735_DrawFastHLine(top_L_x+1, top_L_y+1, 22, 0x475F);  //top line
+        ST7735_DrawFastVLine(top_L_x+1, top_L_y+1, 22, 0x475F); //left line
+        ST7735_DrawFastHLine(top_L_x+1, bot_R_y-1, 22, 0x475F);  //bottom
+        ST7735_DrawFastVLine(bot_R_x-5, top_L_y+1, 22, 0x475F); //right line
+    }else if(sprite ==4){//print object on single counter
+        ST7735_DrawBitmap(top_L_x, bot_R_y, counter, 28, 24);
+        if(holdItem!=0){
+            uint16_t size = sprites[holdItem].w*sprites[holdItem].h;
+            unsigned short dark[size];
+        for(int i=0; i<size; i++){
+            if(sprites[holdItem].image[i]==0x630C){
+                dark[i] = 0x3186;
+            }else{
+                dark[i] = sprites[holdItem].image[i];
+            }
+        }
+            ST7735_DrawBitmap(((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, dark, sprites[holdItem].w, sprites[holdItem].h);
+        }
+    }else if(sprite == 5){//draws the to do button with highlight
+        ST7735_DrawFastHLine(top_L_x, top_L_y+150, 34, 0x0);  //top line
+        ST7735_DrawFastHLine(top_L_x, top_L_y-1+150, 34, 0x475F);  //top line
+        ST7735_DrawFastHLine(top_L_x, top_L_y-2+150, 32, 0x475F);  //top line
+        ST7735_DrawFastVLine(bot_R_x, top_L_y+150, 10,  0x475F); //right line
+        ST7735_DrawFastVLine(bot_R_x+1, top_L_y+150, 10, 0x475F); //right line again
+    }else if(sprite == 6){ //covers to do button
+        ST7735_DrawFastHLine(top_L_x, top_L_y-1+150, 34, 0x630C);  //top line
+        ST7735_DrawFastHLine(top_L_x, top_L_y-2+150, 34, 0x630C);  //top line
+        ST7735_DrawFastVLine(bot_R_x, top_L_y+150, 10, 0x630C); //right line
+        ST7735_DrawFastVLine(bot_R_x+1, top_L_y+150, 10, 0x630C); //right line again
+    }
 
  }
+
+ void Machine::setSprite(uint8_t s){
+    sprite = s;
+ }
+

@@ -218,25 +218,24 @@ int main4(void){ uint32_t last=0,now;
   }
 }
 
-typedef struct itemHeld{
-  const uint16_t* image;
-  uint8_t w;
-  uint8_t h;
-}itemHeld;
-//{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
-//SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
-itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
-            {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
-            {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {trash, 20, 20}};
-
 
 Player p1; //player 1
-Machine m_refiner(67, 10, 121, 45, 61, 15); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-Machine m_smelter(34, 112, 94, 160, 28, 127);
-Machine m_portal(104, 70, 128, 125, 0, 0);
+//(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY, proXL, proXR, proYT, proYB)
+Machine m_refiner(67, 10, 121, 45, 61, 15);
+Machine m_portal(104, 45, 128, 95, 0, 0);
+Machine m_cart1(5, 8, 36, 50, 0, 0);
+//(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
+Machine m_todo(0, 0, 32, 159, 0, 32, 75, 159, 0);
+
+uint8_t numCounters = 3;
+//(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
+Machine m_counter1(0, 75, 28, 99, 0, 30, 85, 93, 1);
+Machine m_counter2(0, 99, 28, 123, 0, 30, 109, 113, 1);
+Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 137, 1);
+Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -260,8 +259,17 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   p1.setPossession(1);
-  ST7735_SetCursor(10, 0);
-  ST7735_OutString((char*) "SCORE: ");
+  uint8_t scoreStart = 64;
+  uint8_t scoreY = 2;
+  uint8_t letterOffset = 6;
+  uint16_t color = 0xFFFF;
+  ST7735_DrawChar(scoreStart, scoreY, 'S', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset, scoreY, 'C', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*2, scoreY, 'O', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*3, scoreY, 'R', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*4, scoreY, 'E', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
+  ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -293,21 +301,15 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     machineOut = m_refiner.updateRefiner(input);  //update refiner
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 139, 20, 21, 0x630C);
-      if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
-      }
+      p1.printPosession(machineOut);
     }
 
-    input = p1.getMachineInput(m_smelter);
-    input|= buttons;
-    machineOut = m_smelter.updateSmelter(input);
+    input = p1.getMachineInput(m_cart1);
+    input |= buttons;
+    machineOut = m_cart1.updateCart(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 139, 20, 21, 0x630C);
-      if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
-      }
+      p1.printPosession(machineOut);
     }
 
     input = p1.getMachineInput(m_portal);
@@ -315,22 +317,40 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     machineOut = m_portal.updateTurnInArea(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
-      ST7735_FillRect(107, 139, 20, 21, 0x630C);
-      if(machineOut != 0){
-        ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+      p1.printPosession(machineOut);
+    }
+      input = p1.getMachineInput(Counters[0]);
+      input|= buttons;
+      machineOut = Counters[0].updateCounters(input, Counters);
+      if(machineOut==50){
+          continue;
+      }else if(machineOut==22){
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        m_cart1.printCart();
+        for(int i=1; i<numCounters+1; i++){
+          Counters[i].setSprite(4);
+          Counters[i].printCounters(Counters);
+        }
+      }else{
+          for(int i=1; i<numCounters+1; i++){
+          input = p1.getMachineInput(Counters[i]);
+          input|= buttons;
+          machineOut = Counters[i].updateCounters(input, Counters);
+          if(machineOut>-1 && machineOut<50){//player grabbed something from the main
+            p1.setPossession(machineOut);
+            p1.printPosession(machineOut);
+          }
+        }
       }
-    }
-    if(machineOut==100){
-      //print out the cart
-    }
   }
 }
 
 
+Machine m_smelter(34, 112, 94, 160, 92, 130);
 Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
 Machine m_rock(67, 8, 111, 42, 113, 17);
-Machine m_cart(5, 8, 36, 50, 0, 0);
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+Machine m_cart2(5, 8, 36, 50, 0, 0);
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -385,41 +405,41 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       ST7735_SetRotation(0); 
       p1.resetCoordinates();
     }
-    int8_t outMachine = 0;
+    int8_t machineOut = 0;
     //updating anvil
     input = p1.getMachineInput(m_anvil);
     input |= buttons;
-    outMachine = m_anvil.updateAnvil(input); 
-    if(outMachine > -1){
-      if(outMachine == 20){
+    machineOut = m_anvil.updateAnvil(input); 
+    if(machineOut > -1){
+      if(machineOut == 20){
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }else{
-        p1.setPossession(outMachine);
-        ST7735_FillRect(107, 139, 20, 21, 0x630C);
-        if(outMachine != 0){
-          ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
-        }
+        p1.setPossession(machineOut);
+        p1.printPosession(machineOut);
       }
     }
+
+    input = p1.getMachineInput(m_smelter);
+    input|= buttons;
+    machineOut = m_smelter.updateSmelter(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      p1.printPosession(machineOut);
+    }
+
     input = p1.getMachineInput(m_rock);
     input |= buttons;
-    outMachine = m_rock.updateRock(input);
-    if(outMachine > -1){
-      p1.setPossession(outMachine);
-      ST7735_FillRect(107, 139, 20, 21, 0x630C);
-      if(outMachine != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
-      }
+    machineOut = m_rock.updateRock(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      p1.printPosession(machineOut);
     }
-    input = p1.getMachineInput(m_cart);
+    input = p1.getMachineInput(m_cart2);
     input |= buttons;
-    outMachine = m_cart.updateCart(input);
-    if(outMachine > -1){
-      p1.setPossession(outMachine);
-      ST7735_FillRect(107, 139, 20, 21, 0x630C);
-      if(outMachine != 0){
-        ST7735_DrawBitmap(117-sprites[outMachine].w/2, 149+sprites[outMachine].h/2, sprites[outMachine].image, sprites[outMachine].w, sprites[outMachine].h);
-      }
+    machineOut = m_cart2.updateCart(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      p1.printPosession(machineOut);
     }
   }
 }

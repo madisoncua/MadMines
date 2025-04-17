@@ -28,6 +28,7 @@
      uint8_t getSize(void);
      uint8_t getPosession(void);
      void setPossession(uint8_t);
+     void printPosession(uint8_t);
 
      uint8_t checkProximity(Machine); //checks the proximity to any machine
      uint8_t getMachineInput(Machine);

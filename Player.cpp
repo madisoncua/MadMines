@@ -17,6 +17,8 @@
  uint8_t Player::getLast(){return last;} //return last
  uint8_t Player::getSize(){return size;}  //return size
 
+ extern itemHeld sprites[17];
+
 bool Player::moveUp(){
      if(last == 2 && posX < (160-size)){//left->up
         uint16_t temp = posX;
@@ -125,10 +127,17 @@ bool Player::moveRight(){
 
 uint8_t Player::checkProximity(Machine m){ //check the proximity to any given machine
 //note: there is no size account for the top and right side of the machine because bottom left corner is "close" to those sides for any given time
-uint8_t buffer = 5;
+uint8_t buffer = 2;
 //left --> right --> bottom --> top
- if((posX >= (m.top_L_x-size-buffer)) && (posX<= (m.bot_R_x+buffer)) && (posY <= (m.bot_R_y+size+buffer)) && (posY >= (m.top_L_y-buffer))){ //checks bounding box 
+ if((posX >= (m.proXL-size-buffer)) && (posX<= (m.proXR+buffer)) && (posY <= (m.proYB+size+buffer)) && (posY >= (m.proYT-buffer))){ //checks bounding box 
     return 1;
  } 
  return 0;
+ }
+
+ void Player::printPosession(uint8_t machineOut){
+  ST7735_FillRect(107, 139, 20, 21, 0x630C);
+  if(machineOut != 0){
+    ST7735_DrawBitmap(117-sprites[machineOut].w/2, 149+sprites[machineOut].h/2, sprites[machineOut].image, sprites[machineOut].w, sprites[machineOut].h);
+  }
  }
