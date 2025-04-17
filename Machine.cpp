@@ -621,10 +621,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             start1 = UART2_InChar();
             if(start1 == '<'){
                 val1 = UART2_InChar();
+                val2 = UART2_InChar();
             }else{
                 val1 = start1;
+                val2 = UART2_InChar();
+                UART2_InChar();
             }
-            val2 = UART2_InChar();
             if(val1 == val2){
                 holdItem = val1&material;
             }else{

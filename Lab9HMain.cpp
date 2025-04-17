@@ -346,7 +346,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 }
 
 
-Machine m_smelter(34, 112, 94, 160, 92, 130);
+Machine m_smelter(89, 81, 127, 135, 98, 139);
 Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
 Machine m_rock(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
