@@ -527,7 +527,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             return temp;
         }
         return -1;
-      case 1://leaving
+      case 1://leaving animation
         if(workTimer%12 == 0){
             printCart(sprite);
         }
@@ -571,7 +571,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         state++;
         return -1;
       case 3://wait state until cart is returned
-        uint8_t start0 = UART2_InChar();
+        uint8_t start0;
+        start0 = UART2_InChar();
         if(start0 == '<'){
             uint8_t val1, val2;
             uint8_t start1;
@@ -588,14 +589,26 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 holdItem = cartSendError(val1, val2);
             }
             //received an item
-            sprite = 0;
+            state++;
+            workTimer = 60;
+            sprite = 3;
+        }
+        return -1;
+      case 4://return after getting message
+        if(workTimer%12 == 0){
+            printCart(sprite);
+        }
+        if(workTimer == 0){
             state = 0;
+            sprite = 0;
             printCart(sprite);
             if(holdItem != EMPTY){  //print the item in the cart
-            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
-            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+                ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+                ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             }
+            return -1;
         }
+        workTimer--;
         return -1;
     }
  }
@@ -726,15 +739,29 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  }
 
  void Machine::printCart(uint8_t sprite){
-    static int i = 0;
+    static int8_t sent = 0;
+    static int8_t in = 5;
     if(sprite == 0){
         ST7735_DrawBitmap(top_L_x, bot_R_y+4, cart, 46, 43);
+        if(holdItem){
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite == 1){
         ST7735_DrawBitmap(top_L_x, bot_R_y+4, cartHighlight, 46, 43);
+        if(holdItem){
+            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite == 2){//cart leaving
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-i*7, cart+92, 46, 41);
-        i++;
-        i%=6;
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-sent*7, cart+92, 46, 41);
+        sent++;
+        sent%=6;
+    }else if(sprite == 3){//cart coming in
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-in*7, cart+92, 46, 41);
+        ST7735_FillRect(top_L_x, bot_R_y+2-in*7-43, 46, 7, 0x630C);
+        in--;
+        if(in == -1)in = 5;
     }
  }
 
