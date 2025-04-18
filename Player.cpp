@@ -9,7 +9,7 @@
     this->posX = 42;    
     this->posY = 102;
     this->last = 0; 
-    this->size = 24;
+    this->size = 26;
  }
 
  int16_t Player::getXPos(){return posX;} //return xPos

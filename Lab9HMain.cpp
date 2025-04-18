@@ -223,7 +223,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -343,7 +343,13 @@ Machine m_smelter(89, 76, 127, 130, 99, 68);
 Machine m_anvil(35, 130, 101, 159, 28, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
 Machine m_rock(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+
+//(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
+Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
+Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
+Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
+Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -433,6 +439,17 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     if(machineOut > -1){
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
+    }
+
+    //does counters
+    for(int i=0; i<numCounters; i++){
+      input = p1.getMachineInput(Counters2[i]);
+      input|= buttons;
+      machineOut = Counters2[i].updateCounters(input, Counters2);
+        if(machineOut>-1 && machineOut<50){//player grabbed something from the main
+          p1.setPossession(machineOut);
+          p1.printPosession(machineOut);
+        }
     }
   }
 }
