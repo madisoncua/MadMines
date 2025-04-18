@@ -225,7 +225,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -264,9 +264,9 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
   ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
   ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
-  uint16_t timer = 3600;
+  int16_t timer = 5400;
 
-  while(timer>0){
+  while(timer>=0){
     if(timer%30 == 0){
         ST7735_FillRect(0, 0, 40, 10, 0x630C);
         uint16_t seconds = timer/30;
@@ -281,6 +281,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
+    timer--;
     //buttons is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
     if(horiz < 1000){
@@ -371,7 +372,7 @@ Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -405,9 +406,9 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
-  uint16_t timer = 3600;
+  int16_t timer = 5400;
   //
-  while(timer>0){
+  while(timer>=0){
      if(timer%30 == 0){
         ST7735_FillRect(0, 0, 40, 10, 0x630C);
         uint16_t seconds = timer/30;

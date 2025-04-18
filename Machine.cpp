@@ -952,11 +952,11 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite == 2){//cart leaving
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-sent*7, cart+92, 46, 41);
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-sent*7, cart+92, 46, 41-sent*7);
         sent++;
         sent%=6;
     }else if(sprite == 3){//cart coming in
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-in*7, cart+92, 46, 41);
+        ST7735_DrawBitmap(top_L_x, bot_R_y+2-in*7, cart+92, 46, 41-in*7);
         ST7735_FillRect(top_L_x, bot_R_y+2-in*7-43, 46, 7, 0x630C);
         in--;
         if(in == -1)in = 5;
