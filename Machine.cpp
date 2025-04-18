@@ -13,7 +13,7 @@
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
 
-extern uint8_t menuOpen;
+extern uint8_t menuOpen, toDoOpen;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
@@ -273,24 +273,44 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         if(workTimer == 0){
             sprite = 0;
-            printRefiner();
+            if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
+                holdItem +=5;
+            }else{
+                holdItem = EMPTY;
+            }
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
-            state = 2;
-            return -1;
+            state++;
+            sprite = 0;
+            printRefiner();
         }
         return -1;
-      case 2: //done state (is this state actually necessary if we auto output to nearby counter?)
+      case 2: //done state 
         wasWorking = 0;
-        if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
-            uint8_t temp = holdItem;
-            holdItem = EMPTY;
-            state = 0;
-            return temp+5;
+        if((input&Prox)==0){
+            if(sprite!=0){
+                sprite = 0;
+                printRefiner();
+            }
         }else{
-            holdItem = EMPTY;
-            state = 0;
-            return TRASH;   //input was invalid to refining failed
+            if(sprite!=1){
+                sprite = 1;
+                printRefiner();
+            }
+            if(debounce > 0){   //debounce time after printing menu
+                debounce--;
+                return -1;
+            }
+            if((input&LButton)==0x20 && ((input&material)==EMPTY)){ //if LButton is pressed, eject from the menu screen (decrement state)
+                int temp = holdItem;
+                sprite = 0;
+                holdItem = 0;
+                printRefiner();
+                state = 0;
+                debounce = 10;
+                return temp;  //number that isn't an item to indicate reprint player
+            }
         }
+        return -1; 
     }
  }
  
@@ -556,14 +576,14 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     menuDebounce--;
                     return -1;
                 }
-                if((input&LButton)!=0 && ((input&material)==EMPTY)){ //if LButton is pressed, eject from the menu screen (decrement state)
+                if((input&LButton)==0x20 && ((input&material)==EMPTY)){ //if LButton is pressed, eject from the menu screen (decrement state)
+                    int temp = holdItem;
                     sprite = 0;
-                    printAnvil();
                     holdItem = 0;
-                    menuOpen = 0;
+                    printAnvil();
                     state = 0;
                     menuDebounce = 10;
-                    return holdItem;  //number that isn't an item to indicate reprint player
+                    return temp;  //number that isn't an item to indicate reprint player
                 }
             }
             return -1;  
@@ -827,6 +847,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     return 50;
                 }
                 if((input&RButton) == 0x40){//refreshes the counter
+                    toDoOpen = 0;
                     debounce = 20;
                     state = 3;
                     ST7735_FillRect(0, 0, 34, 159, 0x630C);
@@ -886,6 +907,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     return -1;
                 }
                 if((input&RButton) == 0x40){
+                    toDoOpen = 1;
                     state = 0;
                     sprite = 0;
                     debounce = 20;
@@ -906,8 +928,32 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  void Machine::printRefiner(){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, refiner, 61, 35);
+        if(holdItem!=0){
+             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+             unsigned short blendedItem[size];
+             for(int i=0; i<size; i++){
+                 if(sprites[holdItem].image[i] == 0x630C){
+                     blendedItem[i] = 0xFC47;
+                 }else{
+                    blendedItem[i] = sprites[holdItem].image[i];
+                 }
+            }
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite==1){ //highlighted refiner
         ST7735_DrawBitmap(top_L_x, bot_R_y, refinerHighlight, 61, 35);
+        if(holdItem!=0){
+             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+             unsigned short blendedItem[size];
+             for(int i=0; i<size; i++){
+                 if(sprites[holdItem].image[i] == 0x630C){
+                     blendedItem[i] = 0xFC47;
+                 }else{
+                    blendedItem[i] = sprites[holdItem].image[i];
+                 }
+            }
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite==2){ //working refiner
         ST7735_DrawBitmap(top_L_x, bot_R_y, refinerWorking, 61, 35);
     }
@@ -918,17 +964,31 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvil, 66, 30);
         if(holdItem!=0){
-            uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
-            unsigned short blendedItem[size];
-            for(int i=0; i<size; i++){
-                if(sprites[holdItem].image[i] == 0x630C){
-                    blendedItem[i] = 0x3186;
-                }
+             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+             unsigned short blendedItem[size];
+             for(int i=0; i<size; i++){
+                 if(sprites[holdItem].image[i] == 0x630C){
+                     blendedItem[i] = 0x3186;
+                 }else{
+                    blendedItem[i] = sprites[holdItem].image[i];
+                 }
             }
-            ST7735_DrawBitmap(((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite==1){ //highlighted anvil
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvilHighlight, 66, 30);
+        if(holdItem!=0){
+             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+             unsigned short blendedItem[size];
+             for(int i=0; i<size; i++){
+                 if(sprites[holdItem].image[i] == 0x630C){
+                     blendedItem[i] = 0x3186;
+                 }else{
+                    blendedItem[i] = sprites[holdItem].image[i];
+                 }
+            }
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite==2){ //working anvil
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvilWorking, 66, 30);
     }else if(sprite == 3){//print menu

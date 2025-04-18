@@ -40,6 +40,7 @@ void PLL_Init(void){ // set phase lock loop (PLL)
 SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 int8_t menuOpen;
+int8_t toDoOpen;
 // games  engine runs at 30Hz
 void TIMG12_IRQHandler(void){uint32_t pos, msg;
   if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
@@ -127,18 +128,7 @@ int main2(void){ // main2
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   //ST7735_FillScreen(ST7735_BLACK);
   ST7735_FillScreen(ST7735_Color565(0x96, 0x4B, 0x00));
-  ST7735_DrawBitmap(60, 80, rock, 44,34);
-  ST7735_DrawBitmap(90, 95, Emerald, 9,12);
-  ST7735_DrawBitmap(70, 95, Ruby, 9,12);
-  ST7735_DrawBitmap(50, 95, Diamond, 9,12);
-  ST7735_SetRotation(1);
-  ST7735_DrawBitmap(50, 95, Diamond, 9,12);
-  ST7735_SetRotation(2);
-  ST7735_DrawBitmap(50, 95, Diamond, 9,12);
-  ST7735_SetRotation(3);
-  ST7735_DrawBitmap(50, 95, Diamond, 9,12);
-  ST7735_SetRotation(0);
-  ST7735_DrawBitmap(50, 95, Diamond, 9,12);
+
   //ST7735_DrawBitmap(100, 80, miner_sprite, 30,38);
   //ST7735_DrawBitmap(20, 50, emerald, 18,21);
   /*
@@ -225,7 +215,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -247,6 +237,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   // initialize all data structures
   __enable_irq();
   m_rock1.setRockType(1);//only gives metal (silver or gold)
+  m_cart1.setSprite(4);
+  m_cart1.printCart();
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
@@ -372,7 +364,7 @@ Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -395,6 +387,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   // initialize all data structures
   __enable_irq();
   menuOpen = 0;
+  toDoOpen = 0;
   uint8_t cursorStart = 1;
   uint8_t scoreY = 2;
   uint8_t letterOffset = 6;
@@ -408,9 +401,9 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   int16_t timer = 5400;
   //
-  while(timer>=0){
+  while(timer>=0 && toDoOpen == 0){
      if(timer%30 == 0){
-        ST7735_FillRect(0, 0, 40, 10, 0x630C);
+        ST7735_FillRect(0, 0, 60, 11, 0x630C);
         uint16_t seconds = timer/30;
         uint16_t minute = (seconds/60);
         seconds %= 60;
