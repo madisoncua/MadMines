@@ -168,7 +168,7 @@ static int ToDoArr[5] = {1,2,3,4,5};
                      }
                 }
              }else{
-                if((input&LButton) == 0){
+                if((input&LButton) == 0 || (input&material) != EMPTY){
                     if(sprite!=1){
                     sprite = 1;
                     printSmelter();
@@ -364,12 +364,12 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
             halfway = 0;
             wasWorking = 0;
             sprite = 0;
-            state ++;
+            state++;
             workTimer = 15;
             printRock();
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             uint8_t randOre = (holdItem)? (SysTick->VAL&1)+1: (SysTick->VAL%3)+3; //gives random metal or random gem
-            return randOre;
+            return ((input&material) == EMPTY)? randOre : -1;
         }
         return -1;
         case 2: //small refresh delay before rock can be used again
@@ -598,7 +598,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             return -1;
         }
         if(debounce > 0)return -1;
-        if((input&LButton) == 0x20 && (input&material) != EMPTY){   //player puts item in cart
+        if((input&LButton) == 0x20 && (input&material) != EMPTY && holdItem == EMPTY){   //player puts item in cart
             debounce = 10;
             holdItem = input&material;      //print item in cart
             ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
