@@ -474,23 +474,3 @@ void SysTick_Handler(void){ //place holder until sound set up
   //   songIndex = 0;
   // }
 }
-
-int mainAnvil(){ //mainTestAnvil
-  int8_t list0[5] = {6, 6, 10, 0, 0};
-  int8_t test;
-  test = m_anvil.computeRecipe(list0, 5);
-  assert(test == 15);
-  int8_t list1[5] = {10, 6, 6, 0, 0};
-  test = m_anvil.computeRecipe(list1, 5);
-  assert(test == 15);
-  int8_t list2[5] = {6, 6, 10, 2, 0};
-  test = m_anvil.computeRecipe(list2, 5);
-  assert(test == 16);
-  int8_t list3[5] = {6, 6, 6, 0, 0};
-  test = m_anvil.computeRecipe(list3, 5);
-  assert(test == 16);
-  int8_t list4[5] = {6, 10, 6, 0, 0};
-  test = m_anvil.computeRecipe(list4, 5);
-  assert(test == 15);
-
-}

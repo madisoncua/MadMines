@@ -379,16 +379,16 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
     if(len <3)return TRASH;
     uint8_t used[len];
+    uint8_t itemSizes[5] = {3, 4, 4, 5, 3};
     for (int k = 0; k < 5; k++) {   //test each item
-        uint8_t itemSize = 0;
-        while(recipes[k][++itemSize] != 0 && itemSize < 6);
+        if(itemSizes[k] != len)continue;
         for (int i = 0; i<len; i++) {
             used[i] = 0;
         }
         uint8_t isItem = 1;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < itemSizes[k]; i++){
             uint8_t found = 0;
-            for (int j = 0; list[j]>0 || j < 5; j++) {
+            for (int j = 0; j<len; j++) {
                 if(used[j])continue;
                 if(recipes[k][i] == list[j]){
                     found = 1;
