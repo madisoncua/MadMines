@@ -98,8 +98,8 @@ static int ToDoArr[5] = {1,2,3,4,5};
     bot_R_x = BRX;
     bot_R_y = BRY;
     workTimer = 0;
-    progX = 0;
-    progY = 0;
+    progX = PBX;
+    progY = PBY;
     proXL = XL;
     proXR =  XR; //right proximity
     proYT =  YT; //top proximity
@@ -300,33 +300,40 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 
  int8_t Machine::updateRock(uint8_t input){
     static uint8_t wasWorking = 0;
+    static uint8_t halfway = 0;
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
-            if(sprite == 1){ //don't reprint if already default
-                sprite = 0;
-                printRock();
-            }
-            if(sprite == 3){
-                sprite = 2;
-                printRock();
+            if(halfway==0){
+                if(sprite!=0){
+                    sprite = 0;
+                    printRock();
+                }
+            }else{
+                if(sprite!=2){
+                    sprite = 2;
+                    printRock();
+                }
             }
             return -1;
         }else{//print highlighted state
-            if(sprite == 0){
-                sprite = 1;
-                printRock();
-            } //don't reprint if already highlighted
-            if(sprite == 2){
-                sprite = 3;
-                printRock();
+            if(halfway==0){
+                if(sprite!=1){
+                    sprite = 1;
+                    printRock();
+                }
+            }else{
+                if(sprite!=3){
+                    sprite = 3;
+                    printRock();
+                }
             }
         }
         if((input&RButton) == 0x40){
-            sprite = 0;
-            printRock();
             state++;
             if(!wasWorking){
+                sprite = 0;
+                printRock();
                 workTimer = 150;    //5 sec of work time
                 wasWorking = 1;
                 ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
@@ -338,12 +345,11 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
         }
         return -1;
       case 1://mining
-        if(((input&RButton) == 0 || (input&Prox) == 0) && workTimer > 75){
+        if(((input&RButton) == 0 || (input&Prox) == 0)){
             state--;
             wasWorking = 1;
             return -1;
         }
-        if((input&RButton) == 0)return -1;
         workTimer--;
         if(workTimer%15 == 0){
             ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
@@ -352,8 +358,10 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
         if(workTimer == 75){    //print cracked halfway through
             sprite = 2;
             printRock();
+            halfway = 1;
         }
         if(workTimer == 0){
+            halfway = 0;
             wasWorking = 0;
             sprite = 0;
             state ++;
@@ -364,8 +372,7 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
             return randOre;
         }
         return -1;
-
-        case 2:
+        case 2: //small refresh delay before rock can be used again
             workTimer--;
             if(workTimer==0){
                 state = 0;
@@ -525,14 +532,42 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
             if(workTimer == 0){
                 wasWorking = 0;
-                uint8_t creation = computeRecipe(AnvilItems, anvilLength);
+                holdItem = computeRecipe(AnvilItems, anvilLength);
                 anvilLength = 0;
                 ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
-                sprite = 0;
-                state = 0;
-                return creation;
+                sprite = 4;
+                printAnvil();
+                state++;
+                return -1;
             }
             return -1;
+        case 3://done
+            if((input&Prox)==0){
+                if(sprite!=0){
+                    sprite = 0;
+                    printAnvil();
+                }
+            }else{
+                if(sprite!=1){
+                    sprite = 1;
+                    printAnvil();
+                }
+                if(menuDebounce > 0){   //debounce time after printing menu
+                    menuDebounce--;
+                    return -1;
+                }
+                if((input&LButton)!=0 && ((input&material)==EMPTY)){ //if LButton is pressed, eject from the menu screen (decrement state)
+                    sprite = 0;
+                    printAnvil();
+                    holdItem = 0;
+                    menuOpen = 0;
+                    state = 0;
+                    menuDebounce = 10;
+                    return holdItem;  //number that isn't an item to indicate reprint player
+                }
+            }
+            return -1;  
+            
      }
 
  }
@@ -697,7 +732,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  }
 
  int8_t Machine::updateTurnInArea(uint8_t input){
-    static int score = 0;
+    static int16_t score = 0;
     switch(state){
         case 0:
         if((input&Prox) == 0){
@@ -817,7 +852,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     sprite = 3;
                     printCounters(m);
                 }
-                if((input&LButton) == 0x20 && (input&material) != EMPTY){ //take item from player
+                if(((input&LButton) == 0x20) && ((input&material) != EMPTY) && (holdItem==0)){ //take item from player
                     holdItem = input&material;
                     sprite = 4;
                     printCounters(m); 
@@ -882,6 +917,16 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  void Machine::printAnvil(){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvil, 66, 30);
+        if(holdItem!=0){
+            uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+            unsigned short blendedItem[size];
+            for(int i=0; i<size; i++){
+                if(sprites[holdItem].image[i] == 0x630C){
+                    blendedItem[i] = 0x3186;
+                }
+            }
+            ST7735_DrawBitmap(((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+        }
     }else if(sprite==1){ //highlighted anvil
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvilHighlight, 66, 30);
     }else if(sprite==2){ //working anvil
@@ -889,7 +934,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     }else if(sprite == 3){//print menu
         ST7735_DrawBitmap(25, 112, anvilMenu, 78, 64);
     }
-
  }
 
  void Machine::printCart(){
@@ -928,12 +972,15 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite == 2){
         ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
-    }else if(sprite == 3){
-        ST7735_DrawBitmap(top_L_x, bot_R_x, rockCrackHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+    }else if(sprite == 3){ //cracked highlights
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rockCrackHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }
  }
 
  void Machine::printSmelter(){
+    if(menuOpen==1){
+         return;
+    }
     if(sprite == 0){//defaul 
         ST7735_DrawBitmap(top_L_x, bot_R_y, smelter, (bot_R_x-top_L_x), (bot_R_y-top_L_y));    
     }else if(sprite == 1){ //highlight

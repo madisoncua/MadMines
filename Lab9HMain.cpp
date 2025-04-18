@@ -225,7 +225,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -251,6 +251,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
+  uint8_t cursorStart = 1;
   uint8_t scoreStart = 64;
   uint8_t scoreY = 2;
   uint8_t letterOffset = 6;
@@ -263,7 +264,19 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
   ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
   ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
-  while(1){
+  uint16_t timer = 3600;
+
+  while(timer>0){
+    if(timer%30 == 0){
+        ST7735_FillRect(0, 0, 40, 10, 0x630C);
+        uint16_t seconds = timer/30;
+        uint16_t minute = (seconds/60);
+        seconds %= 60;
+        ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
+        ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
+        ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
+        ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
+    }
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
@@ -347,9 +360,9 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   }
 }
 
-
+//uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
 Machine m_smelter(89, 76, 127, 130, 99, 68);
-Machine m_anvil(35, 130, 101, 159, 28, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
+Machine m_anvil(35, 130, 101, 159, 28, 136, 43, 101, 130, 159); 
 Machine m_rock2(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
 
@@ -358,7 +371,7 @@ Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -381,6 +394,10 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   // initialize all data structures
   __enable_irq();
   menuOpen = 0;
+  uint8_t cursorStart = 1;
+  uint8_t scoreY = 2;
+  uint8_t letterOffset = 6;
+  uint16_t color = 0xFFFF;
   ST7735_FillScreen(0x630C);
   m_rock2.setRockType(0);//this rock only return gems
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
@@ -388,13 +405,25 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
-  while(1){
+  uint16_t timer = 3600;
+  //
+  while(timer>0){
+     if(timer%30 == 0){
+        ST7735_FillRect(0, 0, 40, 10, 0x630C);
+        uint16_t seconds = timer/30;
+        uint16_t minute = (seconds/60);
+        seconds %= 60;
+        ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
+        ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
+        ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
+        ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
+    }
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
-    //buttons is global variable with PA25 and PA24 in bits 6-5
-    //updating player graphics 
+    timer--;
+
     if(!menuOpen){
       if(horiz < 1000){
         change |= p1.moveRight();
