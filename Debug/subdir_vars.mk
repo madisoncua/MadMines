@@ -6,23 +6,23 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Clock.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/DAC5.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/DAC5.cpp \
 ../FIFO2.cpp \
 ../IRxmt.cpp \
 ../LED.cpp \
 ../Lab9HMain.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp \
 ../Machine.cpp \
 ../Player.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/SPI.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/ST7735.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/SPI.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/ST7735.cpp \
 ../SlidePot.cpp \
 ../SmallFont.cpp \
 ../Sound.cpp \
 ../Switch.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/Timer.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
+C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp \
 ../UART2.cpp 
 
 CMD_SRCS += \
@@ -109,23 +109,23 @@ CPP_DEPS__QUOTED += \
 "UART2.d" 
 
 CPP_SRCS__QUOTED += \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/Clock.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/DAC5.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/DAC5.cpp" \
 "../FIFO2.cpp" \
 "../IRxmt.cpp" \
 "../LED.cpp" \
 "../Lab9HMain.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp" \
 "../Machine.cpp" \
 "../Player.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/SPI.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/ST7735.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/SPI.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/ST7735.cpp" \
 "../SlidePot.cpp" \
 "../SmallFont.cpp" \
 "../Sound.cpp" \
 "../Switch.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/Timer.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp" \
+"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp" \
 "../UART2.cpp" 
 
 
