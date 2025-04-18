@@ -122,16 +122,16 @@ static int ToDoArr[5] = {1,2,3,4,5};
                     printSmelter();
                 }
              }
-             if((input&LButton) == 0x20 && (input&material)==1 || (input&material)==2){
+             if((input&LButton) == 0x20 && ((input&material)==1 || (input&material)==2)){
                 holdItem = input&material;
                 workTimer = 150; //set work timer
                 sprite = 2; //set sprite to working sprite
                 printSmelter();
-                ST7735_DrawFastHLine(progX, progY, progW, 0x0);  //top line
-                ST7735_DrawFastVLine(progX, progY, progH, 0x0); //left line
-                ST7735_DrawFastHLine(progX, progY+progH-1, progW, 0x0);  //bottom
-                ST7735_DrawFastVLine(progX+progW-1, progY, progH, 0x0); //right line
-                ST7735_FillRect(progX+1, progY+1, progW-2, progH-2, 0x4208); //fills inside of empty progress bar
+                ST7735_DrawFastHLine(progX, progY, progH, 0x0);  //top line
+                ST7735_DrawFastVLine(progX, progY, progW, 0x0); //left line
+                ST7735_DrawFastHLine(progX, progY+progW-1, progH, 0x0);  //bottom
+                ST7735_DrawFastVLine(progX+progH-1, progY, progW, 0x0); //right line
+                ST7735_FillRect(progX+1, progY+1, progH-2, progW-2, 0x4208); //fills inside of empty progress bar
                 state++;
                  //output a sound??
                 return EMPTY;               //tells the main to empty player's hand
@@ -141,13 +141,13 @@ static int ToDoArr[5] = {1,2,3,4,5};
             workTimer--;
             if(workTimer==0){
                 //output sound???
-                ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
+                ST7735_FillRect(progX, progY, progH, progW, 0x630C); //fills inside of empty progress bar
                 state++;
                 workTimer = 150;//this is the done timer
                 return -1;
             }
             if(workTimer%15==0){
-                ST7735_FillRect(progX+1, progY+progH-2*((150-workTimer)/15)-1, progW-2, (progH-2)/10, 0x001F);
+                ST7735_FillRect(progX+progH-2*((150-workTimer)/15)-1, progY+1, (progH-2)/10, progW-2, 0x001F);
             }
             return -1;
          case 2: //done
@@ -913,21 +913,21 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
 
  void Machine::printRock(){
     if(sprite == 0){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, rock, 44, 34);    //default rock
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));    //default rock
     }else if(sprite == 1){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, 44, 34);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite == 2){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, 44, 34);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }
  }
 
  void Machine::printSmelter(){
     if(sprite == 0){//defaul 
-        ST7735_DrawBitmap(top_L_x, bot_R_y, smelter, 60, 48);    
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelter, (bot_R_x-top_L_x), (bot_R_y-top_L_y));    
     }else if(sprite == 1){ //highlight
-        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterHighlight, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite == 2){//working
-        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterWorking, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterWorking, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite == 3){ //red scaled image
         unsigned short red[2880];
         for(int i=0; i<2880; i++){
@@ -949,11 +949,11 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 red[i] = (red565 >> 8) | (red565 << 8);
             }
         }
-        ST7735_DrawBitmap(top_L_x, bot_R_y, red, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, red, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite==4){//failed
-        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFail, 60, 48);  
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFail, (bot_R_x-top_L_x), (bot_R_y-top_L_y));  
     }else if(sprite==5){//failed highlight
-        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFailHighlight, 60, 48);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, smelterFailHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }
  }
  
@@ -1016,7 +1016,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 dark[i] = sprites[holdItem].image[i];
             }
         }
-            ST7735_DrawBitmap(((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, dark, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_DrawBitmap(((bot_R_x-4-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, dark, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite == 5){//draws the to do button with highlight
         ST7735_DrawFastHLine(top_L_x, top_L_y+150, 34, 0x0);  //top line

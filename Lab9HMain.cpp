@@ -178,18 +178,6 @@ int main2(void){ // main2
   
 }
 
-// use main3 to test switches and LEDs
-int main3(void){ // main3
-  __disable_irq();
-  PLL_Init(); // set bus speed
-  LaunchPad_Init();
-  Switch_Init(); // initialize switches
-  LED_Init(); // initialize LED
-  while(1){
-    // write code to test switches and LEDs
-
-  }
-}
 // use main4 to test sound outputs
 int main4(void){ uint32_t last=0,now;
   __disable_irq();
@@ -226,13 +214,13 @@ Machine m_portal(104, 45, 128, 95, 0, 0);
 Machine m_cart1(5, 8, 36, 50, 0, 0, 0, 0, 3);
 Machine m_rock1(58, 125, 102, 159, 52, 134);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
-Machine m_todo(0, 0, 32, 159, 0, 32, 75, 159, 0);
+Machine m_todo(0, 0, 32, 159, 0, 32, 90, 159, 3);
 
 uint8_t numCounters = 3;
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
-Machine m_counter1(0, 75, 28, 99, 0, 30, 85, 93, 1);
-Machine m_counter2(0, 99, 28, 123, 0, 30, 109, 113, 1);
-Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 137, 1);
+Machine m_counter1(0, 75, 28, 99, 0, 30, 85, 89, 1);
+Machine m_counter2(0, 99, 28, 123, 0, 30, 109, 110, 1);
+Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
@@ -250,7 +238,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
-    //Wireless Inits
+  //Wireless Inits
   IRxmt_Init();   //transmitter PA8
   UART2_Init();   //just receive, PA22, receiver timeout synchronization
     // initialize interrupts on TimerG12 at 30 Hz
@@ -273,6 +261,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawChar(scoreStart+letterOffset*4, scoreY, 'E', color, 0x630C, 1);
   ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
   ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
+  ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
   while(1){
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -307,14 +296,6 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
       p1.printPosession(machineOut);
     }
 
-    input = p1.getMachineInput(m_cart1);
-    input |= buttons;
-    machineOut = m_cart1.updateCart(input);
-    if(machineOut > -1){
-      p1.setPossession(machineOut);
-      p1.printPosession(machineOut);
-    }
-
     input = p1.getMachineInput(m_rock1);
     input |= buttons;
     machineOut = m_rock1.updateRock(input);
@@ -343,6 +324,15 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
           Counters[i].printCounters(Counters);
         }
       }else{
+        //does cart
+          input = p1.getMachineInput(m_cart1);
+          input |= buttons;
+          machineOut = m_cart1.updateCart(input);
+          if(machineOut > -1){
+            p1.setPossession(machineOut);
+            p1.printPosession(machineOut);
+          }
+          //does counters
           for(int i=1; i<numCounters+1; i++){
           input = p1.getMachineInput(Counters[i]);
           input|= buttons;
@@ -357,10 +347,16 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 }
 
 
-Machine m_smelter(89, 81, 127, 135, 98, 139);
-Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
+Machine m_smelter(89, 76, 127, 130, 99, 68);
+Machine m_anvil(35, 130, 101, 159, 28, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
 Machine m_rock2(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
+
+//(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
+Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
+Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
+Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
+Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
 int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
@@ -453,6 +449,17 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     if(machineOut > -1){
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
+    }
+
+    //does counters
+    for(int i=0; i<numCounters; i++){
+      input = p1.getMachineInput(Counters2[i]);
+      input|= buttons;
+      machineOut = Counters2[i].updateCounters(input, Counters2);
+        if(machineOut>-1 && machineOut<50){//player grabbed something from the main
+          p1.setPossession(machineOut);
+          p1.printPosession(machineOut);
+        }
     }
   }
 }
