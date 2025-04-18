@@ -3,6 +3,7 @@
 // Lab 9 ECE319H
 // Evan Roberts and Madison Cua
 // Last Modified: 4/11/2025
+#include <cassert>
 #include <stdio.h>
 #include <stdint.h>
 #include <ti/devices/msp/msp.h>
@@ -211,7 +212,7 @@ Player p1; //player 1
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY, proXL, proXR, proYT, proYB)
 Machine m_refiner(67, 10, 121, 45, 61, 15);
 Machine m_portal(104, 45, 128, 95, 0, 0);
-Machine m_cart1(5, 8, 36, 50, 0, 0, 0, 0, 3);
+Machine m_cart1(5, 8, 36, 50, 5, 36, 8, 50, 3);
 Machine m_rock1(58, 125, 102, 159, 52, 134);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_todo(0, 0, 32, 159, 0, 32, 90, 159, 3);
@@ -224,7 +225,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -357,7 +358,7 @@ Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -472,4 +473,24 @@ void SysTick_Handler(void){ //place holder until sound set up
   // }else{
   //   songIndex = 0;
   // }
+}
+
+int mainAnvil(){ //mainTestAnvil
+  int8_t list0[5] = {6, 6, 10, 0, 0};
+  int8_t test;
+  test = m_anvil.computeRecipe(list0, 5);
+  assert(test == 15);
+  int8_t list1[5] = {10, 6, 6, 0, 0};
+  test = m_anvil.computeRecipe(list1, 5);
+  assert(test == 15);
+  int8_t list2[5] = {6, 6, 10, 2, 0};
+  test = m_anvil.computeRecipe(list2, 5);
+  assert(test == 16);
+  int8_t list3[5] = {6, 6, 6, 0, 0};
+  test = m_anvil.computeRecipe(list3, 5);
+  assert(test == 16);
+  int8_t list4[5] = {6, 10, 6, 0, 0};
+  test = m_anvil.computeRecipe(list4, 5);
+  assert(test == 15);
+
 }

@@ -303,16 +303,24 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
-            if(sprite !=0){ //don't reprint if already default
+            if(sprite == 1){ //don't reprint if already default
                 sprite = 0;
+                printRock();
+            }
+            if(sprite == 3){
+                sprite = 2;
                 printRock();
             }
             return -1;
         }else{//print highlighted state
-            if(sprite!=1){
+            if(sprite == 0){
                 sprite = 1;
                 printRock();
             } //don't reprint if already highlighted
+            if(sprite == 2){
+                sprite = 3;
+                printRock();
+            }
         }
         if((input&RButton) == 0x40){
             sprite = 0;
@@ -371,12 +379,14 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
     if(len <3)return TRASH;
     uint8_t used[len];
-    for (int k = 0; k < 5; k++) {
+    for (int k = 0; k < 5; k++) {   //test each item
+        uint8_t itemSize = 0;
+        while(recipes[k][++itemSize] != 0 && itemSize < 6);
         for (int i = 0; i<len; i++) {
             used[i] = 0;
         }
         uint8_t isItem = 1;
-        for (int i = 0; i < 3; i++) { //testing the sword
+        for (int i = 0; i < 3; i++) {
             uint8_t found = 0;
             for (int j = 0; list[j]>0 || j < 5; j++) {
                 if(used[j])continue;
@@ -918,6 +928,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }else if(sprite == 2){
         ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+    }else if(sprite == 3){
+        ST7735_DrawBitmap(top_L_x, bot_R_x, rockCrackHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
     }
  }
 
