@@ -625,7 +625,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }else{
                 val1 = start1;
                 val2 = UART2_InChar();
-                UART2_InChar();
+                UART2_InChar(); //pull the extra item out of the fifo
             }
             if(val1 == val2){
                 holdItem = val1&material;
@@ -903,6 +903,8 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         ST7735_FillRect(top_L_x, bot_R_y+2-in*7-43, 46, 7, 0x630C);
         in--;
         if(in == -1)in = 5;
+    }else if(sprite == 4){
+        ST7735_DrawBitmap(top_L_x+13, bot_R_y+4, ladder, 20, 44);
     }
  }
 

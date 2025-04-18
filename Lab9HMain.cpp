@@ -235,7 +235,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 137, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -249,6 +249,9 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
+    //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
     // initialize interrupts on TimerG12 at 30 Hz
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
@@ -350,7 +353,7 @@ Machine m_smelter(89, 81, 127, 135, 98, 139);
 Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
 Machine m_rock(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
