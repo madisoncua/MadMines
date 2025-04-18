@@ -59,6 +59,7 @@ class Machine{
 
     uint8_t computeRecipe(int8_t*, int8_t);
     void updateAnvilMenu(int8_t*, int8_t);
+    void setRockType(uint8_t);
 };
 
 #endif

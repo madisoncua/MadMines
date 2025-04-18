@@ -294,6 +294,9 @@ int8_t Machine::updateRefiner(uint8_t input){
     }
  }
  
+void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or gems
+    holdItem = isMetal;
+}
 
  int8_t Machine::updateRock(uint8_t input){
     static uint8_t wasWorking = 0;
@@ -346,10 +349,10 @@ int8_t Machine::updateRefiner(uint8_t input){
             wasWorking = 0;
             sprite = 0;
             state ++;
-            workTimer = 50;
+            workTimer = 15;
             printRock();
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
-            uint8_t randOre = SysTick->VAL%5+1; //should return random 1-5 (not sure how random though)
+            uint8_t randOre = (holdItem)? (SysTick->VAL&1)+1: (SysTick->VAL%3)+3; //gives random metal or random gem
             return randOre;
         }
         return -1;

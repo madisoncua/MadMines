@@ -56,7 +56,7 @@ void UART2_Enable(void){
 // Input: none
 // Output: Return 0 if the FIFO2 is empty
 //         Return nonzero data from the FIFO1 if available
-char UART2_InChar(void){char out;
+char UART2_InChar(void){
 // write this
 char letter;
 FIFO2.Get(&letter); 

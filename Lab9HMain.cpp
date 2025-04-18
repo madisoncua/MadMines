@@ -223,7 +223,8 @@ Player p1; //player 1
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY, proXL, proXR, proYT, proYB)
 Machine m_refiner(67, 10, 121, 45, 61, 15);
 Machine m_portal(104, 45, 128, 95, 0, 0);
-Machine m_cart1(5, 8, 36, 50, 0, 0);
+Machine m_cart1(5, 8, 36, 50, 0, 0, 0, 0, 3);
+Machine m_rock1(58, 125, 102, 159, 52, 134);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_todo(0, 0, 32, 159, 0, 32, 75, 159, 0);
 
@@ -235,7 +236,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 137, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -256,12 +257,11 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
   __enable_irq();
-  p1.setPossession(3);
+  m_rock1.setRockType(1);//only gives metal (silver or gold)
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
-  p1.setPossession(1);
   uint8_t scoreStart = 64;
   uint8_t scoreY = 2;
   uint8_t letterOffset = 6;
@@ -315,6 +315,14 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       p1.printPosession(machineOut);
     }
 
+    input = p1.getMachineInput(m_rock1);
+    input |= buttons;
+    machineOut = m_rock1.updateRock(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      p1.printPosession(machineOut);
+    }
+
     input = p1.getMachineInput(m_portal);
     input|= buttons;
     machineOut = m_portal.updateTurnInArea(input);
@@ -351,9 +359,9 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 
 Machine m_smelter(89, 81, 127, 135, 98, 139);
 Machine m_anvil(35, 130, 101, 159, 31, 136); //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY)
-Machine m_rock(67, 8, 111, 42, 113, 17);
+Machine m_rock2(67, 8, 111, 42, 113, 17);
 Machine m_cart2(5, 8, 36, 50, 0, 0);
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -377,6 +385,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
   menuOpen = 0;
   ST7735_FillScreen(0x630C);
+  m_rock2.setRockType(0);//this rock only return gems
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
@@ -415,6 +424,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     machineOut = m_anvil.updateAnvil(input); 
     if(machineOut > -1){
       if(machineOut == 20){
+        m_cart2.printCart();
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }else{
         p1.setPossession(machineOut);
@@ -430,9 +440,9 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       p1.printPosession(machineOut);
     }
 
-    input = p1.getMachineInput(m_rock);
+    input = p1.getMachineInput(m_rock2);
     input |= buttons;
-    machineOut = m_rock.updateRock(input);
+    machineOut = m_rock2.updateRock(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
