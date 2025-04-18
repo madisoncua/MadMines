@@ -287,13 +287,13 @@ int8_t Machine::updateRefiner(uint8_t input){
       case 2: //done state 
         wasWorking = 0;
         if((input&Prox)==0){
-            if(sprite!=0){
-                sprite = 0;
+            if(sprite!=3){
+                sprite = 3;
                 printRefiner();
             }
         }else{
-            if(sprite!=1){
-                sprite = 1;
+            if(sprite!=4){
+                sprite = 4;
                 printRefiner();
             }
             if(debounce > 0){   //debounce time after printing menu
@@ -928,20 +928,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  void Machine::printRefiner(){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, refiner, 61, 35);
-        if(holdItem!=0){
-             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
-             unsigned short blendedItem[size];
-             for(int i=0; i<size; i++){
-                 if(sprites[holdItem].image[i] == 0x630C){
-                     blendedItem[i] = 0xFC47;
-                 }else{
-                    blendedItem[i] = sprites[holdItem].image[i];
-                 }
-            }
-            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
-        }
     }else if(sprite==1){ //highlighted refiner
         ST7735_DrawBitmap(top_L_x, bot_R_y, refinerHighlight, 61, 35);
+    }else if(sprite==2){ //working refiner
+        ST7735_DrawBitmap(top_L_x, bot_R_y, refinerWorking, 61, 35);
+    }else if(sprite ==3){//not highlighted in done state
+        ST7735_DrawBitmap(top_L_x, bot_R_y, refiner, 61, 35);
         if(holdItem!=0){
              uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
              unsigned short blendedItem[size];
@@ -952,10 +944,23 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     blendedItem[i] = sprites[holdItem].image[i];
                  }
             }
-            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x+4-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-4-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
         }
-    }else if(sprite==2){ //working refiner
-        ST7735_DrawBitmap(top_L_x, bot_R_y, refinerWorking, 61, 35);
+    }else if(sprite ==4){//highlighted in done state
+         ST7735_DrawBitmap(top_L_x, bot_R_y, refinerHighlight, 61, 35);
+        if(holdItem!=0){
+             uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
+             unsigned short blendedItem[size];
+             for(int i=0; i<size; i++){
+                 if(sprites[holdItem].image[i] == 0x630C){
+                     blendedItem[i] = 0xFC47;
+                 }else{
+                    blendedItem[i] = sprites[holdItem].image[i];
+                 }
+            }
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x+4-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-4-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+        }
+
     }
 
  }
@@ -964,6 +969,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     if(sprite==0){ //default
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvil, 66, 30);
         if(holdItem!=0){
+            ST7735_FillRect(top_L_x+14, top_L_y+4, 38, 26, 0x3186);
              uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
              unsigned short blendedItem[size];
              for(int i=0; i<size; i++){
@@ -973,11 +979,12 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     blendedItem[i] = sprites[holdItem].image[i];
                  }
             }
-            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-4-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite==1){ //highlighted anvil
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvilHighlight, 66, 30);
         if(holdItem!=0){
+            ST7735_FillRect(top_L_x+14, top_L_y+4, 38, 26, 0x3186);
              uint32_t size = sprites[holdItem].h * sprites[holdItem].w;
              unsigned short blendedItem[size];
              for(int i=0; i<size; i++){
@@ -987,7 +994,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                     blendedItem[i] = sprites[holdItem].image[i];
                  }
             }
-            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+5+(bot_R_y-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_DrawBitmap((top_L_x)+((bot_R_x-top_L_x)/2)-sprites[holdItem].w/2, ((top_L_y)+(bot_R_y-4-top_L_y)/2)+sprites[holdItem].h/2, blendedItem, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite==2){ //working anvil
         ST7735_DrawBitmap(top_L_x, bot_R_y, anvilWorking, 66, 30);
