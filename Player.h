@@ -21,9 +21,12 @@
      bool moveDown(void);
      bool moveLeft(void);
      bool moveRight(void);   
-     void resetCoordinates(void);
+
+     void resetCoordinates(int16_t*, int16_t*);
      int16_t getXPos(void); //gets for variables
      int16_t getYPos(void);
+     void setXPos(int16_t);
+     void setYPos(int16_t);
      uint8_t getLast(void);
      uint8_t getSize(void);
      uint8_t getPosession(void);
@@ -32,6 +35,7 @@
 
      uint8_t checkProximity(Machine); //checks the proximity to any machine
      uint8_t getMachineInput(Machine);
+     bool inBounds(int16_t, int16_t, Machine*, uint8_t); //determines if the person is hitting anything important returns true if in bounds and false if out of bounds
      
  };
  #endif
