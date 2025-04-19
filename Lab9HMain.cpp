@@ -52,7 +52,6 @@ void TIMG12_IRQHandler(void){uint32_t pos, msg;
     Sensor.Save(pos);
     // 2) read input switches
     buttons = Switch_In();
-    // 3) move sprites
     // 4) start sounds
     // 5) set semaphore
     // NO LCD OUTPUT IN INTERRUPT SERVICE ROUTINES
@@ -214,6 +213,8 @@ Machine m_counter2(0, 99, 28, 123, 0, 30, 109, 110, 1);
 Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
+
+Machine machineArr1[8] = {m_refiner, m_portal, m_cart1, m_rock1, m_todo, m_counter1, m_counter2, m_counter3};
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
@@ -256,6 +257,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawChar(scoreStart+letterOffset*5, scoreY, ':', color, 0x630C, 1);
   ST7735_DrawChar(scoreStart+letterOffset*6, scoreY, ' ', color, 0x630C, 1);
   ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
+  ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
   int16_t timer = 5400;
 
   while(timer>=0){
@@ -276,6 +278,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     timer--;
     //buttons is global variable with PA25 and PA24 in bits 6-5
     //updating player graphics 
+    int16_t oldX = p1.getXPos();
+    int16_t oldY = p1.getYPos();
     if(horiz < 1000){
       change |= p1.moveRight();
     }
@@ -288,11 +292,21 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     if(vert < 1000){
       change|= p1.moveDown();
     }
-    if(change){
+
+    int16_t newX = p1.getXPos();
+    int16_t newY = p1.getYPos();
+    p1.resetCoordinates(&newX, &newY);
+
+    if(change && p1.inBounds(newX, newY, machineArr1, 8)){
       ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      p1.setXPos(newX);
+      p1.setYPos(newY);
+    }else{ //put the coordinates back where they were
+      p1.setXPos(oldX);
+      p1.setYPos(oldY);
     }
     ST7735_SetRotation(0); 
-    p1.resetCoordinates();
+    
     //refiner
     int8_t machineOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
@@ -306,6 +320,15 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     input = p1.getMachineInput(m_rock1);
     input |= buttons;
     machineOut = m_rock1.updateRock(input);
+    if(machineOut > -1){
+      p1.setPossession(machineOut);
+      p1.printPosession(machineOut);
+    }
+
+    //does cart
+    input = p1.getMachineInput(m_cart1);
+    input |= buttons;
+    machineOut = m_cart1.updateCart(input);
     if(machineOut > -1){
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
@@ -330,14 +353,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
           Counters[i].printCounters(Counters);
         }
       }else{
-        //does cart
-          input = p1.getMachineInput(m_cart1);
-          input |= buttons;
-          machineOut = m_cart1.updateCart(input);
-          if(machineOut > -1){
-            p1.setPossession(machineOut);
-            p1.printPosession(machineOut);
-          }
           //does counters
           for(int i=1; i<numCounters+1; i++){
           input = p1.getMachineInput(Counters[i]);
@@ -363,6 +378,7 @@ Machine m_cart2(5, 8, 36, 50, 0, 0);
 Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
+Machine machineArr2[7] = {m_smelter, m_anvil, m_rock2, m_cart2, m_counter4, m_counter5, m_counter6};
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
 int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
@@ -419,6 +435,8 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint8_t change = 0;
     timer--;
 
+    int16_t oldX = p1.getXPos();
+    int16_t oldY = p1.getYPos();
     if(!menuOpen){
       if(horiz < 1000){
         change |= p1.moveRight();
@@ -432,11 +450,19 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       if(vert < 1000){
         change|= p1.moveDown();
       }
-      if(change){
-        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
-      }
-      ST7735_SetRotation(0); 
-      p1.resetCoordinates();
+      int16_t newX = p1.getXPos();
+      int16_t newY = p1.getYPos();
+      p1.resetCoordinates(&newX, &newY);
+
+    if(change && p1.inBounds(newX, newY, machineArr2, 7)){
+      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      p1.setXPos(newX);
+      p1.setYPos(newY);
+    }else{ //put the coordinates back where they were
+      p1.setXPos(oldX);
+      p1.setYPos(oldY);
+    }
+    ST7735_SetRotation(0);
     }
     int8_t machineOut = 0;
     //updating anvil
