@@ -259,7 +259,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   int16_t timer = 5400;
 
   while(timer>=0){
-    if(timer%30 == 0){
+    if(timer%30 == 0 && toDoOpen == 0){
         ST7735_FillRect(0, 0, 40, 10, 0x630C);
         uint16_t seconds = timer/30;
         uint16_t minute = (seconds/60);
@@ -325,7 +325,6 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
           continue;
       }else if(machineOut==22){
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
-        m_cart1.printCart();
         for(int i=1; i<numCounters+1; i++){
           Counters[i].setSprite(4);
           Counters[i].printCounters(Counters);
@@ -401,7 +400,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   int16_t timer = 5400;
   //
-  while(timer>=0 && toDoOpen == 0){
+  while(timer>=0){
      if(timer%30 == 0){
         ST7735_FillRect(0, 0, 60, 11, 0x630C);
         uint16_t seconds = timer/30;
@@ -412,7 +411,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
         ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
     }
-    
+
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
