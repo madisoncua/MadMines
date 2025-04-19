@@ -202,6 +202,7 @@ static int ToDoArr[5] = {1,2,3,4,5};
             }
             return -1;
     }
+    return -1;
 }
 
 int8_t Machine::updateRefiner(uint8_t input){
@@ -312,6 +313,7 @@ int8_t Machine::updateRefiner(uint8_t input){
         }
         return -1; 
     }
+    return -1;
  }
  
 void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or gems
@@ -589,7 +591,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             return -1;  
             
      }
-
+    return -1;
  }
 
  int8_t Machine::updateCart(uint8_t input){
@@ -644,23 +646,24 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         workTimer--;
         return -1;
       case 2://send cart state
-        // if(UART2_InChar()){ //Non 0 return means there's something in FIFO
-        //     uint8_t count = 0;
-        //     char ack = '2';
-        //     while(ack){ //clear out the whole FIFO
-        //         ack = UART2_InChar();
-        //         if(ack == 'c')count++;  //c is acknowledge that cart was received
-        //     }
-        //     if(count > 2){
-        //         char seen[4] = {167 , 167, 167, 167};    //167 is 2nd acknowledge from trasmitter to receiver
-        //         UART2_Disable();
-        //         for (int i = 0; i < 8; i++) {    //sends twice
-        //             IRxmt_OutChar(seen[i&3]);
-        //         }
-        //          UART2_Enable();
-        //         state++;
-        //     }
-        // }
+        if(UART2_InChar()){ //Non 0 return means there's something in FIFO
+            uint8_t count = 0;
+            char ack = '2';
+            while(ack){ //clear out the whole FIFO
+                ack = UART2_InChar();
+                if(ack == 'c')count++;  //c is acknowledge that cart was received
+            }
+            if(count > 2){
+                char seen[4] = {167 , 167, 167, 167};    //167 is 2nd acknowledge from trasmitter to receiver
+                UART2_Disable();
+                for (int i = 0; i < 4; i++) {    //sends twice
+                    IRxmt_OutChar(seen[i]);
+                }
+                 UART2_Enable();
+                 state++;
+                 sprite = 4; //ladder sprite because cart left
+            }
+        }
 
         char contents;
         contents = holdItem;
@@ -718,11 +721,36 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
             //received an item
             state++;
-            workTimer = 60;
-            sprite = 3;
+            workTimer = 15;
         }
         return -1;
-      case 4://return after getting message
+      case 4:   //waiting for 2nd acknowledge
+        if(UART2_InChar() && (workTimer-- != 0)){ //Non 0 return means there's something in FIFO
+            uint8_t count = 0;
+            char ack = '2';
+            while(ack){ //clear out the whole FIFO
+                ack = UART2_InChar();
+                if(ack == 167)count++;  //c is acknowledge that cart was received
+            }
+            if(count > 2){
+                state++;
+                workTimer = 60;
+                sprite = 3;
+                return -1;
+            }
+        }
+        char seen[4];   //resend first acknowledge from receiver to transmitter
+        seen[0] = 'c';
+        seen[1] = 'c';
+        seen[2] = 'c';
+        seen[3] = 'c';    
+        UART2_Disable();
+        for (int i = 0; i < 4; i++) {    //sends twice
+            IRxmt_OutChar(seen[i]);
+        }
+        UART2_Enable();
+        return -1;
+      case 5://return after getting message
         if(workTimer%12 == 0){
             printCart();
         }
@@ -739,6 +767,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
         workTimer--;
         return -1;
     }
+    return -1;
  }
 
  uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
@@ -835,112 +864,114 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
         return -1;
     }
+    return -1;
  }
 
  int8_t Machine::updateCounters(uint8_t input, Machine* m){
     static int8_t debounce = 0;
     switch(state){
-        case 0: //to do state 
-            if((input&Prox) == 0){
-                if(sprite!=0){
-                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list
-                    sprite = 0;
-                    printCounters(m);
-                    uint8_t y_cursor = 14;
-                    for(int i=0; i<5; i++){
-                        ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
-                        y_cursor+=30;
-                    }
-                }
-                return 50;
-            }else{
-                if(sprite!=1){ //highlighted counter
-                    sprite = 1;
-                    printCounters(m);
-                }
-                if(debounce>0){
-                    debounce--;
-                    return 50;
-                }
-                if((input&RButton) == 0x40){//refreshes the counter
-                    toDoOpen = 0;
-                    debounce = 20;
-                    state = 3;
-                    ST7735_FillRect(0, 0, 34, 159, 0x630C);
-                    ST7735_FillRect(0, 10, 40, 43, 0x630C);//covers where the cart would be
-                    ST7735_DrawBitmap(top_L_x+13, bot_R_y+4, ladder, 20, 44);
-                    ST7735_DrawFastHLine(bot_R_x, top_L_y, 32, 0x0); //right line again
-                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo+4800, 32, 10); //draws the to do button at the bottom
-                    return 22;
+      case 0: //to do state 
+        if((input&Prox) == 0){
+            if(sprite!=0){
+                ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list
+                sprite = 0;
+                printCounters(m);
+                uint8_t y_cursor = 14;
+                for(int i=0; i<5; i++){
+                    ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
+                    y_cursor+=30;
                 }
             }
-            return 50; // the to do is open
-        case 1: //at an empty counter
+            return 50;
+        }else{
+            if(sprite!=1){ //highlighted counter
+                sprite = 1;
+                printCounters(m);
+            }
+            if(debounce>0){
+                debounce--;
+                return 50;
+            }
+            if((input&RButton) == 0x40){//refreshes the counter
+                toDoOpen = 0;
+                debounce = 20;
+                state = 3;
+                ST7735_FillRect(0, 0, 34, 159, 0x630C);
+                ST7735_FillRect(0, 10, 40, 43, 0x630C);//covers where the cart would be
+                ST7735_DrawBitmap(top_L_x+13, bot_R_y+4, ladder, 20, 44);
+                ST7735_DrawFastHLine(bot_R_x, top_L_y, 32, 0x0); //right line again
+                ST7735_DrawBitmap(top_L_x, bot_R_y, todo+4800, 32, 10); //draws the to do button at the bottom
+                return 22;
+            }
+        }
+        return 50; // the to do is open
+    case 1: //at an empty counter
+        if(debounce>0){
+            debounce--;
+            return -1;
+        }
+        if((input&Prox) == 0){ //not highlighted counter
+            if(sprite!=4){
+                sprite = 4;
+                printCounters(m);
+            }
+            return -1;
+        }else{
+            if(sprite!=3){ //highlighted counter
+                sprite = 3;
+                printCounters(m);
+            }
+            if(((input&LButton) == 0x20) && ((input&material) != EMPTY) && (holdItem==0)){ //take item from player
+                holdItem = input&material;
+                sprite = 4;
+                printCounters(m); 
+                debounce = 20;
+                return EMPTY;               //tells the main to empty player's hand
+            }
+            if((input&LButton) == 0x20 && (input&material) == EMPTY && (holdItem != EMPTY)){ //give item with no work done to player
+                int8_t temp = holdItem;
+                sprite = 4;
+                holdItem = 0;
+                printCounters(m);
+                debounce = 20;
+                return temp;          //tells main item to return
+            }
+            return -1;
+        }
+    case 3://this is the state with the counter where the person can reactivate the counter
+        if((input&Prox) == 0){ //
+            if(sprite!=6 && sprite!=4){//to do
+                sprite = 6;
+                printCounters(m);
+            }
+            return -1;
+        }else{
+            if(sprite!=5){
+                sprite = 5;
+                printCounters(m);
+            }
             if(debounce>0){
                 debounce--;
                 return -1;
             }
-            if((input&Prox) == 0){ //not highlighted counter
-                if(sprite!=4){
-                    sprite = 4;
-                    printCounters(m);
-                }
-                return -1;
-            }else{
-                if(sprite!=3){ //highlighted counter
-                    sprite = 3;
-                    printCounters(m);
-                }
-                if(((input&LButton) == 0x20) && ((input&material) != EMPTY) && (holdItem==0)){ //take item from player
-                    holdItem = input&material;
-                    sprite = 4;
-                    printCounters(m); 
-                    debounce = 20;
-                    return EMPTY;               //tells the main to empty player's hand
-                }
-                if((input&LButton) == 0x20 && (input&material) == EMPTY && (holdItem != EMPTY)){ //give item with no work done to player
-                    int8_t temp = holdItem;
-                    sprite = 4;
-                    holdItem = 0;
-                    printCounters(m);
-                    debounce = 20;
-                    return temp;          //tells main item to return
-                }
-                return -1;
-            }
-        case 3://this is the state with the counter where the person can reactivate the counter
-            if((input&Prox) == 0){ //
-                if(sprite!=6 && sprite!=4){//to do
-                    sprite = 6;
-                    printCounters(m);
-                }
-                return -1;
-            }else{
-                if(sprite!=5){
-                    sprite = 5;
-                    printCounters(m);
-                }
-                if(debounce>0){
-                    debounce--;
-                    return -1;
-                }
-                if((input&RButton) == 0x40){
-                    toDoOpen = 1;
-                    state = 0;
-                    sprite = 0;
-                    debounce = 20;
-                    printCounters(m);
-                    ST7735_FillRect(0, 0, 34, 156, 0x630C);
-                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list 
-                    uint8_t y_cursor = 14;
-                    for(int i=0; i<5; i++){
-                        ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
-                        y_cursor+=30;
-                    }
+            if((input&RButton) == 0x40){
+                toDoOpen = 1;
+                state = 0;
+                sprite = 0;
+                debounce = 20;
+                printCounters(m);
+                ST7735_FillRect(0, 0, 34, 156, 0x630C);
+                ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list 
+                uint8_t y_cursor = 14;
+                for(int i=0; i<5; i++){
+                    ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
+                    y_cursor+=30;
                 }
             }
-            return -1;
+        }
+        return -1;
     }
+    return -1;
 }
  
  void Machine::printRefiner(){

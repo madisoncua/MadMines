@@ -215,7 +215,7 @@ Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
 uint8_t input = 0;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -350,6 +350,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
+  return 0;
 }
 
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
@@ -363,7 +364,7 @@ Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed

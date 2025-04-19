@@ -59,8 +59,7 @@ void UART2_Enable(void){
 char UART2_InChar(void){
 // write this
 char letter;
-FIFO2.Get(&letter); 
-return letter;
+return (FIFO2.Get(&letter))? letter : 0;
 }
 
 extern "C" void UART2_IRQHandler(void);
