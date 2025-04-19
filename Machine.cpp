@@ -872,7 +872,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  int8_t Machine::updateCounters(uint8_t input, Machine* m){
     static int8_t debounce = 0;
     switch(state){
-<<<<<<< Updated upstream
       case 0: //to do state 
         if((input&Prox) == 0){
             if(sprite!=0){
@@ -883,38 +882,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 for(int i=0; i<5; i++){
                     ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
                     y_cursor+=30;
-=======
-        case 0: //to do state 
-            if((input&Prox) == 0){
-                if(sprite!=0){
-                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo, 32, 160); //draws the to do list
-                    sprite = 0;
-                    printCounters(m);
-                    uint8_t y_cursor = 14;
-                    for(int i=0; i<5; i++){
-                        ST7735_DrawChar(2, y_cursor, ToDoArr[i]+48, 0x0, 0xAE3B, 1);
-                        y_cursor+=30;
-                    }
-                }
-                return 50;
-            }else{
-                if(sprite!=1){ //highlighted counter
-                    sprite = 1;
-                    printCounters(m);
-                }
-                if(debounce>0){
-                    debounce--;
-                    return 50;
-                }
-                if((input&RButton) == 0x40){//refreshes the counter
-                    toDoOpen = 0;
-                    debounce = 20;
-                    state = 3;
-                    ST7735_FillRect(0, 0, 34, 159, 0x630C);
-                    ST7735_DrawFastHLine(bot_R_x, top_L_y, 32, 0x0); //right line again
-                    ST7735_DrawBitmap(top_L_x, bot_R_y, todo+4800, 32, 10); //draws the to do button at the bottom
-                    return 22;
->>>>>>> Stashed changes
                 }
             }
             return 50;
