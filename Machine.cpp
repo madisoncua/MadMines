@@ -799,7 +799,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  int8_t Machine::updateTurnInArea(uint8_t input){
     static int16_t score = 0;
     switch(state){
-        case 0:
+      case 0:
         if((input&Prox) == 0){
             if(sprite!=0){
                 sprite = 0;
@@ -828,40 +828,40 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
         }
         return -1;
-        case 1:
-            workTimer--;
-            if(workTimer == 0){ //resets the score after "turn in processing is complete"
+      case 1:
+        workTimer--;
+        if(workTimer == 0){ //resets the score after "turn in processing is complete"
+            sprite = 0;
+            printTurnInArea(); //set turn in area back to default
+            int x_cursor = 120;
+            bool isNeg = false;
+            if(score<0){
+                isNeg = true;
+            }
+            if(score<-999){
+                score = -999;
+            }
+            uint8_t temp = score*-1;
+            while(temp!=0){
+                ST7735_DrawChar(x_cursor, 2, (temp%10)+48, 0xFFFF, 0x630C, 1);
+                temp /=10;
+                x_cursor-=6;
+            }
+            if(isNeg){
+                ST7735_DrawChar(x_cursor, 2, '-', 0xFFFF, 0x630C, 1);
+            }
+            state=0;
+            return EMPTY;
+        }
+        if(workTimer%15 == 0){//flashes 
+            if(sprite==0){
+                sprite = 2;
+                printTurnInArea();
+            }else{
                 sprite = 0;
-                printTurnInArea(); //set turn in area back to default
-                int x_cursor = 120;
-                bool isNeg = false;
-                if(score<0){
-                    isNeg = true;
-                }
-                if(score<-999){
-                    score = -999;
-                }
-                uint8_t temp = score*-1;
-                while(temp!=0){
-                    ST7735_DrawChar(x_cursor, 2, (temp%10)+48, 0xFFFF, 0x630C, 1);
-                    temp /=10;
-                    x_cursor-=6;
-                }
-                if(isNeg){
-                    ST7735_DrawChar(x_cursor, 2, '-', 0xFFFF, 0x630C, 1);
-                }
-                state=0;
-                return EMPTY;
+                printTurnInArea();
             }
-            if(workTimer%15 == 0){//flashes 
-                if(sprite==0){
-                    sprite = 2;
-                    printTurnInArea();
-                }else{
-                    sprite = 0;
-                    printTurnInArea();
-                }
-            }
+        }
         return -1;
     }
     return -1;
@@ -905,7 +905,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
         }
         return 50; // the to do is open
-    case 1: //at an empty counter
+      case 1: //at an empty counter
         if(debounce>0){
             debounce--;
             return -1;
@@ -938,7 +938,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
             return -1;
         }
-    case 3://this is the state with the counter where the person can reactivate the counter
+      case 3://this is the state with the counter where the person can reactivate the counter
         if((input&Prox) == 0){ //
             if(sprite!=6 && sprite!=4){//to do
                 sprite = 6;
