@@ -189,7 +189,7 @@ Player p1; //player 1
 Machine m_refiner(67, 10, 121, 45, 61, 15);
 Machine m_portal(65, 135, 103, 159, 0, 0);
 Machine m_cart1(5, 8, 51, 54, 5, 36, 8, 50, 3);
-Machine m_rock1(88, 114, 132, 135, 52, 134);
+Machine m_rock1(88, 114, 132, 135, 104, 94, 88, 127, 101, 135);
 Machine m_rock1Mid(99, 108, 129, 114, 0, 0);
 Machine m_rock1Top(108, 101, 127, 108, 0, 0);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
@@ -378,6 +378,12 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     input |= buttons;
     machineOut = m_refiner.updateRefiner(input);  //update refiner
     if(machineOut > -1){
+      if(machineOut == 0){
+        if(p1.getYPos() < 62){
+          p1.setYPos(62);
+          ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        }
+      }
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
     }
@@ -386,8 +392,20 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     input |= buttons;
     machineOut = m_rock1.updateRock(input);
     if(machineOut > -1){
-      p1.setPossession(machineOut);
-      p1.printPosession(machineOut);
+      if(machineOut == 80){
+        if(p1.getYPos() > 93 && p1.getXPos() > 77){
+          if(p1.getYPos() < 102){
+            p1.setYPos(p1.getYPos()-7);
+            ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+          }else{
+            p1.setXPos(p1.getXPos()-2);
+            ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+          }
+        }
+      }else{
+        p1.setPossession(machineOut);
+        p1.printPosession(machineOut);
+      }
     }
 
     //does cart
@@ -499,6 +517,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   int16_t timer = 5400;
+  ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
   Sensor.Sync();
   while(timer>=0){
     if(timer%30 == 0){
@@ -643,7 +662,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     input = p1.getMachineInput(m_rock2);
     input |= buttons;
     machineOut = m_rock2.updateRock(input);
-    if(machineOut > -1){
+    if(machineOut > -1 && machineOut < 10){
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
     }
