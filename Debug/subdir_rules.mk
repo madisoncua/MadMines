@@ -33,13 +33,6 @@ SPI.o: C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Docume
 	@echo 'Finished building: "$<"'
 	@echo ' '
 
-ST7735.o: C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/ST7735.cpp $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
-	@echo 'Building file: "$<"'
-	@echo 'Invoking: Arm Compiler'
-	"C:/ti/ccs2000/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/bin/tiarmclang.exe" -c -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -I"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/MadMines" -I"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/MadMines/Debug" -I"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include" -I"C:/ti/mspm0_sdk_2_03_00_07/source" -D__MSPM0G3507__ -gdwarf-3 -MMD -MP -MF"ST7735.d_raw" -MT"ST7735.o" -I"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg"  $(GEN_OPTS__FLAG) -o"$@" "$<"
-	@echo 'Finished building: "$<"'
-	@echo ' '
-
 TExaS.o: C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/TExaS.cpp $(GEN_OPTS) | $(GEN_FILES) $(GEN_MISC_FILES)
 	@echo 'Building file: "$<"'
 	@echo 'Invoking: Arm Compiler'

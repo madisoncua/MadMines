@@ -1,7 +1,7 @@
  #include <cstdint>
 #include <iostream>
  #include "Player.h"
- #include "../inc/ST7735.h"
+ #include "ST7735.h"
  #include "Machine.h"
 
  Player::Player(){

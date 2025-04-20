@@ -16,7 +16,7 @@ C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\
 ../Machine.cpp \
 ../Player.cpp \
 C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/SPI.cpp \
-C:/Users/madis/OneDrive\ -\ The\ University\ of\ Texas\ at\ Austin/Documents/UT\ -\ School/24-25/319H/MSPM0_ValvanoWare/inc/ST7735.cpp \
+../ST7735.cpp \
 ../SlidePot.cpp \
 ../SmallFont.cpp \
 ../Sound.cpp \
@@ -119,7 +119,7 @@ CPP_SRCS__QUOTED += \
 "../Machine.cpp" \
 "../Player.cpp" \
 "C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/SPI.cpp" \
-"C:/Users/madis/OneDrive - The University of Texas at Austin/Documents/UT - School/24-25/319H/MSPM0_ValvanoWare/inc/ST7735.cpp" \
+"../ST7735.cpp" \
 "../SlidePot.cpp" \
 "../SmallFont.cpp" \
 "../Sound.cpp" \

@@ -19,7 +19,7 @@ int32_t soundIndex;
 const uint8_t* soundArr;
 uint16_t soundLength;
 uint16_t wrong_size = 3971;
-uint16_t correct_size = 17616;
+uint16_t correct_size = 3306;
 uint16_t clang_size = 7936;
 
 // void SysTick_IntArm(uint32_t period, uint32_t priority){
@@ -57,7 +57,7 @@ void Sound_Start(uint8_t s){
      soundArr = clang;
      soundLength = clang_size;
   }else if(s==CORRECT){
-    //soundArr = correct;
+    soundArr = correct;
      soundLength = correct_size;
    }else 
   if(s==WRONG){

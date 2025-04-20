@@ -1,7 +1,7 @@
  #include <cstdint>
 #include <iostream>
  #include "Machine.h"
- #include "../inc/ST7735.h"
+ #include "ST7735.h"
 #include "IRxmt.h"
 #include "Sound.h"
 #include "UART2.h"
