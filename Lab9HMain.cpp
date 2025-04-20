@@ -136,19 +136,6 @@ int main2(void){ // main2
   BITS 10-5 GREEN (6)
   BITS 4-0 RED (5)  
   */
-  while(1){
-    Clock_Delay1ms(1000);
-  }
-  // ST7735_DrawBitmap(22, 159, PlayerShip0, 18,8); // player ship bottom
-  // ST7735_DrawBitmap(53, 151, Bunker0, 18,5);
-  // ST7735_DrawBitmap(42, 159, PlayerShip1, 18,8); // player ship bottom
-  // ST7735_DrawBitmap(62, 159, PlayerShip2, 18,8); // player ship bottom
-  // ST7735_DrawBitmap(82, 159, PlayerShip3, 18,8); // player ship bottom
-  // ST7735_DrawBitmap(0, 9, SmallEnemy10pointA, 16,10);
-  // ST7735_DrawBitmap(20,9, SmallEnemy10pointB, 16,10);
-  // ST7735_DrawBitmap(40, 9, SmallEnemy20pointA, 16,10);
-  // ST7735_DrawBitmap(60, 9, SmallEnemy20pointB, 16,10);
-  // ST7735_DrawBitmap(80, 9, SmallEnemy30pointA, 16,10);
 
   while(1){
   }
@@ -200,9 +187,11 @@ int main4(void){ uint32_t last=0,now;
 Player p1; //player 1
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY, proXL, proXR, proYT, proYB)
 Machine m_refiner(67, 10, 121, 45, 61, 15);
-Machine m_portal(104, 45, 128, 95, 0, 0);
-Machine m_cart1(5, 8, 36, 50, 5, 36, 8, 50, 3);
-Machine m_rock1(58, 125, 102, 159, 52, 134);
+Machine m_portal(65, 135, 103, 159, 0, 0);
+Machine m_cart1(5, 8, 51, 54, 5, 36, 8, 50, 3);
+Machine m_rock1(88, 114, 132, 135, 52, 134);
+Machine m_rock1Mid(99, 108, 129, 114, 0, 0);
+Machine m_rock1Top(108, 101, 127, 108, 0, 0);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_todo(0, 0, 32, 159, 0, 32, 90, 159, 3);
 
@@ -212,9 +201,11 @@ Machine m_counter1(0, 75, 28, 99, 0, 30, 85, 89, 1);
 Machine m_counter2(0, 99, 28, 123, 0, 30, 109, 110, 1);
 Machine m_counter3(0, 123, 28, 147, 0, 30, 133, 135, 1);
 Machine Counters[4] = {m_todo, m_counter1, m_counter2, m_counter3};
+Machine m_todoDown(0, 149, 32, 159, 0, 0);
 uint8_t input = 0;
+uint8_t deadTimer = 0;
 
-Machine machineArr1[8] = {m_refiner, m_portal, m_cart1, m_rock1, m_todo, m_counter1, m_counter2, m_counter3};
+Machine* machineArr1[11] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top};
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
 int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
@@ -259,54 +250,128 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
   ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
   int16_t timer = 5400;
-
+  Sensor.Sync();
   while(timer>=0){
     if(timer%30 == 0 && toDoOpen == 0){
-        ST7735_FillRect(0, 0, 40, 10, 0x630C);
-        uint16_t seconds = timer/30;
-        uint16_t minute = (seconds/60);
-        seconds %= 60;
-        ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
-        ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
-        ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
-        ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
+      ST7735_FillRect(0, 0, 40, 10, 0x630C);
+      uint16_t seconds = timer/30;
+      uint16_t minute = (seconds/60);
+      seconds %= 60;
+      ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
+      ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
+      ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
+      ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
+    }
+    if(deadTimer > 0){
+      if(deadTimer%30 == 0){
+        ST7735_DrawChar(61, 74, deadTimer/30+48, 0x1F, 0x630C, 2);
+      }
+      deadTimer--;
     }
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
     timer--;
-    //buttons is global variable with PA25 and PA24 in bits 6-5
-    //updating player graphics 
-    int16_t oldX = p1.getXPos();
-    int16_t oldY = p1.getYPos();
-    if(horiz < 1000){
-      change |= p1.moveRight();
-    }
-    if(horiz > 3000){
-      change |= p1.moveLeft();
-    }
-    if(vert > 3000){
-      change |= p1.moveUp();
-    }
-    if(vert < 1000){
-      change|= p1.moveDown();
-    }
+    if(deadTimer == 0){
+      //buttons is global variable with PA25 and PA24 in bits 6-5
+      //updating player graphics 
+      bool canRight = 0, canLeft = 0, canUp = 0, canDown = 0;
+      if(horiz < 1000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
+        change |= p1.moveRight();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+          canRight = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
+      }
+      if(horiz > 3000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
+        change |= p1.moveLeft();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+          canLeft = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
+      }
+      if(vert > 3000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
+        change |= p1.moveUp();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+          canUp = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
+      }
+      if(vert < 1000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
+        change|= p1.moveDown();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+          canDown = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
+      }
 
-    int16_t newX = p1.getXPos();
-    int16_t newY = p1.getYPos();
-    p1.resetCoordinates(&newX, &newY);
-
-    if(change && p1.inBounds(newX, newY, machineArr1, 8)){
-      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
-      p1.setXPos(newX);
-      p1.setYPos(newY);
-    }else{ //put the coordinates back where they were
-      p1.setXPos(oldX);
-      p1.setYPos(oldY);
+      if(canUp){
+        ST7735_SetRotation(0);
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }else if(canDown){
+        p1.translateDown();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }else if(canRight){
+        p1.translateRight();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }else if(canLeft){
+        p1.translateLeft();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }
+      ST7735_SetRotation(0);
     }
-    ST7735_SetRotation(0); 
-    
     //refiner
     int8_t machineOut = -1;
     input = p1.getMachineInput(m_refiner); //get the input for refiner
@@ -330,8 +395,17 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     input |= buttons;
     machineOut = m_cart1.updateCart(input);
     if(machineOut > -1){
-      p1.setPossession(machineOut);
-      p1.printPosession(machineOut);
+      if(machineOut == 80){
+        if(p1.getYPos() < 45){
+          ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
+          p1.setXPos(42);
+          p1.setYPos(102);
+          deadTimer = 90;
+        }
+      }else{
+        p1.setPossession(machineOut);
+        p1.printPosession(machineOut);
+      }
     }
 
     input = p1.getMachineInput(m_portal);
@@ -343,10 +417,15 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     }
       input = p1.getMachineInput(Counters[0]);
       input|= buttons;
-      machineOut = Counters[0].updateCounters(input, Counters);
+      machineOut = Counters[0].updateCounters(input, Counters); //this is the todo
       if(machineOut==50){
-          continue;
+        if(p1.getXPos() < 34){
+          p1.setXPos(34);
+          ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        }
+        continue;
       }else if(machineOut==22){
+        m_cart1.printCart();
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
         for(int i=1; i<numCounters+1; i++){
           Counters[i].setSprite(4);
@@ -371,14 +450,17 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
 Machine m_smelter(89, 76, 127, 130, 99, 68);
 Machine m_anvil(35, 130, 101, 159, 28, 136, 43, 101, 130, 159); 
-Machine m_rock2(67, 8, 111, 42, 113, 17);
-Machine m_cart2(5, 8, 36, 50, 0, 0);
+Machine m_rock2(67, 21, 111, 42, 113, 17);
+Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
+Machine m_rock2Top(87, 8, 106, 15, 0, 0);
+Machine m_cart2(5, 8, 51, 54, 0, 0);//51 should be 36 if it's the ladder
 
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
-Machine m_counter4(0, 60, 28, 84, 0, 30, 65, 74, 1);
-Machine m_counter5(0, 84, 28, 108, 0, 30, 89, 100, 1);
-Machine m_counter6(0, 108, 28, 132, 0, 30, 111, 125, 1);
-Machine machineArr2[7] = {m_smelter, m_anvil, m_rock2, m_cart2, m_counter4, m_counter5, m_counter6};
+Machine m_counter4(0, 60, 28, 84, 0, 35, 65, 74, 1);
+Machine m_counter5(0, 84, 28, 108, 0, 35, 89, 100, 1);
+Machine m_counter6(0, 108, 28, 132, 0, 35, 111, 125, 1);
+Machine* machineArr2[9] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top};
+
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
 int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
@@ -409,6 +491,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   uint8_t letterOffset = 6;
   uint16_t color = 0xFFFF;
   ST7735_FillScreen(0x630C);
+  
   m_rock2.setRockType(0);//this rock only return gems
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
@@ -416,17 +499,17 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_DrawFastHLine(105, 137, 24, 0x0);   //thickening box
   ST7735_DrawFastVLine(105, 137, 24, 0x0);
   int16_t timer = 5400;
-  //
+  Sensor.Sync();
   while(timer>=0){
-     if(timer%30 == 0){
-        ST7735_FillRect(0, 0, 60, 11, 0x630C);
-        uint16_t seconds = timer/30;
-        uint16_t minute = (seconds/60);
-        seconds %= 60;
-        ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
-        ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
-        ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
-        ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
+    if(timer%30 == 0){
+      ST7735_FillRect(0, 0, 60, 11, 0x630C);
+      uint16_t seconds = timer/30;
+      uint16_t minute = (seconds/60);
+      seconds %= 60;
+      ST7735_DrawChar(cursorStart, scoreY, minute+48, color, 0x630C, 1); //gets the minute
+      ST7735_DrawChar(cursorStart+letterOffset, scoreY, ':', color, 0x630C, 1);
+      ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
+      ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
     }
 
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
@@ -435,35 +518,105 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint8_t change = 0;
     timer--;
 
-    int16_t oldX = p1.getXPos();
-    int16_t oldY = p1.getYPos();
     if(!menuOpen){
+      bool canRight = 0, canLeft = 0, canUp = 0, canDown = 0;
       if(horiz < 1000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
         change |= p1.moveRight();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+          canRight = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
       }
       if(horiz > 3000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
         change |= p1.moveLeft();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+          canLeft = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
       }
       if(vert > 3000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
         change |= p1.moveUp();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+          canUp = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
       }
       if(vert < 1000){
+        int16_t oldX = p1.getXPos();
+        int16_t oldY = p1.getYPos();
         change|= p1.moveDown();
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+          canDown = 1;
+          p1.setXPos(newX);
+          p1.setYPos(newY);
+        }else{ //put the coordinates back where they were
+          p1.setXPos(oldX);
+          p1.setYPos(oldY);
+        }
       }
-      int16_t newX = p1.getXPos();
-      int16_t newY = p1.getYPos();
-      p1.resetCoordinates(&newX, &newY);
 
-    if(change && p1.inBounds(newX, newY, machineArr2, 7)){
-      ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
-      p1.setXPos(newX);
-      p1.setYPos(newY);
-    }else{ //put the coordinates back where they were
-      p1.setXPos(oldX);
-      p1.setYPos(oldY);
+      if(canUp){
+        ST7735_SetRotation(0);
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }else if(canDown){
+        p1.translateDown();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }else if(canRight){
+        p1.translateRight();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }else if(canLeft){
+        p1.translateLeft();
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        int16_t newX = p1.getXPos();
+        int16_t newY = p1.getYPos();
+        p1.resetCoordinates(&newX, &newY);
+        p1.setXPos(newX);
+        p1.setYPos(newY);
+      }
+      ST7735_SetRotation(0);
     }
-    ST7735_SetRotation(0);
-    }
+
+
     int8_t machineOut = 0;
     //updating anvil
     input = p1.getMachineInput(m_anvil);
@@ -513,6 +666,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         }
     }
   }
+  return -1;
 }
 
 void SysTick_Handler(void){ //place holder until sound set up

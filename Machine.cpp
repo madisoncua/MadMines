@@ -408,14 +408,13 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
     if(len <3)return TRASH;
     uint8_t used[len];
-    uint8_t itemSizes[5] = {3, 4, 4, 5, 3};
     for (int k = 0; k < 5; k++) {   //test each item
-        if(itemSizes[k] != len)continue;
+        if(len != 3)continue;
         for (int i = 0; i<len; i++) {
             used[i] = 0;
         }
         uint8_t isItem = 1;
-        for (int i = 0; i < itemSizes[k]; i++){
+        for (int i = 0; i < 3; i++){
             uint8_t found = 0;
             for (int j = 0; j<len; j++) {
                 if(used[j])continue;
@@ -662,7 +661,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 }
                  UART2_Enable();
                  state++;
-                 sprite = 4; //ladder sprite because cart left
             }
         }
 
@@ -699,6 +697,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             IRxmt_OutChar(msg[i]);
         }
         UART2_Enable();
+        sprite = 4; //ladder sprite because cart left
         return -1;
       case 3://wait state until cart is returned
         uint8_t start0;
@@ -767,7 +766,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             return -1;
         }
         workTimer--;
-        return -1;
+        return 80;
     }
     return -1;
  }
@@ -900,7 +899,6 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 state = 3;
                 ST7735_FillRect(0, 0, 34, 159, 0x630C);
                 ST7735_FillRect(0, 10, 40, 43, 0x630C);//covers where the cart would be
-                ST7735_DrawBitmap(top_L_x+13, bot_R_y+4, ladder, 20, 44);
                 ST7735_DrawFastHLine(bot_R_x, top_L_y, 32, 0x0); //right line again
                 ST7735_DrawBitmap(top_L_x, bot_R_y, todo+4800, 32, 10); //draws the to do button at the bottom
                 return 22;
@@ -1058,40 +1056,48 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
     static int8_t sent = 0;
     static int8_t in = 5;
     if(sprite == 0){
-        ST7735_DrawBitmap(top_L_x, bot_R_y+4, cart, 46, 43);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, cart, 46, 43);
         if(holdItem){
-            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
-            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-24+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite == 1){
-        ST7735_DrawBitmap(top_L_x, bot_R_y+4, cartHighlight, 46, 43);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, cartHighlight, 46, 43);
         if(holdItem){
-            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
-            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-24+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
         }
     }else if(sprite == 2){//cart leaving
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-sent*7, cart+92, 46, 41-sent*7);
+        ST7735_DrawBitmap(top_L_x, bot_R_y-2-sent*7, cart+92, 46, 41-sent*7);
         sent++;
         sent%=6;
     }else if(sprite == 3){//cart coming in
-        ST7735_DrawBitmap(top_L_x, bot_R_y+2-in*7, cart+92, 46, 41-in*7);
-        ST7735_FillRect(top_L_x, bot_R_y+2-in*7-43, 46, 7, 0x630C);
+        ST7735_DrawBitmap(top_L_x, bot_R_y-2-in*7, cart+92, 46, 41-in*7);
+        ST7735_FillRect(top_L_x, bot_R_y-2-in*7-43, 46, 7, 0x630C);
         in--;
         if(in == -1)in = 5;
-    }else if(sprite == 4){
-        ST7735_DrawBitmap(top_L_x+13, bot_R_y+4, ladder, 20, 44);
+    }else if(sprite == 4){  //ladder when cart is away
+        ST7735_DrawBitmap(top_L_x+13, bot_R_y, ladder, 20, 44);
     }
  }
 
  void Machine::printRock(){
     if(sprite == 0){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, rock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));    //default rock
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rock_b, (bot_R_x-top_L_x), (bot_R_y-top_L_y));    //default rock
+        ST7735_DrawBitmap(top_L_x+11, bot_R_y-21, rock_m, 30, 6);
+        ST7735_DrawBitmap(top_L_x+20, bot_R_y-27, rock_t, 19, 7);
     }else if(sprite == 1){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, highlightRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rockHighlight_b, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x+11, bot_R_y-21, rockHighlight_m, 30, 6);
+        ST7735_DrawBitmap(top_L_x+20, bot_R_y-27, rockHighlight_t, 19, 7);
     }else if(sprite == 2){
-        ST7735_DrawBitmap(top_L_x, bot_R_y, workingRock, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rockWorking_b, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x+11, bot_R_y-21, rockWorking_m, 30, 6);
+        ST7735_DrawBitmap(top_L_x+20, bot_R_y-27, rockWorking_t, 19, 7);
     }else if(sprite == 3){ //cracked highlights
-        ST7735_DrawBitmap(top_L_x, bot_R_y, rockCrackHighlight, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x, bot_R_y, rockWorkingHighlight_b, (bot_R_x-top_L_x), (bot_R_y-top_L_y));
+        ST7735_DrawBitmap(top_L_x+11, bot_R_y-21, rockWorkingHighlight_m, 30, 6);
+        ST7735_DrawBitmap(top_L_x+20, bot_R_y-27, rockWorkingHighlight_t, 19, 7);
     }
  }
 
@@ -1136,16 +1142,16 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
  
  void Machine::printTurnInArea(){
     if(sprite==0){//default state of turn in area
-        ST7735_DrawBitmap(top_L_x, bot_R_y, Portal, 24, 50); 
+        ST7735_DrawBitmap(top_L_x, bot_R_y, portal, bot_R_x-top_L_x, bot_R_y-top_L_y); 
     }else if(sprite==1){ //twirling state of turn in area
-        ST7735_DrawBitmap(top_L_x, bot_R_y, PortalHighlight, 24, 50);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, portalHighlight, bot_R_x-top_L_x, bot_R_y-top_L_y);
     }else if(sprite==2){//to do menu with numbers
         unsigned short invertedPortal[1200];
         for(int i=0; i<1200; i++){
-            if(Portal[i]==0x630C){
+            if(portal[i]==0x630C){
                 invertedPortal[i] = 0x630C;
             }else{
-                uint16_t p = Portal[i];
+                uint16_t p = portal[i];
 
                 // Extract RGB565 components
                 uint8_t r = (p >> 11) & 0x1F;
@@ -1164,7 +1170,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
                 invertedPortal[i] = (inverted >> 8) | (inverted << 8);
             }
         }
-        ST7735_DrawBitmap(top_L_x, bot_R_y, invertedPortal, 24, 50);
+        ST7735_DrawBitmap(top_L_x, bot_R_y, invertedPortal, bot_R_x-top_L_x, bot_R_y-top_L_y);
     }
  }
 
