@@ -38,7 +38,7 @@
 
      uint8_t checkProximity(Machine); //checks the proximity to any machine
      uint8_t getMachineInput(Machine);
-     bool inBounds(int16_t, int16_t, Machine**, uint8_t); //determines if the person is hitting anything important returns true if in bounds and false if out of bounds
+     bool inBounds(int16_t, int16_t, Machine**, uint8_t, uint8_t); //determines if the person is hitting anything important returns true if in bounds and false if out of bounds
      
  };
  #endif

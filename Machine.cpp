@@ -68,6 +68,7 @@ Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX
     bot_R_x = BRX;
     bot_R_y = BRY;
     workTimer = 0;
+    wasWorking = 0;
     progX = PBX;
     progY = PBY;
     proXL = TLX;
@@ -84,6 +85,7 @@ Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t XL,
     bot_R_x = BRX;
     bot_R_y = BRY;
     workTimer = 0;
+    wasWorking = 0;
     progX = 0;
     progY = 0;
     proXL = XL;
@@ -100,6 +102,7 @@ Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX
     bot_R_x = BRX;
     bot_R_y = BRY;
     workTimer = 0;
+    wasWorking = 0;
     progX = PBX;
     progY = PBY;
     proXL = XL;
@@ -208,7 +211,6 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
 }
 
 int8_t Machine::updateRefiner(uint8_t input){
-    static uint8_t wasWorking = 0;
     static int8_t debounce = 0;
     switch(state){
       case 0: //wait state
@@ -323,7 +325,6 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 }
 
 int8_t Machine::updateRock(uint8_t input){
-    static uint8_t wasWorking = 0;
     static uint8_t halfway = 0;
     switch(state){
       case 0: //wait state

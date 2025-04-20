@@ -188,6 +188,7 @@ Machine m_cart1(5, 8, 51, 54, 5, 36, 8, 50, 3);
 Machine m_rock1(88, 114, 132, 135, 104, 94, 88, 127, 101, 135);
 Machine m_rock1Mid(99, 108, 129, 114, 0, 0);
 Machine m_rock1Top(108, 101, 127, 108, 0, 0);
+Machine m_rock1Progress(104, 88, 126, 94, 0, 0);
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_todo(0, 0, 32, 159, 0, 32, 90, 159, 3);
 
@@ -201,9 +202,9 @@ Machine m_todoDown(0, 149, 32, 159, 0, 0);
 uint8_t input = 0;
 uint8_t deadTimer = 0;
 
-Machine* machineArr1[11] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top};
+Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -285,7 +286,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+        if(change && p1.inBounds(newX, newY, machineArr1, 11, 1)){
           canRight = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -301,7 +302,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+        if(change && p1.inBounds(newX, newY, machineArr1, 11, 1)){
           canLeft = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -317,7 +318,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+        if(change && p1.inBounds(newX, newY, machineArr1, 11, 1)){
           canUp = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -333,7 +334,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr1, 11)){
+        if(change && p1.inBounds(newX, newY, machineArr1, 11, 1)){
           canDown = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -473,20 +474,22 @@ Machine m_rock2(67, 21, 111, 42, 113, 17);
 Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
 Machine m_rock2Top(87, 8, 106, 15, 0, 0);
 Machine m_cart2(5, 8, 51, 54, 0, 0);//51 should be 36 if it's the ladder
+Machine m_smelterProgress(99, 68, 121, 62, 0, 0);
 
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_counter4(0, 60, 28, 84, 0, 35, 65, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 35, 89, 100, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 35, 111, 125, 1);
-Machine* machineArr2[9] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top};
+Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
   LaunchPad_Init();
   ST7735_InitPrintf();
+  DAC5_Init();
     //note: if you colors are weird, see different options for
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(0x630C);
@@ -550,7 +553,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+        if(change && p1.inBounds(newX, newY, machineArr2, 10, 2)){
           canRight = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -566,7 +569,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+        if(change && p1.inBounds(newX, newY, machineArr2, 10, 2)){
           canLeft = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -582,7 +585,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+        if(change && p1.inBounds(newX, newY, machineArr2, 10, 2)){
           canUp = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);
@@ -598,7 +601,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         int16_t newX = p1.getXPos();
         int16_t newY = p1.getYPos();
         p1.resetCoordinates(&newX, &newY);
-        if(change && p1.inBounds(newX, newY, machineArr2, 9)){
+        if(change && p1.inBounds(newX, newY, machineArr2, 10, 2)){
           canDown = 1;
           p1.setXPos(newX);
           p1.setYPos(newY);

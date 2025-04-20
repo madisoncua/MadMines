@@ -139,25 +139,55 @@ void Player::printPosession(uint8_t machineOut){
   }
 }
 
-bool Player::inBounds(int16_t x, int16_t y, Machine** m, uint8_t length){
+bool Player::inBounds(int16_t x, int16_t y, Machine** m, uint8_t length, uint8_t mainNum){
   int16_t smaller;
   int16_t bigger;
   uint8_t delta;
   int16_t m_rightX;
+  uint8_t m_leftX;
+  //////////////////////////////for main 2//////////////////////////////////////
+  //smelter: if main=2, index is 0, and state = 1
+
+  //////////////////////////////for main 1//////////////////////////////////////
+  //refiner: if main=1, index = 0, and was working = 1
+  //rock1: if main=1, index=2, and wasWorking=1
   for(int i=0; i<length; i++){
+    
+
     if(toDoOpen==0 && i==4){continue;}
     m_rightX = m[i]->bot_R_x;
+    m_leftX = m[i]->top_L_x;
     if(i == 3 && m[i]->sprite == 4){
       m_rightX-=15;
     }
-    if(x<m[i]->top_L_x){
+    //progress bar checks
+    if(mainNum==1){
+      if((i==0)&& (m[i]->wasWorking==1)){ //refiner
+        m_leftX-=20;
+      }else if((i==2)&&(m[i]->wasWorking==1)){ //rock1
+        if(inBounds(x, y, m+9, 1, 0)==false){
+          return false;
+        }else{
+          continue;
+        }
+      }
+    }
+    if((mainNum==2)&&(i==0)&&(m[i]->state==1)){//smelter
+      if(inBounds(x, y, m+9, 1, 0)==false){
+        return false;
+      }else{
+        continue;
+      }
+    }
+
+    if(x<m_leftX){
       smaller = x;
-      bigger = m[i]->top_L_x;
+      bigger = m_leftX;
       delta = size;
     }else{
-      smaller = m[i]->top_L_x;
+      smaller = m_leftX;
       bigger = x;
-      delta = m_rightX - m[i]->top_L_x;
+      delta = m_rightX - m_leftX;
     }
     if(bigger > smaller+delta){
       continue;

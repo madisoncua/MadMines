@@ -17,6 +17,8 @@ class Machine{
     uint8_t state;
     uint8_t holdItem;
     uint8_t workTimer;
+    uint8_t wasWorking;
+    
     uint8_t sprite; //keeps track of what sprite the machine is displaying
     uint8_t top_L_x;
     uint8_t top_L_y;
