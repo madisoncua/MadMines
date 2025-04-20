@@ -57,7 +57,7 @@ void Sound_Start(uint8_t s){
      soundArr = clang;
      soundLength = clang_size;
   }else if(s==CORRECT){
-    soundArr = correct;
+    //soundArr = correct;
      soundLength = correct_size;
    }else 
   if(s==WRONG){

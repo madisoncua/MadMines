@@ -139,7 +139,7 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
             ST7735_FillRect(progX+1, progY+1, progH-2, progW-2, 0x4208); //fills inside of empty progress bar
             state++;
             //output a sound??
-            return EMPTY;               //tells the main to empty player's hand
+            return 80;               //tells the main to empty player's hand
         }
         return -1;
       case 1://working state
@@ -644,14 +644,14 @@ int8_t Machine::updateCart(uint8_t input){
         if((input&LButton) == 0x20 && (input&material) != EMPTY && holdItem == EMPTY){   //player puts item in cart
             debounce = 10;
             holdItem = input&material;      //print item in cart
-            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
-            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+            ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x630C);
+            ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-24+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             return 0;
         }
         if((input&LButton) == 0x20 && (input&material) == EMPTY){   //player takes item from cart
             debounce = 10;
             int8_t temp = holdItem;
-            ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x0);    //clear item shown in cart
+            ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x0);    //clear item shown in cart
             holdItem = 0;
             return temp;
         }

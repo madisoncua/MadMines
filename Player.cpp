@@ -157,7 +157,7 @@ bool Player::inBounds(int16_t x, int16_t y, Machine** m, uint8_t length, uint8_t
     if(toDoOpen==0 && i==4){continue;}
     m_rightX = m[i]->bot_R_x;
     m_leftX = m[i]->top_L_x;
-    if(i == 3 && m[i]->sprite == 4){
+    if(i == 3 && m[i]->sprite == 4){  //cart sprite is ladder (smaller hit box)
       m_rightX-=15;
     }
     //progress bar checks
@@ -165,18 +165,14 @@ bool Player::inBounds(int16_t x, int16_t y, Machine** m, uint8_t length, uint8_t
       if((i==0)&& (m[i]->wasWorking==1)){ //refiner
         m_leftX-=20;
       }else if((i==2)&&(m[i]->wasWorking==1)){ //rock1
-        if(inBounds(x, y, m+9, 1, 0)==false){
+        if(inBounds(x, y, m+11, 1, 0)==false){
           return false;
-        }else{
-          continue;
         }
       }
     }
     if((mainNum==2)&&(i==0)&&(m[i]->state==1)){//smelter
       if(inBounds(x, y, m+9, 1, 0)==false){
         return false;
-      }else{
-        continue;
       }
     }
 
