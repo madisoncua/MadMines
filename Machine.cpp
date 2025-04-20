@@ -3,6 +3,7 @@
  #include "Machine.h"
  #include "../inc/ST7735.h"
 #include "IRxmt.h"
+#include "Sound.h"
 #include "UART2.h"
  #include "images.h"
  #include "../inc/Clock.h"
@@ -12,8 +13,9 @@
 #include "../inc/LaunchPad.h"
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
+#include "Sound.h"
 
-extern uint8_t menuOpen, toDoOpen;
+extern uint8_t menuOpen, toDoOpen, sound_flag;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
@@ -47,8 +49,8 @@ extern uint8_t menuOpen, toDoOpen;
 itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
             {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {trash, 20, 20}};
-const uint8_t recipes[5][5] = {{SILVER, DIAMOND, RUBY, 0, 0}, {SILVER, GOLD, DIAMOND, EMERALD, 0}, 
-        {GOLD, GOLD, DIAMOND, DIAMOND, 0}, {GOLD, GOLD, DIAMOND, RUBY, EMERALD}, {SILVER, SILVER, EMERALD, 0, 0}};
+const uint8_t recipes[5][3] = {{SILVER, DIAMOND, RUBY}, {DIAMOND, RUBY, EMERALD}, {GOLD, DIAMOND, EMERALD}, 
+{GOLD, GOLD, RUBY}, {SILVER, SILVER, EMERALD}};
 
 
  //for progress bar
@@ -277,7 +279,7 @@ int8_t Machine::updateRefiner(uint8_t input){
             if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
                 holdItem +=5;
             }else{
-                holdItem = EMPTY;
+                holdItem = TRASH;
             }
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             state++;
@@ -354,6 +356,7 @@ int8_t Machine::updateRock(uint8_t input){
         if((input&RButton) == 0x40){
             state++;
             if(!wasWorking){
+                Sound_Clang();
                 sprite = 0;
                 printRock();
                 workTimer = 150;    //5 sec of work time
@@ -388,7 +391,7 @@ int8_t Machine::updateRock(uint8_t input){
             }else{
                 ST7735_FillRect(progX+progH-2*((150-workTimer)/15)-1, progY+1, (progH-2)/10, progW-2, 0x001F);
             }
-            //maybe short sound effect?
+            Sound_Clang();
         }
         if(workTimer == 75){    //print cracked halfway through
             sprite = 2;
@@ -560,6 +563,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
             workTimer--;
             if(workTimer%15 == 0){
+                Sound_Clang();
                 if(sprite == 0){
                     sprite = 2;
                 }else{
@@ -838,10 +842,12 @@ int8_t Machine::updateTurnInArea(uint8_t input){
                         ToDoArr[holdItem-11]--; //decrement the item in the arr
                         score+=200;
                         //output good ding
+                        Sound_Correct();
                     }
                 }else{
                     score -= 100;
                     //output bad ding
+                    Sound_Wrong();
                 }
             }
         }
