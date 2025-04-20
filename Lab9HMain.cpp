@@ -207,7 +207,7 @@ uint8_t deadTimer = 0;
 
 Machine* machineArr1[11] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top};
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -394,13 +394,13 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     machineOut = m_rock1.updateRock(input);
     if(machineOut > -1){
       if(machineOut == 80){
-        if(p1.getYPos() > 93 && p1.getXPos() > 77){
+        if(p1.getYPos() > 93 && p1.getXPos() > 78){
           if(p1.getYPos() < 102){
             p1.setYPos(93);
             ST7735_FillRect(84, 94, 20, 5, 0x630C);
             ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
           }else{
-            p1.setXPos(p1.getXPos()-2);
+            p1.setXPos(78);
             ST7735_FillRect(104, 84, 4, 10, 0x630C);
             ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
           }
@@ -469,7 +469,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 }
 
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
-Machine m_smelter(89, 76, 127, 130, 99, 68);
+Machine m_smelter(89, 80, 127, 134, 99, 72);
 Machine m_anvil(35, 130, 101, 159, 28, 136, 43, 101, 130, 159); 
 Machine m_rock2(67, 21, 111, 42, 113, 17);
 Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
@@ -483,7 +483,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 111, 125, 1);
 Machine* machineArr2[9] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -533,6 +533,12 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       ST7735_DrawChar(cursorStart+letterOffset*2, scoreY, (seconds/10)+48, color, 0x630C, 1);
       ST7735_DrawChar(cursorStart+letterOffset*3, scoreY, (seconds%10)+48, color, 0x630C, 1);
     }
+    if(deadTimer > 0){
+      if(deadTimer%30 == 0){
+        ST7735_DrawChar(61, 74, deadTimer/30+48, 0x1F, 0x630C, 2);
+      }
+      deadTimer--;
+    }
 
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
@@ -540,7 +546,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint8_t change = 0;
     timer--;
 
-    if(!menuOpen){
+    if(!menuOpen && deadTimer == 0){
       bool canRight = 0, canLeft = 0, canUp = 0, canDown = 0;
       if(horiz < 1000){
         int16_t oldX = p1.getXPos();
@@ -648,6 +654,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       if(machineOut == 20){
         m_cart2.printCart();
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        m_smelter.printSmelter();
       }else{
         p1.setPossession(machineOut);
         p1.printPosession(machineOut);
@@ -679,12 +686,22 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       p1.setPossession(machineOut);
       p1.printPosession(machineOut);
     }
+    //does cart
     input = p1.getMachineInput(m_cart2);
     input |= buttons;
     machineOut = m_cart2.updateCart(input);
     if(machineOut > -1){
-      p1.setPossession(machineOut);
-      p1.printPosession(machineOut);
+      if(machineOut == 80){
+        if(p1.getYPos() < 45){
+          ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
+          p1.setXPos(42);
+          p1.setYPos(102);
+          deadTimer = 90;
+        }
+      }else{
+        p1.setPossession(machineOut);
+        p1.printPosession(machineOut);
+      }
     }
 
     //does counters
