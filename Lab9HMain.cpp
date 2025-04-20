@@ -471,10 +471,8 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
 }
 
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
-<<<<<<< Updated upstream
 Machine m_smelter(89, 80, 127, 134, 103, 72);
->>>>>>> Stashed changes
-Machine m_anvil(35, 130, 101, 159, 28, 136, 43, 101, 130, 159); 
+Machine m_anvil(31, 130, 98, 159, 25, 136, 40, 98, 130, 159); 
 Machine m_rock2(67, 21, 111, 42, 113, 17);
 Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
 Machine m_rock2Top(87, 8, 106, 15, 0, 0);
@@ -494,7 +492,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   PLL_Init(); // set bus speed
   LaunchPad_Init();
   ST7735_InitPrintf();
-  DAC5_Init();
+  //DAC5_Init();
     //note: if you colors are weird, see different options for
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(0x630C);
@@ -522,7 +520,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   uint16_t color = 0xFFFF;
   ST7735_FillScreen(0x630C);
   
-  m_rock2.setRockType(1);//this rock only return gems
+  m_rock2.setRockType(0);//this rock only return gems
   //ST7735_DrawBitmap(67, 42, rock, 44, 34);
   ST7735_DrawFastHLine(106, 138, 22, 0x0);   //trying to make a box outline in the corner
   ST7735_DrawFastVLine(106, 138, 22, 0x0);
