@@ -381,6 +381,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       if(machineOut == 0){
         if(p1.getYPos() < 62){
           p1.setYPos(62);
+          ST7735_FillRect(38, 10, 23, 51, 0x630C);
           ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
         }
       }
@@ -395,10 +396,12 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       if(machineOut == 80){
         if(p1.getYPos() > 93 && p1.getXPos() > 77){
           if(p1.getYPos() < 102){
-            p1.setYPos(p1.getYPos()-7);
+            p1.setYPos(93);
+            ST7735_FillRect(84, 94, 20, 5, 0x630C);
             ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
           }else{
             p1.setXPos(p1.getXPos()-2);
+            ST7735_FillRect(104, 84, 4, 10, 0x630C);
             ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
           }
         }
@@ -655,8 +658,18 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     input|= buttons;
     machineOut = m_smelter.updateSmelter(input);
     if(machineOut > -1){
-      p1.setPossession(machineOut);
-      p1.printPosession(machineOut);
+      if(machineOut == 80){
+        if(p1.getXPos() > 73){
+          p1.setXPos(73);
+          ST7735_FillRect(72, 43, 55, 25, 0x630C);
+          ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+        }
+        p1.setPossession(0);
+        p1.printPosession(0);
+      }else{
+        p1.setPossession(machineOut);
+        p1.printPosession(machineOut);
+      }
     }
 
     input = p1.getMachineInput(m_rock2);
