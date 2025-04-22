@@ -58,7 +58,7 @@ uint8_t progW = 6;
 uint8_t progH = 22;
 
 //the To do list 
-static int ToDoArr[5] = {1,2,3,4,5}; 
+int ToDoArr[5] = {1,2,3,4,5}; 
 
 Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY){
     sprite = 100;   //start of game engine prints default
@@ -664,25 +664,29 @@ int8_t Machine::updateCart(uint8_t input){
         if(workTimer == 0){
             state++;
             sprite = 4;
+            workTimer = 15;
+            while(UART2_InChar()){};
         }
         workTimer--;
         return -1;
       case 2://send cart state
+        if(workTimer == 0){
+            state++;
+            workTimer = 15;
+            return -1;
+        }
+        workTimer--;
         if(UART2_InChar()){ //Non 0 return means there's something in FIFO
             uint8_t count = 0;
             char ack = '2';
             while(ack){ //clear out the whole FIFO
                 ack = UART2_InChar();
-                if(ack == 'c')count++;  //c is acknowledge that cart was received
-            }
-            if(count > 2){
-                char seen[4] = {167 , 167, 167, 167};    //167 is 2nd acknowledge from trasmitter to receiver
-                UART2_Disable();
-                for (int i = 0; i < 4; i++) {    //sends twice
-                    IRxmt_OutChar(seen[i]);
+                if(ack == 'c'){
+                    count++;  //c is acknowledge that cart was received
                 }
-                 UART2_Enable();
-                 state++;
+            }
+            if(count > 1){
+                state++;
             }
         }
 
@@ -747,27 +751,20 @@ int8_t Machine::updateCart(uint8_t input){
         }
         return -1;
       case 4:   //waiting for 2nd acknowledge
-        if(UART2_InChar() && (workTimer-- != 0)){ //Non 0 return means there's something in FIFO
-            uint8_t count = 0;
-            char ack = '2';
-            while(ack){ //clear out the whole FIFO
-                ack = UART2_InChar();
-                if(ack == 167)count++;  //c is acknowledge that cart was received
-            }
-            if(count > 2){
-                state++;
-                workTimer = 60;
-                sprite = 3;
-                return -1;
-            }
+        if(workTimer == 0){
+            state++;
+            workTimer = 60;
+            sprite = 3;
+            return -1;
         }
+        workTimer--;
         char seen[4];   //resend first acknowledge from receiver to transmitter
         seen[0] = 'c';
         seen[1] = 'c';
         seen[2] = 'c';
         seen[3] = 'c';    
         UART2_Disable();
-        for (int i = 0; i < 4; i++) {    //sends twice
+        for (int i = 0; i < 4; i++) {    //sends acknowledge
             IRxmt_OutChar(seen[i]);
         }
         UART2_Enable();

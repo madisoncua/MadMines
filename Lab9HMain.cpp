@@ -29,6 +29,7 @@
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
 extern "C" void TIMG12_IRQHandler(void);
+extern int ToDoArr[5];
 // ****note to ECE319K students****
 // the data sheet says the ADC does not work when clock is 80 MHz
 // however, the ADC seems to work on my boards at 80 MHz
@@ -60,6 +61,15 @@ void TIMG12_IRQHandler(void){uint32_t pos, msg;
 }
 uint8_t TExaS_LaunchPadLogicPB27PB26(void){
   return (0x80|((GPIOB->DOUT31_0>>26)&0x03));
+}
+
+uint8_t checkWin(void){
+  for (int i=0; i<5; i++){
+    if(ToDoArr[i]!=0){
+      return 0;
+    }
+  }
+  return 1;
 }
 
 
@@ -492,7 +502,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   PLL_Init(); // set bus speed
   LaunchPad_Init();
   ST7735_InitPrintf();
-  //DAC5_Init();
+  DAC5_Init();
     //note: if you colors are weird, see different options for
     // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
   ST7735_FillScreen(0x630C);
@@ -506,6 +516,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
     // initialize interrupts on TimerG12 at 30 Hz
+    while(UART2_InChar()){};
   TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
@@ -552,7 +563,6 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     uint32_t horiz = Sensor.DistanceX();
     uint8_t change = 0;
     timer--;
-
     if(!menuOpen && deadTimer == 0){
       bool canRight = 0, canLeft = 0, canUp = 0, canDown = 0;
       if(horiz < 1000){
@@ -722,6 +732,17 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         }
     }
   }
+ if(checkWin()==1){
+  ST7735_FillScreen(0x630C);
+  ST7735_SetCursor(5, 10);
+  ST7735_OutString((char *)"YOU WON!");
+ }else{
+  ST7735_FillScreen(0x630C);
+  ST7735_SetCursor(5, 10);
+  ST7735_OutString((char *)"YOU LOST");
+ }
   return -1;
 }
+
+
 
