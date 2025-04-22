@@ -26,6 +26,7 @@
 #include "FIFO2.h"
 #include "Instructions.h"
 #include "ti/devices/msp/m0p/mspm0g350x.h"
+#include <string.h>
 
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
@@ -235,9 +236,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
-  //Wireless Inits
-  IRxmt_Init();   //transmitter PA8
-  UART2_Init();   //just receive, PA22, receiver timeout synchronization
+  
+  
     // initialize interrupts on TimerG12 at 30 Hz
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
@@ -245,10 +245,15 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   randomizeOrders();
   setUpInstructions(); //does the intro screen
   
-  ST7735_FillScreen(0x630C);//set screen grey
+  //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
 
+  ST7735_FillScreen(0x630C);//set screen grey
+  ST7735_SetCursor(0, 0);
+  ST7735_OutString("Waiting for Player 2");
   uint8_t acknowledge = 0;
-  char[4] startMsg = {'1', '2', '3' ,'4'};
+  char startMsg[4] = {'1', '2', '3' ,'4'};
   while(!acknowledge){
     UART2_Disable();
     for (int i = 0; i < 4; i++) {
@@ -274,7 +279,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       c1 = UART2_InChar();  //continue if there's more messages
     }
   }
-  Clock_Delay1ms(10); //this is a guess to delay until the other one starts
+  ST7735_FillScreen(0x630C);//set screen grey
+  Clock_Delay1ms(5); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
   m_rock1.setRockType(1);//only gives metal (silver or gold)
   m_cart1.setSprite(4);
@@ -315,7 +321,11 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         ST7735_DrawChar(61, 74, deadTimer/30+48, 0x1F, 0x630C, 2);
       }
       deadTimer--;
+      if(deadTimer == 0){
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }
     }
+    
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
@@ -513,6 +523,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
+
   return 0;
 }
 
@@ -544,9 +555,6 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_FillScreen(0x630C);
   Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
   Switch_Init(); // initialize switches PA24, PA25
-  //Wireless Inits
-  IRxmt_Init();   //transmitter PA8
-  UART2_Init();   //just receive, PA22, receiver timeout synchronization
 
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
@@ -558,7 +566,13 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
 
   setUpInstructions(); //does the intro screen
+  //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
 
+  ST7735_FillScreen(0x630C);
+  ST7735_SetCursor(0, 0);
+  ST7735_OutString("Waiting for Player 1");
   uint8_t startGame = 0;
 
   char c1, c2, c3, c4;
@@ -579,7 +593,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   }
 
   startGame = 0;  //now wait until transmitter stops sending stuff to know it also saw acknowledge
-  char[4] ackMsg = {'a', 'b', 'c', 'd'};
+  char ackMsg[4] = {'a', 'b', 'c', 'd'};
   while(!startGame){
     UART2_Disable();
     for (int i = 0; i < 4; i++) {
@@ -628,6 +642,9 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         ST7735_DrawChar(61, 74, deadTimer/30+48, 0x1F, 0x630C, 2);
       }
       deadTimer--;
+      if(deadTimer == 0){
+        ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
+      }
     }
 
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
@@ -804,17 +821,39 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         }
     }
   }
+  int16_t score = 0;
+  uint8_t receiveScore = 0;
+  while(!receiveScore){
+    while(UART2_InChar() != 167){
+      c2 = UART2_InChar();
+      c3 = UART2_InChar();
+      c4 = UART2_InChar();
+      if(c3 == 99){
+        score = c2<<8+c4;
+      }
+    }
+    
+  }
  if(checkWin()==1){
   ST7735_FillScreen(0x630C);
   ST7735_SetCursor(5, 10);
   ST7735_OutString((char *)"YOU WON!");
+  ST7735_SetCursor(5, 11);
+  char endScore[] = "Final Score: ";
+  char scoreStr[5];
+  sprintf(scoreStr, "%d", score);
+  strcat(endScore, scoreStr);
+  ST7735_OutString(endScore);
  }else{
   ST7735_FillScreen(0x630C);
   ST7735_SetCursor(5, 10);
   ST7735_OutString((char *)"YOU LOST");
+  ST7735_SetCursor(5, 11);
+  char endScore[] = "Final Score: ";
+  char scoreStr[5];
+  sprintf(scoreStr, "%d", score);
+  strcat(endScore, scoreStr);
+  ST7735_OutString(endScore);
  }
   return -1;
 }
-
-
-

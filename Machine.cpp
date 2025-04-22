@@ -781,7 +781,7 @@ int8_t Machine::updateCart(uint8_t input){
             printCart();
             if(holdItem != EMPTY){  //print the item in the cart
                 ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x630C);
-                ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
+                ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-24+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             }
             return -1;
         }
