@@ -152,9 +152,7 @@ bool Player::inBounds(int16_t x, int16_t y, Machine** m, uint8_t length, uint8_t
   //refiner: if main=1, index = 0, and was working = 1
   //rock1: if main=1, index=2, and wasWorking=1
   for(int i=0; i<length; i++){
-    
-
-    if(mainNum==1&&toDoOpen==0 && i==4){continue;}
+    if(mainNum == 1 && toDoOpen==0 && i==4){continue;}
     m_rightX = m[i]->bot_R_x;
     m_leftX = m[i]->top_L_x;
     if(i == 3 && m[i]->sprite == 4){  //cart sprite is ladder (smaller hit box)

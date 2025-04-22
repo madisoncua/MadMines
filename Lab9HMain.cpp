@@ -25,6 +25,7 @@
 #include "UART2.h"
 #include "FIFO2.h"
 #include "Instructions.h"
+#include "ti/devices/msp/m0p/mspm0g350x.h"
 
 extern "C" void __disable_irq(void);
 extern "C" void __enable_irq(void);
@@ -189,12 +190,17 @@ int main4(void){ uint32_t last=0,now;
   }
 }
 
+void randomizeOrders(void){
+  for (int i = 0; i < 5; i++) {
+    ToDoArr[i] = SysTick->VAL%3;//0-2
+  }
+}
 
 Player p1; //player 1
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, progX, progY, proXL, proXR, proYT, proYB)
 Machine m_refiner(67, 10, 121, 45, 61, 15);
 Machine m_portal(65, 135, 103, 159, 0, 0);
-Machine m_cart1(5, 8, 51, 54, 5, 36, 8, 50, 3);
+Machine m_cart1(5, 8, 51, 54, 5, 51, 8, 54, 3);
 Machine m_rock1(88, 114, 132, 135, 104, 94, 88, 127, 101, 135);
 Machine m_rock1Mid(99, 108, 129, 114, 0, 0);
 Machine m_rock1Top(108, 101, 127, 108, 0, 0);
@@ -214,7 +220,7 @@ uint8_t deadTimer = 0;
 
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -236,9 +242,39 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
   __enable_irq();
-
+  randomizeOrders();
   setUpInstructions(); //does the intro screen
+  
   ST7735_FillScreen(0x630C);//set screen grey
+
+  uint8_t acknowledge = 0;
+  char[4] startMsg = {'1', '2', '3' ,'4'};
+  while(!acknowledge){
+    UART2_Disable();
+    for (int i = 0; i < 4; i++) {
+      IRxmt_OutChar(startMsg[i]);
+    }
+    UART2_Enable();
+    Clock_Delay1ms(10);
+    char c1, c2, c3, c4;
+    c1 = UART2_InChar();
+    while(c1){
+      c2 = UART2_InChar();
+      c3 = UART2_InChar();
+      c4 = UART2_InChar();
+      uint8_t count = 0;
+      if(c1 == 'a')count++;
+      if(c2 == 'b')count++;
+      if(c3 == 'c')count++;
+      if(c4 == 'd')count++;
+      if(count >= 2){   //acknowledge received that player 2 is ready to start the game
+        acknowledge = 1;
+        break;
+      }
+      c1 = UART2_InChar();  //continue if there's more messages
+    }
+  }
+  Clock_Delay1ms(10); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
   m_rock1.setRockType(1);//only gives metal (silver or gold)
   m_cart1.setSprite(4);
@@ -458,7 +494,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
         }
         continue;
       }else if(machineOut==22){
-        m_cart1.printCart();
+        m_cart1.menuPrintCart();
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
         for(int i=1; i<numCounters+1; i++){
           Counters[i].setSprite(4);
@@ -496,7 +532,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 111, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -522,6 +558,42 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   __enable_irq();
 
   setUpInstructions(); //does the intro screen
+
+  uint8_t startGame = 0;
+
+  char c1, c2, c3, c4;
+  
+  while(!startGame){  //continue until it sees message to start
+    c1 = UART2_InChar();
+    c2 = UART2_InChar();
+    c3 = UART2_InChar();
+    c4 = UART2_InChar();
+    uint8_t count = 0;
+    if(c1 == '1')count++;
+    if(c2 == '2')count++;
+    if(c3 == '3')count++;
+    if(c4 == '4')count++;
+    if(count >= 2){   //acknowledge received that player 2 is ready to start the game
+      startGame = 1;
+    }
+  }
+
+  startGame = 0;  //now wait until transmitter stops sending stuff to know it also saw acknowledge
+  char[4] ackMsg = {'a', 'b', 'c', 'd'};
+  while(!startGame){
+    UART2_Disable();
+    for (int i = 0; i < 4; i++) {
+      IRxmt_OutChar(ackMsg[i]);
+    }
+    UART2_Enable();
+    Clock_Delay1ms(7);
+    c1 = UART2_InChar();
+    c2 = UART2_InChar();
+    if(c1 == 0 && c2 == 0){ //FIFO is empty and transmitter has started game
+      startGame = 1;
+    }
+  }
+
   ///////////begin game//////////////////////////
   menuOpen = 0;
   toDoOpen = 0;

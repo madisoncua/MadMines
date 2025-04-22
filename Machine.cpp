@@ -14,6 +14,7 @@
 #include "../inc/TExaS.h"
 #include "../inc/Timer.h"
 #include "Sound.h"
+#include "ti/devices/msp/m0p/mspm0g350x.h"
 
 extern uint8_t menuOpen, toDoOpen, sound_flag;
 // //inputs (bits 0-4)
@@ -58,7 +59,7 @@ uint8_t progW = 6;
 uint8_t progH = 22;
 
 //the To do list 
-int ToDoArr[5] = {1,2,3,4,5}; 
+int ToDoArr[5]; 
 
 Machine::Machine(uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY){
     sprite = 100;   //start of game engine prints default
@@ -665,12 +666,12 @@ int8_t Machine::updateCart(uint8_t input){
             state++;
             sprite = 4;
             workTimer = 15;
-            while(UART2_InChar()){};
+            while(UART2_InChar()){};//empties out FIFO
         }
         workTimer--;
         return -1;
       case 2://send cart state
-        if(workTimer == 0){
+        if(workTimer == 0){ //sent cart message 15 times with no receive acknowledge
             state++;
             workTimer = 15;
             return -1;
@@ -750,8 +751,8 @@ int8_t Machine::updateCart(uint8_t input){
             workTimer = 15;
         }
         return -1;
-      case 4:   //waiting for 2nd acknowledge
-        if(workTimer == 0){
+      case 4:   //sending acknowledge of receiving
+        if(workTimer == 0){//only tries sending first acknowledge 15 times before moving on
             state++;
             workTimer = 60;
             sprite = 3;
@@ -779,7 +780,7 @@ int8_t Machine::updateCart(uint8_t input){
             sprite = 0;
             printCart();
             if(holdItem != EMPTY){  //print the item in the cart
-                ST7735_FillRect(top_L_x+8, bot_R_y-31, 30, 23, 0x630C);
+                ST7735_FillRect(top_L_x+8, bot_R_y-35, 30, 23, 0x630C);
                 ST7735_DrawBitmap(top_L_x+23-sprites[holdItem].w/2, bot_R_y-20+sprites[holdItem].h/2, sprites[holdItem].image, sprites[holdItem].w, sprites[holdItem].h);
             }
             return -1;
@@ -857,13 +858,14 @@ int8_t Machine::updateTurnInArea(uint8_t input){
             printTurnInArea(); //set turn in area back to default
             int x_cursor = 120;
             bool isNeg = false;
-            if(score<0){
-                isNeg = true;
-            }
+            uint8_t temp = score;
             if(score<-999){
                 score = -999;
             }
-            uint8_t temp = score*-1;
+            if(score<0){
+                isNeg = true;
+                temp*= -1;
+            }
             while(temp!=0){
                 ST7735_DrawChar(x_cursor, 2, (temp%10)+48, 0xFFFF, 0x630C, 1);
                 temp /=10;
@@ -1070,6 +1072,13 @@ void Machine::printAnvil(){
     }else if(sprite == 3){//print menu
         ST7735_DrawBitmap(25, 112, anvilMenu, 78, 64);
     }
+}
+
+void Machine::menuPrintCart(){
+    if(sprite == 2 || sprite == 3){
+        return;
+    }
+    printCart();
 }
 
 void Machine::printCart(){
