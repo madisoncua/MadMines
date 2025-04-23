@@ -507,6 +507,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
+ printScore(score, 70, 80, 2);
+
   if(score < 0){
     startMsg[2] = 0x0F;
     score*= -1;
@@ -520,8 +522,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   setUpInstructions(2);
   startMsg[2] += 0x30; //lost
  }
- printScore(score, 70, 80, 2);
-
  startMsg[0] = 167;
  startMsg[1] = (score>>8)&0xFF;
  startMsg[3] = (score&0xFF);

@@ -21,7 +21,7 @@ extern int16_t score;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
- SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, TRASH};
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, BOOT, TURNIP};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -38,7 +38,8 @@ extern int16_t score;
 // //13-ring
 // //14-staff
 // //15-wand
-// //16-trash
+// //16-boot
+// //17-turnip
 // //Bit 5: LButtong 
  #define LButton (1<<5)
 // //Bit 6: RButton
@@ -48,9 +49,9 @@ extern int16_t score;
 
 //{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
 //SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
-itemHeld sprites[17] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
+itemHeld sprites[18] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
-            {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {trash, 20, 20}};
+            {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {boot, 20, 20}, {turnip, 13, 19}};
 const uint8_t recipes[5][3] = {{SILVER, DIAMOND, RUBY}, {DIAMOND, RUBY, EMERALD}, {GOLD, DIAMOND, EMERALD}, 
 {GOLD, GOLD, RUBY}, {SILVER, SILVER, EMERALD}};
 
@@ -204,7 +205,7 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
                 state = 0;
                 sprite = 0;
                 printSmelter();
-                return TRASH;
+                return TURNIP;
             }
         }
         return -1;
@@ -283,7 +284,7 @@ int8_t Machine::updateRefiner(uint8_t input){
             if((holdItem) > 2 && (holdItem) < 6){   //makes sure gem was input
                 holdItem +=5;
             }else{
-                holdItem = TRASH;
+                holdItem = BOOT;
             }
             ST7735_FillRect(progX, progY, progW, progH, 0x630C); //fills inside of empty progress bar
             state++;
@@ -429,7 +430,7 @@ int8_t Machine::updateRock(uint8_t input){
 }
 
 uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
-    if(len <3)return TRASH;
+    if(len <3)return TURNIP;
     uint8_t used[len];
     for (int k = 0; k < 5; k++) {   //test each item
         if(len != 3)continue;
@@ -454,7 +455,7 @@ uint8_t Machine::computeRecipe(int8_t* list, int8_t len){
         }
         if(isItem)return SWORD+k;
     }
-    return TRASH;
+    return TURNIP;
 }
 
 void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
@@ -546,7 +547,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             return 20;  //number that isn't an item to indicate reprint player
         }
         if(wasWorking)return -1; //don't let player add or remove items when in the middle of working
-        if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TRASH)){ //add player's item
+        if(((input&RButton) == 0x40) && anvilLength<5 && (((input&material) > EMPTY && (input&material) < SWORD) || (input&material) == TURNIP || (input&material) == BOOT)){ //add player's item
             AnvilItems[anvilLength++] = (input&material);
             menuDebounce = 10;
             updateAnvilMenu(AnvilItems, anvilLength);
