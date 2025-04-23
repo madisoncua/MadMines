@@ -140,15 +140,29 @@ const char Page5_Spanish[] = "Men\xA3 de tareas:\n\n"
                               "clic derecho\n"
                               "para empezar";
 
+const char Won_English[] = "YOU WON!\n"
+                            "FINAL SCORE: \n";
+
+const char Lost_English[] = "YOU LOST!\n"
+                            "FINAL SCORE: \n";
+
+const char Won_Spanish[] = "GANASTE!\n"
+                            "PUNTUACIÓN FINAL: \n";
+
+const char Lost_Spanish[] = "PERDISTE!\n"
+                            "PUNTUACI\xA2N FINAL: \n";
 
 
-const char *Phrases[3][2]={
+
+const char *Phrases[5][2]={
   {Hello_English,Hello_Spanish},
   {Goodbye_English,Goodbye_Spanish},
-  {Language_English,Language_Spanish}
+  {Language_English,Language_Spanish},
+  {Won_English, Won_Spanish},
+  {Lost_English, Lost_Spanish}
 };
 
 const char *Instructions[2][5]{
   {Page1_English, Page2_English, Page3_English, Page4_English, Page5_English},
-  {Page1_Spanish, Page2_Spanish, Page3_Spanish, Page4_Spanish, Page5_Spanish}
+  {Page1_Spanish, Page2_Spanish, Page3_Spanish, Page4_Spanish, Page5_Spanish},
 };

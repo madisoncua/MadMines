@@ -1,42 +1,18 @@
 ******************************************************************************
             TI ARM Clang Linker PC v4.0.1                      
 ******************************************************************************
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->> Linked Mon Apr 21 23:23:30 2025
+>> Linked Tue Apr 22 22:19:47 2025
 
 OUTPUT FILE NAME:   <MadMines.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001ad31
-=======
->> Linked Mon Apr 21 22:56:57 2025
-
-OUTPUT FILE NAME:   <MadMines.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001ed45
->>>>>>> Stashed changes
-=======
->> Linked Mon Apr 21 22:56:57 2025
-
-OUTPUT FILE NAME:   <MadMines.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001ed45
->>>>>>> Stashed changes
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0001ef31
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  FLASH                 00000000   00020000  0001b920  000046e0  R  X
-  SRAM                  20200000   00008000  00001a62  0000659e  RW X
-=======
-  FLASH                 00000000   00020000  0001f8f0  00000710  R  X
-  SRAM                  20200000   00008000  00001a5c  000065a4  RW X
->>>>>>> Stashed changes
-=======
-  FLASH                 00000000   00020000  0001f8f0  00000710  R  X
-  SRAM                  20200000   00008000  00001a5c  000065a4  RW X
->>>>>>> Stashed changes
+  FLASH                 00000000   00020000  0001faf8  00000508  R  X
+  SRAM                  20200000   00008000  00001a6c  00006594  RW X
   BCR_CONFIG            41c00000   00000080  00000000  00000080  R   
   BSL_CONFIG            41c00100   00000080  00000000  00000080  R   
 
@@ -45,37 +21,16 @@ SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-00000000    00000000    0001b920   0001b920    r-x
+00000000    00000000    0001faf8   0001faf8    r-x
   00000000    00000000    000000c0   000000c0    r-- .intvecs
-  000000c0    000000c0    00014810   00014810    r-- .rodata
-  000148d0    000148d0    00006a30   00006a30    r-x .text
-  0001b300    0001b300    00000008   00000008    r-- .init_array
-  0001b308    0001b308    00000618   00000618    r-- .cinit
-20200000    20200000    00001865   00000000    rw-
-  20200000    20200000    00001465   00000000    rw- .data
-  20201468    20201468    00000200   00000000    rw- .sysmem
-  20201668    20201668    000001fd   00000000    rw- .bss
-=======
-00000000    00000000    0001f8f0   0001f8f0    r-x
-  00000000    00000000    000000c0   000000c0    r-- .intvecs
-=======
-00000000    00000000    0001f8f0   0001f8f0    r-x
-  00000000    00000000    000000c0   000000c0    r-- .intvecs
->>>>>>> Stashed changes
-  000000c0    000000c0    00018568   00018568    r-- .rodata
-  00018628    00018628    00000008   00000008    r-- .init_array
-  00018630    00018630    00006cb0   00006cb0    r-x .text
-  0001f2e0    0001f2e0    00000610   00000610    r-- .cinit
-20200000    20200000    00001860   00000000    rw-
-  20200000    20200000    00001459   00000000    rw- .data
-  2020145c    2020145c    00000203   00000000    rw- .bss
-  20201660    20201660    00000200   00000000    rw- .sysmem
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+  000000c0    000000c0    000185d8   000185d8    r-- .rodata
+  00018698    00018698    00000008   00000008    r-- .init_array
+  000186a0    000186a0    00006e30   00006e30    r-x .text
+  0001f4d0    0001f4d0    00000628   00000628    r-- .cinit
+20200000    20200000    00001870   00000000    rw-
+  20200000    20200000    00001469   00000000    rw- .data
+  2020146c    2020146c    00000203   00000000    rw- .bss
+  20201670    20201670    00000200   00000000    rw- .sysmem
 20207e00    20207e00    00000200   00000000    rw-
   20207e00    20207e00    00000200   00000000    rw- .stack
 
@@ -90,513 +45,219 @@ section   page    origin      length       input sections
 
 .binit     0    00000000    00000000     
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-.text      0    000148d0    00006a30     
-                  000148d0    00001014     Lab9HMain.o (.text.main)
-                  000158e4    00000510     Machine.o (.text._ZN7Machine10updateCartEh)
-                  00015df4    0000040c     Machine.o (.text._ZN7Machine10updateRockEh)
-                  00016200    000003c4     Machine.o (.text._ZN7Machine13updateRefinerEh)
-                  000165c4    0000038c     Machine.o (.text._ZN7Machine14updateCountersEhPS_)
-                  00016950    000002b0     Machine.o (.text._ZN7Machine13printCountersEPS_)
-                  00016c00    000002ac     Machine.o (.text._ZN7Machine12printRefinerEv)
-                  00016eac    00000254     Machine.o (.text._ZN7Machine16updateTurnInAreaEh)
-                  00017100    00000244     Player.o (.text._ZN6Player8inBoundsEssPP7Machinehh)
-                  00017344    00000210     ST7735.o (.text._Z17ST7735_DrawBitmapssPKtss)
-                  00017554    000001dc     Lab9HMain.o (.text._Z17setUpInstructionsv)
-                  00017730    000001d8     Machine.o (.text._ZN7Machine9printCartEv)
-                  00017908    000001b4     Clock.o (.text._Z15Clock_Init80MHzi)
-                  00017abc    000001a4     ST7735.o (.text._Z15ST7735_DrawCharsscssh)
-                  00017c60    000001a0     ST7735.o (.text._Z16ST7735_DrawCharSsscssh)
-                  00017e00    0000017c     Machine.o (.text._ZN7Machine9printRockEv)
-                  00017f7c    0000015c     Machine.o (.text._ZN7Machine13cartSendErrorEhh)
-                  000180d8    00000154     libc.a : fopen.c.obj (.text._openfile)
-                  0001822c    0000013c     Machine.o (.text._ZN7Machine15printTurnInAreaEv)
-                  00018368    00000128     TExaS.o (.text._Z8ADC_InitP10ADC12_Regsjj)
-                  00018490    00000118     ST7735.o (.text._Z15ST7735_FillRectsssst)
-                  000185a8    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
-                  000186bc    000000f8     SPI.o (.text._Z8SPI_Initv)
-                  000187b4    000000f4     ST7735.o (.text._Z18ST7735_SetRotationh)
-                  000188a8    000000ec     libsysbm.a : add_device.c.obj (.text.add_device)
-                  00018994    000000e8     TExaS.o (.text._Z9UART_Initv)
-                  00018a7c    000000e8     libc.a : memory.c.obj (.text.free)
-                  00018b64    000000e0            : setvbuf.c.obj (.text.setvbuf)
-                  00018c44    000000dc     UART2.o (.text._Z10UART2_Initv)
-                  00018d20    000000d8     ST7735.o (.text._Z14ST7735_OutCharc)
-                  00018df8    000000b0     ST7735.o (.text._Z20ST7735_DrawFastHLinessst)
-                  00018ea8    000000b0     ST7735.o (.text._Z20ST7735_DrawFastVLinessst)
-                  00018f58    000000a8     Timer.o (.text._Z14TimerG7_IntArmtjj)
-                  00019000    000000a2     ST7735.o (.text._ZL11commandListPKh)
-                  000190a2    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  000190a4    000000a0     libsysbm.a : open.c.obj (.text.open)
-                  00019144    0000009c     ST7735.o (.text._Z17ST7735_InitPrintfv)
-                  000191e0    0000009c     Player.o (.text._ZN6Player14checkProximityE7Machine)
-                  0001927c    00000098     ST7735.o (.text._Z12ST7735_InitR10initRFlags)
-                  00019314    00000098     Player.o (.text._ZN6Player16resetCoordinatesEPsS0_)
-                  000193ac    00000094     Timer.o (.text._Z15TimerG12_IntArmjj)
-                  00019440    00000090     Sound.o (.text._Z11Sound_Starth)
-                  000194d0    0000008c     ST7735.o (.text._Z17ST7735_DrawStringttPcs)
-                  0001955c    0000008c     Machine.o (.text._ZN7MachineC2Ehhhhhhhhhh)
-                  000195e8    0000008c     SlidePot.o (.text._ZN8SlidePot4InitEv)
-                  00019674    00000088     ST7735.o (.text._ZL13setAddrWindowhhhh)
-                  000196fc    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  00019700    00000088            : strcmp-armv6m.S.obj (.text:strcmp)
-                  00019788    00000084     Machine.o (.text._ZN7MachineC2Ehhhhhhhhh)
-                  0001980c    0000007c     LaunchPad.o (.text._Z14LaunchPad_Initv)
-                  00019888    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
-                  00019904    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  00019980    00000074     UART2.o (.text.UART2_IRQHandler)
-                  000199f4    00000074     IRxmt.o (.text._Z13IRxmt_SendBiti)
-                  00019a68    00000070     ST7735.o (.text._Z16ST7735_DrawPixelsst)
-                  00019ad8    0000006e     Player.o (.text._ZN6Player15getMachineInputE7Machine)
-                  00019b46    00000002     libc.a : _lock.c.obj (.text._nop)
-                  00019b48    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
-                  00019bb4    0000006c                : hostrename.c.obj (.text.HOSTrename)
-                  00019c20    0000006c     Lab9HMain.o (.text._GLOBAL__sub_I_Lab9HMain.cpp)
-                  00019c8c    0000006c     libc.a : getdevice.c.obj (.text.getdevice)
-                  00019cf8    00000064     Machine.o (.text._ZN7MachineC2Ehhhhhh)
-                  00019d5c    00000064     libc.a : memory.c.obj (.text.split)
-                  00019dc0    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
-                  00019e20    00000058                : hostread.c.obj (.text.HOSTread)
-                  00019e78    00000058                : hostwrite.c.obj (.text.HOSTwrite)
-                  00019ed0    00000058     Sound.o (.text.SysTick_Handler)
-                  00019f28    00000058     TExaS.o (.text._Z10TExaS_InitP10ADC12_RegsjPFhvE)
-                  00019f80    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  00019fd6    00000002     --HOLE-- [fill = 0]
-                  00019fd8    00000054     Player.o (.text._ZN6Player14printPosessionEh)
-                  0001a02c    00000054     Player.o (.text._ZN6Player8moveLeftEv)
-                  0001a080    00000054     Player.o (.text._ZN6Player9moveRightEv)
-                  0001a0d4    00000054     SlidePot.o (.text._ZN8SlidePot2InEv)
-                  0001a128    00000054     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit)
-                  0001a17c    00000052     Player.o (.text._ZN6Player8moveDownEv)
-                  0001a1ce    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
-                  0001a220    00000050     Lab9HMain.o (.text.__cxx_global_var_init.13)
-                  0001a270    00000050     libsysbm.a : close.c.obj (.text.close)
-                  0001a2c0    00000048                : hostclose.c.obj (.text.HOSTclose)
-                  0001a308    00000048                : hostunlink.c.obj (.text.HOSTunlink)
-                  0001a350    00000048     IRxmt.o (.text._Z13IRxmt_OutCharc)
-                  0001a398    00000048     SPI.o (.text._Z14SPI_OutCommandc)
-                  0001a3e0    00000048     FIFO2.o (.text._ZN5Queue3GetEPc)
-                  0001a428    00000048     FIFO2.o (.text._ZN5Queue3PutEc)
-                  0001a470    00000040     TExaS.o (.text.TIMG7_IRQHandler)
-                  0001a4b0    00000040     Sound.o (.text._Z10Sound_Initv)
-                  0001a4f0    00000040     SPI.o (.text._Z9SPI_Resetv)
-                  0001a530    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  0001a570    00000040     Lab9HMain.o (.text.__cxx_global_var_init.26)
-                  0001a5b0    00000040     libc.a : fopen.c.obj (.text._search_fp)
-                  0001a5f0    0000003c     Lab9HMain.o (.text.TIMG12_IRQHandler)
-                  0001a62c    0000003c     Lab9HMain.o (.text._Z15randomizeOrdersv)
-                  0001a668    0000003c     DAC5.o (.text._Z9DAC5_Initv)
-                  0001a6a4    0000003c     Player.o (.text._ZN6Player6moveUpEv)
-                  0001a6e0    00000038     SPI.o (.text._Z11SPI_OutDatac)
-                  0001a718    00000038     LaunchPad.o (.text._Z15ActivatePortA_Bv)
-                  0001a750    00000034     ST7735.o (.text._Z12ST7735_writeiPKcj)
-                  0001a784    00000034     Clock.o (.text._Z14Clock_Delay1msj)
-                  0001a7b8    00000034     ST7735.o (.text._Z16ST7735_SetCursorjj)
-                  0001a7ec    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
-                  0001a820    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
-                  0001a854    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
-                  0001a888    00000034     libc.a : exit.c.obj (.text.exit)
-                  0001a8bc    00000034            : getdevice.c.obj (.text.finddevice)
-                  0001a8f0    00000034            : fopen.c.obj (.text.freopen)
-                  0001a924    00000030     ST7735.o (.text._ZL10commonInitPKh)
-                  0001a954    00000030     Player.o (.text._ZN6Player14translateRightEv)
-                  0001a984    00000030     Lab9HMain.o (.text.__cxx_global_var_init.10)
-                  0001a9b4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.11)
-                  0001a9e4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.12)
-                  0001aa14    00000030     Lab9HMain.o (.text.__cxx_global_var_init.17)
-                  0001aa44    00000030     Lab9HMain.o (.text.__cxx_global_var_init.23)
-                  0001aa74    00000030     Lab9HMain.o (.text.__cxx_global_var_init.24)
-                  0001aaa4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.25)
-                  0001aad4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.5)
-                  0001ab04    00000030     libc.a : fopen.c.obj (.text.fopen)
-                  0001ab34    0000002c     UART2.o (.text._Z12UART2_InCharv)
-                  0001ab60    0000002c     ST7735.o (.text._Z17ST7735_FillScreent)
-                  0001ab8c    0000002c     Player.o (.text._ZN6Player13translateDownEv)
-                  0001abb8    0000002c     Player.o (.text._ZN6Player13translateLeftEv)
-                  0001abe4    0000002c     Lab9HMain.o (.text.__cxx_global_var_init.9)
-                  0001ac10    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
-                  0001ac3c    0000002a     Machine.o (.text._ZN7Machine13menuPrintCartEv)
-                  0001ac66    00000002     --HOLE-- [fill = 0]
-                  0001ac68    00000028     IRxmt.o (.text._Z10IRxmt_Initv)
-                  0001ac90    00000028     TExaS.o (.text._Z9ADC_StartP10ADC12_Regs)
-                  0001acb8    00000028     Lab9HMain.o (.text.__cxx_global_var_init.4)
-                  0001ace0    00000028     libc.a : memory.c.obj (.text.free_list_insert)
-                  0001ad08    00000028     libsysbm.a : write.c.obj (.text.write)
-                  0001ad30    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  0001ad58    00000026     ST7735.o (.text._Z16ST7735_OutStringPc)
-                  0001ad7e    00000002     --HOLE-- [fill = 0]
-                  0001ad80    00000024     SlidePot.o (.text._ZN8SlidePot4SaveEj)
-                  0001ada4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.16)
-                  0001adc8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.18)
-                  0001adec    00000024     Lab9HMain.o (.text.__cxx_global_var_init.19)
-                  0001ae10    00000024     Lab9HMain.o (.text.__cxx_global_var_init.20)
-                  0001ae34    00000024     Lab9HMain.o (.text.__cxx_global_var_init.21)
-                  0001ae58    00000024     Lab9HMain.o (.text.__cxx_global_var_init.22)
-                  0001ae7c    00000024     Lab9HMain.o (.text.__cxx_global_var_init.2)
-                  0001aea0    00000024     Lab9HMain.o (.text.__cxx_global_var_init.3)
-                  0001aec4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.6)
-                  0001aee8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.8)
-                  0001af0c    00000022     FIFO2.o (.text._ZN5Queue6IsFullEv)
-                  0001af2e    00000002     --HOLE-- [fill = 0]
-                  0001af30    00000020     DAC5.o (.text._Z8DAC5_Outj)
-                  0001af50    00000020     SlidePot.o (.text._ZN8SlidePot4SyncEv)
-                  0001af70    00000020     Lab9HMain.o (.text.__cxx_global_var_init.14)
-                  0001af90    00000020     Lab9HMain.o (.text.__cxx_global_var_init.7)
-                  0001afb0    0000001e     ST7735.o (.text._ZL9pushColort)
-                  0001afce    00000002     --HOLE-- [fill = 0]
-                  0001afd0    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
-                  0001afec    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
-                  0001b008    0000001c     Switch.o (.text._Z9Switch_Inv)
-                  0001b024    0000001c     Player.o (.text._ZN6PlayerC2Ev)
-                  0001b040    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
-                  0001b05c    00000018     Switch.o (.text._Z11Switch_Initv)
-                  0001b074    00000016     ST7735.o (.text._Z11ST7735_openPKcji)
-                  0001b08a    00000016     ST7735.o (.text._Z11ST7735_readiPcj)
-                  0001b0a0    00000016     libc.a : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset)
-                  0001b0b6    00000014     FIFO2.o (.text._ZN5Queue7IsEmptyEv)
-                  0001b0ca    00000012     Player.o (.text._ZN6Player13setPossessionEh)
-                  0001b0dc    00000012     Player.o (.text._ZN6Player7setXPosEs)
-                  0001b0ee    00000012     Player.o (.text._ZN6Player7setYPosEs)
-                  0001b100    00000012     Machine.o (.text._ZN7Machine11setRockTypeEh)
-                  0001b112    00000012     Machine.o (.text._ZN7Machine9setSpriteEh)
-                  0001b124    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
-                  0001b136    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
-                  0001b148    00000010     Clock.o (.text._Z11Clock_Delayj)
-                  0001b158    00000010     UART2.o (.text._Z12UART2_Enablev)
-                  0001b168    00000010     UART2.o (.text._Z13UART2_Disablev)
-                  0001b178    00000010     Lab9HMain.o (.text._Z28TExaS_LaunchPadLogicPB27PB26v)
-                  0001b188    00000010     FIFO2.o (.text._ZN5QueueC2Ev)
-                  0001b198    00000010     Lab9HMain.o (.text.__cxx_global_var_init.1)
-                  0001b1a8    00000010     Lab9HMain.o (.text.__cxx_global_var_init)
-                  0001b1b8    00000010     UART2.o (.text.__cxx_global_var_init)
-                  0001b1c8    0000000e     libc.a : memory.c.obj (.text.OUTLINED_FUNCTION_0)
-                  0001b1d6    0000000e     ST7735.o (.text._Z12ST7735_lseekili)
-                  0001b1e4    0000000e     Player.o (.text._ZN6Player7getXPosEv)
-                  0001b1f2    0000000e     Player.o (.text._ZN6Player7getYPosEv)
-                  0001b200    0000000e     SlidePot.o (.text._ZN8SlidePotC2Ev)
-                  0001b20e    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
-                  0001b21c    0000000e                : hostrename.c.obj (.text.strlen)
-                  0001b22a    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
-                  0001b238    0000000c     Clock.o (.text._Z10Clock_Freqv)
-                  0001b244    0000000c     ST7735.o (.text._Z13ST7735_renamePKcS0_)
-                  0001b250    0000000c     IRxmt.o (.text._Z5Delayj)
-                  0001b25c    0000000c     Player.o (.text._ZN6Player7getSizeEv)
-                  0001b268    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceXEv)
-                  0001b274    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceYEv)
-                  0001b280    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  0001b28c    0000000c     libc.a : memory.c.obj (.text.malloc)
-                  0001b298    0000000a     Sound.o (.text._Z11Sound_Clangv)
-                  0001b2a2    0000000a     Sound.o (.text._Z11Sound_Wrongv)
-                  0001b2ac    0000000a     ST7735.o (.text._Z12ST7735_closei)
-                  0001b2b6    0000000a     ST7735.o (.text._Z13ST7735_unlinkPKc)
-                  0001b2c0    0000000a     Sound.o (.text._Z13Sound_Correctv)
-                  0001b2ca    0000000a     Lab9HMain.o (.text._Z8PLL_Initv)
-                  0001b2d4    00000008     UART2.o (.text._GLOBAL__sub_I_UART2.cpp)
-                  0001b2dc    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  0001b2e4    00000008     libsysbm.a : remove.c.obj (.text.remove)
-                  0001b2ec    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
-                  0001b2f0    00000004     libc.a : exit.c.obj (.text:abort)
-                  0001b2f4    0000000c     --HOLE-- [fill = 0]
+.text      0    000186a0    00006e30     
+                  000186a0    00000e18     Lab9HMain.o (.text.main)
+                  000194b8    00000510     Machine.o (.text._ZN7Machine10updateCartEh)
+                  000199c8    000004c4     Machine.o (.text._ZN7Machine11updateAnvilEh)
+                  00019e8c    00000408     Machine.o (.text._ZN7Machine10updateRockEh)
+                  0001a294    0000038c     Machine.o (.text._ZN7Machine14updateCountersEhPS_)
+                  0001a620    00000340     Machine.o (.text._ZN7Machine13updateSmelterEh)
+                  0001a960    000002b8     Machine.o (.text._ZN7Machine10printAnvilEv)
+                  0001ac18    000002b0     Machine.o (.text._ZN7Machine13printCountersEPS_)
+                  0001aec8    00000244     Player.o (.text._ZN6Player8inBoundsEssPP7Machinehh)
+                  0001b10c    00000230     Lab9HMain.o (.text._Z17setUpInstructionsh)
+                  0001b33c    00000210     ST7735.o (.text._Z17ST7735_DrawBitmapssPKtss)
+                  0001b54c    000001d8     Machine.o (.text._ZN7Machine9printCartEv)
+                  0001b724    000001b8     Machine.o (.text._ZN7Machine12printSmelterEv)
+                  0001b8dc    000001b4     Clock.o (.text._Z15Clock_Init80MHzi)
+                  0001ba90    000001a4     ST7735.o (.text._Z15ST7735_DrawCharsscssh)
+                  0001bc34    000001a0     ST7735.o (.text._Z16ST7735_DrawCharSsscssh)
+                  0001bdd4    00000198     Machine.o (.text._ZN7Machine13computeRecipeEPaa)
+                  0001bf6c    0000017c     Machine.o (.text._ZN7Machine9printRockEv)
+                  0001c0e8    00000160     Machine.o (.text._ZN7Machine15updateAnvilMenuEPaa)
+                  0001c248    0000015c     Machine.o (.text._ZN7Machine13cartSendErrorEhh)
+                  0001c3a4    00000154     libc.a : fopen.c.obj (.text._openfile)
+                  0001c4f8    00000128     TExaS.o (.text._Z8ADC_InitP10ADC12_Regsjj)
+                  0001c620    00000118     ST7735.o (.text._Z15ST7735_FillRectsssst)
+                  0001c738    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
+                  0001c84c    000000f8     SPI.o (.text._Z8SPI_Initv)
+                  0001c944    000000f4     ST7735.o (.text._Z18ST7735_SetRotationh)
+                  0001ca38    000000ec     libsysbm.a : add_device.c.obj (.text.add_device)
+                  0001cb24    000000e8     TExaS.o (.text._Z9UART_Initv)
+                  0001cc0c    000000e8     libc.a : memory.c.obj (.text.free)
+                  0001ccf4    000000e0            : setvbuf.c.obj (.text.setvbuf)
+                  0001cdd4    000000dc     UART2.o (.text._Z10UART2_Initv)
+                  0001ceb0    000000d8     ST7735.o (.text._Z14ST7735_OutCharc)
+                  0001cf88    000000cc     Lab9HMain.o (.text._Z10printScoreshhh)
+                  0001d054    000000b0     ST7735.o (.text._Z20ST7735_DrawFastHLinessst)
+                  0001d104    000000b0     ST7735.o (.text._Z20ST7735_DrawFastVLinessst)
+                  0001d1b4    000000a8     Timer.o (.text._Z14TimerG7_IntArmtjj)
+                  0001d25c    000000a2     ST7735.o (.text._ZL11commandListPKh)
+                  0001d2fe    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
+                  0001d300    000000a0     libsysbm.a : open.c.obj (.text.open)
+                  0001d3a0    0000009c     ST7735.o (.text._Z17ST7735_InitPrintfv)
+                  0001d43c    0000009c     Player.o (.text._ZN6Player14checkProximityE7Machine)
+                  0001d4d8    00000098     ST7735.o (.text._Z12ST7735_InitR10initRFlags)
+                  0001d570    00000098     Player.o (.text._ZN6Player16resetCoordinatesEPsS0_)
+                  0001d608    00000094     Timer.o (.text._Z15TimerG12_IntArmjj)
+                  0001d69c    00000090     Sound.o (.text._Z11Sound_Starth)
+                  0001d72c    0000008c     ST7735.o (.text._Z17ST7735_DrawStringttPcs)
+                  0001d7b8    0000008c     Machine.o (.text._ZN7MachineC2Ehhhhhhhhhh)
+                  0001d844    0000008c     SlidePot.o (.text._ZN8SlidePot4InitEv)
+                  0001d8d0    00000088     ST7735.o (.text._ZL13setAddrWindowhhhh)
+                  0001d958    00000008     UART2.o (.text._GLOBAL__sub_I_UART2.cpp)
+                  0001d960    00000088     libc.a : strcmp-armv6m.S.obj (.text:strcmp)
+                  0001d9e8    00000084     Machine.o (.text._ZN7MachineC2Ehhhhhhhhh)
+                  0001da6c    0000007c     LaunchPad.o (.text._Z14LaunchPad_Initv)
+                  0001dae8    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
+                  0001db64    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
+                  0001dbe0    00000074     UART2.o (.text.UART2_IRQHandler)
+                  0001dc54    00000074     IRxmt.o (.text._Z13IRxmt_SendBiti)
+                  0001dcc8    00000070     ST7735.o (.text._Z16ST7735_DrawPixelsst)
+                  0001dd38    0000006e     Player.o (.text._ZN6Player15getMachineInputE7Machine)
+                  0001dda6    00000002     libc.a : _lock.c.obj (.text._nop)
+                  0001dda8    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
+                  0001de14    0000006c                : hostrename.c.obj (.text.HOSTrename)
+                  0001de80    0000006c     Lab9HMain.o (.text._GLOBAL__sub_I_Lab9HMain.cpp)
+                  0001deec    0000006c     libc.a : getdevice.c.obj (.text.getdevice)
+                  0001df58    00000064     Machine.o (.text._ZN7MachineC2Ehhhhhh)
+                  0001dfbc    00000064     libc.a : memory.c.obj (.text.split)
+                  0001e020    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
+                  0001e080    00000058                : hostread.c.obj (.text.HOSTread)
+                  0001e0d8    00000058                : hostwrite.c.obj (.text.HOSTwrite)
+                  0001e130    00000058     Sound.o (.text.SysTick_Handler)
+                  0001e188    00000058     TExaS.o (.text._Z10TExaS_InitP10ADC12_RegsjPFhvE)
+                  0001e1e0    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
+                  0001e236    00000002     --HOLE-- [fill = 0]
+                  0001e238    00000054     Player.o (.text._ZN6Player14printPosessionEh)
+                  0001e28c    00000054     Player.o (.text._ZN6Player8moveLeftEv)
+                  0001e2e0    00000054     Player.o (.text._ZN6Player9moveRightEv)
+                  0001e334    00000054     SlidePot.o (.text._ZN8SlidePot2InEv)
+                  0001e388    00000054     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit)
+                  0001e3dc    00000052     Player.o (.text._ZN6Player8moveDownEv)
+                  0001e42e    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
+                  0001e480    00000050     Lab9HMain.o (.text.__cxx_global_var_init.13)
+                  0001e4d0    00000050     libsysbm.a : close.c.obj (.text.close)
+                  0001e520    0000004c     FIFO2.o (.text._ZN5Queue3GetEPc)
+                  0001e56c    0000004c     FIFO2.o (.text._ZN5Queue3PutEc)
+                  0001e5b8    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
+                  0001e600    00000048                : hostunlink.c.obj (.text.HOSTunlink)
+                  0001e648    00000048     IRxmt.o (.text._Z13IRxmt_OutCharc)
+                  0001e690    00000048     SPI.o (.text._Z14SPI_OutCommandc)
+                  0001e6d8    00000040     TExaS.o (.text.TIMG7_IRQHandler)
+                  0001e718    00000040     Sound.o (.text._Z10Sound_Initv)
+                  0001e758    00000040     SPI.o (.text._Z9SPI_Resetv)
+                  0001e798    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
+                  0001e7d8    00000040     Lab9HMain.o (.text.__cxx_global_var_init.26)
+                  0001e818    00000040     libc.a : fopen.c.obj (.text._search_fp)
+                  0001e858    0000003c     Lab9HMain.o (.text.TIMG12_IRQHandler)
+                  0001e894    0000003c     DAC5.o (.text._Z9DAC5_Initv)
+                  0001e8d0    0000003c     Player.o (.text._ZN6Player6moveUpEv)
+                  0001e90c    00000038     SPI.o (.text._Z11SPI_OutDatac)
+                  0001e944    00000038     LaunchPad.o (.text._Z15ActivatePortA_Bv)
+                  0001e97c    00000034     ST7735.o (.text._Z12ST7735_writeiPKcj)
+                  0001e9b0    00000034     Clock.o (.text._Z14Clock_Delay1msj)
+                  0001e9e4    00000034     ST7735.o (.text._Z16ST7735_SetCursorjj)
+                  0001ea18    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
+                  0001ea4c    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
+                  0001ea80    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
+                  0001eab4    00000034     libc.a : exit.c.obj (.text.exit)
+                  0001eae8    00000034            : getdevice.c.obj (.text.finddevice)
+                  0001eb1c    00000034            : fopen.c.obj (.text.freopen)
+                  0001eb50    00000030     ST7735.o (.text._ZL10commonInitPKh)
+                  0001eb80    00000030     Player.o (.text._ZN6Player14translateRightEv)
+                  0001ebb0    00000030     Lab9HMain.o (.text.__cxx_global_var_init.10)
+                  0001ebe0    00000030     Lab9HMain.o (.text.__cxx_global_var_init.11)
+                  0001ec10    00000030     Lab9HMain.o (.text.__cxx_global_var_init.12)
+                  0001ec40    00000030     Lab9HMain.o (.text.__cxx_global_var_init.17)
+                  0001ec70    00000030     Lab9HMain.o (.text.__cxx_global_var_init.23)
+                  0001eca0    00000030     Lab9HMain.o (.text.__cxx_global_var_init.24)
+                  0001ecd0    00000030     Lab9HMain.o (.text.__cxx_global_var_init.25)
+                  0001ed00    00000030     Lab9HMain.o (.text.__cxx_global_var_init.5)
+                  0001ed30    00000030     libc.a : fopen.c.obj (.text.fopen)
+                  0001ed60    0000002c     UART2.o (.text._Z12UART2_InCharv)
+                  0001ed8c    0000002c     ST7735.o (.text._Z17ST7735_FillScreent)
+                  0001edb8    0000002c     Player.o (.text._ZN6Player13translateDownEv)
+                  0001ede4    0000002c     Player.o (.text._ZN6Player13translateLeftEv)
+                  0001ee10    0000002c     Lab9HMain.o (.text.__cxx_global_var_init.9)
+                  0001ee3c    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
+                  0001ee68    00000028     IRxmt.o (.text._Z10IRxmt_Initv)
+                  0001ee90    00000028     TExaS.o (.text._Z9ADC_StartP10ADC12_Regs)
+                  0001eeb8    00000028     Lab9HMain.o (.text.__cxx_global_var_init.4)
+                  0001eee0    00000028     libc.a : memory.c.obj (.text.free_list_insert)
+                  0001ef08    00000028     libsysbm.a : write.c.obj (.text.write)
+                  0001ef30    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
+                  0001ef58    00000026     ST7735.o (.text._Z16ST7735_OutStringPc)
+                  0001ef7e    00000002     --HOLE-- [fill = 0]
+                  0001ef80    00000024     SlidePot.o (.text._ZN8SlidePot4SaveEj)
+                  0001efa4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.16)
+                  0001efc8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.18)
+                  0001efec    00000024     Lab9HMain.o (.text.__cxx_global_var_init.19)
+                  0001f010    00000024     Lab9HMain.o (.text.__cxx_global_var_init.20)
+                  0001f034    00000024     Lab9HMain.o (.text.__cxx_global_var_init.21)
+                  0001f058    00000024     Lab9HMain.o (.text.__cxx_global_var_init.22)
+                  0001f07c    00000024     Lab9HMain.o (.text.__cxx_global_var_init.2)
+                  0001f0a0    00000024     Lab9HMain.o (.text.__cxx_global_var_init.3)
+                  0001f0c4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.6)
+                  0001f0e8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.8)
+                  0001f10c    00000022     FIFO2.o (.text._ZN5Queue6IsFullEv)
+                  0001f12e    00000002     --HOLE-- [fill = 0]
+                  0001f130    00000020     DAC5.o (.text._Z8DAC5_Outj)
+                  0001f150    00000020     SlidePot.o (.text._ZN8SlidePot4SyncEv)
+                  0001f170    00000020     Lab9HMain.o (.text.__cxx_global_var_init.14)
+                  0001f190    00000020     Lab9HMain.o (.text.__cxx_global_var_init.7)
+                  0001f1b0    0000001e     ST7735.o (.text._ZL9pushColort)
+                  0001f1ce    00000002     --HOLE-- [fill = 0]
+                  0001f1d0    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
+                  0001f1ec    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
+                  0001f208    0000001c     Switch.o (.text._Z9Switch_Inv)
+                  0001f224    0000001c     Player.o (.text._ZN6PlayerC2Ev)
+                  0001f240    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
+                  0001f25c    00000018     Switch.o (.text._Z11Switch_Initv)
+                  0001f274    00000016     ST7735.o (.text._Z11ST7735_openPKcji)
+                  0001f28a    00000016     ST7735.o (.text._Z11ST7735_readiPcj)
+                  0001f2a0    00000016     libc.a : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset)
+                  0001f2b6    00000014     FIFO2.o (.text._ZN5Queue7IsEmptyEv)
+                  0001f2ca    00000012     Player.o (.text._ZN6Player13setPossessionEh)
+                  0001f2dc    00000012     Player.o (.text._ZN6Player7setXPosEs)
+                  0001f2ee    00000012     Player.o (.text._ZN6Player7setYPosEs)
+                  0001f300    00000012     Machine.o (.text._ZN7Machine11setRockTypeEh)
+                  0001f312    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
+                  0001f324    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
+                  0001f336    00000010     Clock.o (.text._Z11Clock_Delayj)
+                  0001f346    00000002     --HOLE-- [fill = 0]
+                  0001f348    00000010     UART2.o (.text._Z12UART2_Enablev)
+                  0001f358    00000010     UART2.o (.text._Z13UART2_Disablev)
+                  0001f368    00000010     Lab9HMain.o (.text._Z28TExaS_LaunchPadLogicPB27PB26v)
+                  0001f378    00000010     FIFO2.o (.text._ZN5QueueC2Ev)
+                  0001f388    00000010     Lab9HMain.o (.text.__cxx_global_var_init.1)
+                  0001f398    00000010     Lab9HMain.o (.text.__cxx_global_var_init)
+                  0001f3a8    00000010     UART2.o (.text.__cxx_global_var_init)
+                  0001f3b8    0000000e     libc.a : memory.c.obj (.text.OUTLINED_FUNCTION_0)
+                  0001f3c6    0000000e     ST7735.o (.text._Z12ST7735_lseekili)
+                  0001f3d4    0000000e     Player.o (.text._ZN6Player7getXPosEv)
+                  0001f3e2    0000000e     Player.o (.text._ZN6Player7getYPosEv)
+                  0001f3f0    0000000e     SlidePot.o (.text._ZN8SlidePotC2Ev)
+                  0001f3fe    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
+                  0001f40c    0000000e                : hostrename.c.obj (.text.strlen)
+                  0001f41a    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
+                  0001f428    0000000c     Clock.o (.text._Z10Clock_Freqv)
+                  0001f434    0000000c     ST7735.o (.text._Z13ST7735_renamePKcS0_)
+                  0001f440    0000000c     IRxmt.o (.text._Z5Delayj)
+                  0001f44c    0000000c     Player.o (.text._ZN6Player7getSizeEv)
+                  0001f458    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceXEv)
+                  0001f464    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceYEv)
+                  0001f470    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
+                  0001f47c    0000000c     libc.a : memory.c.obj (.text.malloc)
+                  0001f488    0000000a     Sound.o (.text._Z11Sound_Clangv)
+                  0001f492    0000000a     ST7735.o (.text._Z12ST7735_closei)
+                  0001f49c    0000000a     ST7735.o (.text._Z13ST7735_unlinkPKc)
+                  0001f4a6    0000000a     Lab9HMain.o (.text._Z8PLL_Initv)
+                  0001f4b0    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
+                  0001f4b8    00000008     libsysbm.a : remove.c.obj (.text.remove)
+                  0001f4c0    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
+                  0001f4c4    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
+                  0001f4c8    00000004            : exit.c.obj (.text:abort)
+                  0001f4cc    00000004     --HOLE-- [fill = 0]
 
-.cinit     0    0001b308    00000618     
-                  0001b308    000005f3     (.cinit..data.load) [load image, compression = lzss]
-                  0001b8fb    00000001     --HOLE-- [fill = 0]
-                  0001b8fc    0000000c     (__TI_handler_table)
-                  0001b908    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001b910    00000010     (__TI_cinit_table)
+.cinit     0    0001f4d0    00000628     
+                  0001f4d0    00000600     (.cinit..data.load) [load image, compression = lzss]
+                  0001fad0    0000000c     (__TI_handler_table)
+                  0001fadc    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  0001fae4    00000010     (__TI_cinit_table)
+                  0001faf4    00000004     --HOLE-- [fill = 0]
 
-.rodata    0    000000c0    00014810     
-                  000000c0    00002800     Lab9HMain.o (.rodata._ZL4todo)
-                  000028c0    00002800     Machine.o (.rodata._ZL4todo)
-                  000050c0    00001ba8     Sound.o (.rodata._ZL7correct)
-                  00006c68    00001b44     Sound.o (.rodata._ZL5clang)
-                  000087ac    000010ae     Machine.o (.rodata._ZL14refinerWorking)
-                  0000985a    000010ae     Machine.o (.rodata._ZL16refinerHighlight)
-                  0000a908    000010ae     Machine.o (.rodata._ZL7refiner)
-                  0000b9b6    00000f74     Machine.o (.rodata._ZL13cartHighlight)
-                  0000c92a    00000f74     Machine.o (.rodata._ZL4cart)
-                  0000d89e    00000738     Machine.o (.rodata._ZL13rockWorking_b)
-                  0000dfd6    00000738     Machine.o (.rodata._ZL15rockHighlight_b)
-                  0000e70e    00000738     Machine.o (.rodata._ZL22rockWorkingHighlight_b)
-                  0000ee46    00000738     Machine.o (.rodata._ZL6rock_b)
-                  0000f57e    00000720     Machine.o (.rodata._ZL15portalHighlight)
-                  0000fc9e    00000720     Machine.o (.rodata._ZL6portal)
-                  000103be    000006e0     Machine.o (.rodata._ZL6ladder)
-                  00010a9e    00000548     Lab9HMain.o (.rodata._ZL5miner)
-                  00010fe6    00000540     Machine.o (.rodata._ZL7counter)
-                  00011526    000004fb     ST7735.o (.rodata._ZL4Font)
-                  00011a21    00000001     --HOLE-- [fill = 0]
-                  00011a22    00000348     Machine.o (.rodata._ZL5watch)
-                  00011d6a    00000320     Machine.o (.rodata._ZL5trash)
-                  0001208a    000002d2     Machine.o (.rodata._ZL5sword)
-                  0001235c    000002ac     Machine.o (.rodata._ZL3key)
-                  00012608    000002a0     Machine.o (.rodata._ZL6shield)
-                  000128a8    00000220     Machine.o (.rodata._ZL4ring)
-                  00012ac8    0000018c     Machine.o (.rodata._ZL10rawDiamond)
-                  00012c54    0000018c     Machine.o (.rodata._ZL10rawEmerald)
-                  00012de0    0000018c     Machine.o (.rodata._ZL7rawGold)
-                  00012f6c    0000018c     Machine.o (.rodata._ZL7rawRuby)
-                  000130f8    0000018c     Machine.o (.rodata._ZL9rawSilver)
-                  00013284    00000168     Machine.o (.rodata._ZL13rockWorking_m)
-                  000133ec    00000168     Machine.o (.rodata._ZL15rockHighlight_m)
-                  00013554    00000168     Machine.o (.rodata._ZL22rockWorkingHighlight_m)
-                  000136bc    00000168     Machine.o (.rodata._ZL6rock_m)
-                  00013824    0000010e     Machine.o (.rodata._ZL4gold)
-                  00013932    0000010e     Machine.o (.rodata._ZL6silver)
-                  00013a40    0000010a     Machine.o (.rodata._ZL13rockWorking_t)
-                  00013b4a    0000010a     Machine.o (.rodata._ZL15rockHighlight_t)
-                  00013c54    0000010a     Machine.o (.rodata._ZL22rockWorkingHighlight_t)
-                  00013d5e    0000010a     Machine.o (.rodata._ZL6rock_t)
-                  00013e68    000000dd     Lab9HMain.o (.rodata._ZL13Page3_Spanish)
-                  00013f45    000000d8     Lab9HMain.o (.rodata._ZL13Page2_English)
-                  0001401d    00000001     --HOLE-- [fill = 0]
-                  0001401e    000000d8     Machine.o (.rodata._ZL4Ruby)
-                  000140f6    000000d8     Machine.o (.rodata._ZL7Diamond)
-                  000141ce    000000d8     Machine.o (.rodata._ZL7Emerald)
-                  000142a6    000000ce     Lab9HMain.o (.rodata._ZL13Page3_English)
-                  00014374    000000c9     Lab9HMain.o (.rodata._ZL13Page2_Spanish)
-                  0001443d    000000ac     Lab9HMain.o (.rodata._ZL13Page1_English)
-                  000144e9    000000a7     Lab9HMain.o (.rodata._ZL13Page1_Spanish)
-                  00014590    000000a4     Lab9HMain.o (.rodata._ZL13Page4_English)
-                  00014634    000000a2     Lab9HMain.o (.rodata._ZL13Page4_Spanish)
-                  000146d6    00000096     Lab9HMain.o (.rodata._ZL13Page5_Spanish)
-                  0001476c    00000066     Lab9HMain.o (.rodata._ZL13Page5_English)
-                  000147d2    0000003b     ST7735.o (.rodata._ZL5Rcmd1)
-                  0001480d    0000002b     ST7735.o (.rodata._ZL5Rcmd3)
-                  00014838    00000016     ST7735.o (.rodata.str1.128370289436029622301)
-                  0001484e    00000015     Lab9HMain.o (.rodata.str1.77946550721901366211)
-                  00014863    00000010     Lab9HMain.o (.rodata.str1.36435047076059183751)
-                  00014873    0000000d     ST7735.o (.rodata._ZL10Rcmd2green)
-                  00014880    0000000d     ST7735.o (.rodata._ZL8Rcmd2red)
-                  0001488d    00000008     Lab9HMain.o (.rodata._ZL15Goodbye_English)
-                  00014895    00000008     Lab9HMain.o (.rodata._ZL16Language_English)
-                  0001489d    00000008     Lab9HMain.o (.rodata._ZL16Language_Spanish)
-                  000148a5    00000008     ST7735.o (.rodata.str1.53591972959378542101)
-                  000148ad    00000007     Lab9HMain.o (.rodata._ZL13Hello_Spanish)
-                  000148b4    00000007     ST7735.o (.rodata.str1.28611865845488554281)
-                  000148bb    00000007     ST7735.o (.rodata.str1.63348317913043414121)
-                  000148c2    00000006     Lab9HMain.o (.rodata._ZL13Hello_English)
-                  000148c8    00000006     Lab9HMain.o (.rodata._ZL15Goodbye_Spanish)
-                  000148ce    00000002     ST7735.o (.rodata.str1.90642305370257400361)
-
-.init_array 
-*          0    0001b300    00000008     
-                  0001b300    00000004     UART2.o (.init_array)
-                  0001b304    00000004     Lab9HMain.o (.init_array)
-=======
-.text      0    00018630    00006cb0     
-                  00018630    00000d70     Lab9HMain.o (.text.main)
-                  000193a0    00000510     Machine.o (.text._ZN7Machine10updateCartEh)
-                  000198b0    000004c8     Machine.o (.text._ZN7Machine11updateAnvilEh)
-                  00019d78    0000040c     Machine.o (.text._ZN7Machine10updateRockEh)
-                  0001a184    0000038c     Machine.o (.text._ZN7Machine14updateCountersEhPS_)
-                  0001a510    00000340     Machine.o (.text._ZN7Machine13updateSmelterEh)
-                  0001a850    000002b8     Machine.o (.text._ZN7Machine10printAnvilEv)
-                  0001ab08    000002b0     Machine.o (.text._ZN7Machine13printCountersEPS_)
-                  0001adb8    00000244     Player.o (.text._ZN6Player8inBoundsEssPP7Machinehh)
-                  0001affc    00000210     ST7735.o (.text._Z17ST7735_DrawBitmapssPKtss)
-                  0001b20c    000001dc     Lab9HMain.o (.text._Z17setUpInstructionsv)
-                  0001b3e8    000001d8     Machine.o (.text._ZN7Machine9printCartEv)
-                  0001b5c0    000001b8     Machine.o (.text._ZN7Machine12printSmelterEv)
-                  0001b778    000001b4     Clock.o (.text._Z15Clock_Init80MHzi)
-                  0001b92c    000001a4     ST7735.o (.text._Z15ST7735_DrawCharsscssh)
-                  0001bad0    000001a0     ST7735.o (.text._Z16ST7735_DrawCharSsscssh)
-                  0001bc70    00000198     Machine.o (.text._ZN7Machine13computeRecipeEPaa)
-                  0001be08    0000017c     Machine.o (.text._ZN7Machine9printRockEv)
-                  0001bf84    00000160     Machine.o (.text._ZN7Machine15updateAnvilMenuEPaa)
-                  0001c0e4    0000015c     Machine.o (.text._ZN7Machine13cartSendErrorEhh)
-                  0001c240    00000154     libc.a : fopen.c.obj (.text._openfile)
-                  0001c394    00000128     TExaS.o (.text._Z8ADC_InitP10ADC12_Regsjj)
-                  0001c4bc    00000118     ST7735.o (.text._Z15ST7735_FillRectsssst)
-                  0001c5d4    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
-                  0001c6e8    000000f8     SPI.o (.text._Z8SPI_Initv)
-                  0001c7e0    000000f4     ST7735.o (.text._Z18ST7735_SetRotationh)
-                  0001c8d4    000000ec     libsysbm.a : add_device.c.obj (.text.add_device)
-                  0001c9c0    000000e8     TExaS.o (.text._Z9UART_Initv)
-                  0001caa8    000000e8     libc.a : memory.c.obj (.text.free)
-                  0001cb90    000000e0            : setvbuf.c.obj (.text.setvbuf)
-                  0001cc70    000000dc     UART2.o (.text._Z10UART2_Initv)
-                  0001cd4c    000000d8     ST7735.o (.text._Z14ST7735_OutCharc)
-                  0001ce24    000000b0     ST7735.o (.text._Z20ST7735_DrawFastHLinessst)
-                  0001ced4    000000b0     ST7735.o (.text._Z20ST7735_DrawFastVLinessst)
-                  0001cf84    000000a8     Timer.o (.text._Z14TimerG7_IntArmtjj)
-                  0001d02c    000000a2     ST7735.o (.text._ZL11commandListPKh)
-                  0001d0ce    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  0001d0d0    000000a0     libsysbm.a : open.c.obj (.text.open)
-                  0001d170    0000009c     ST7735.o (.text._Z17ST7735_InitPrintfv)
-                  0001d20c    0000009c     Player.o (.text._ZN6Player14checkProximityE7Machine)
-                  0001d2a8    00000098     ST7735.o (.text._Z12ST7735_InitR10initRFlags)
-                  0001d340    00000098     Player.o (.text._ZN6Player16resetCoordinatesEPsS0_)
-                  0001d3d8    00000094     Timer.o (.text._Z15TimerG12_IntArmjj)
-                  0001d46c    00000090     Sound.o (.text._Z11Sound_Starth)
-                  0001d4fc    0000008c     ST7735.o (.text._Z17ST7735_DrawStringttPcs)
-                  0001d588    0000008c     Machine.o (.text._ZN7MachineC2Ehhhhhhhhhh)
-                  0001d614    0000008c     SlidePot.o (.text._ZN8SlidePot4InitEv)
-                  0001d6a0    00000088     ST7735.o (.text._ZL13setAddrWindowhhhh)
-                  0001d728    00000008     UART2.o (.text._GLOBAL__sub_I_UART2.cpp)
-                  0001d730    00000088     libc.a : strcmp-armv6m.S.obj (.text:strcmp)
-                  0001d7b8    00000084     Machine.o (.text._ZN7MachineC2Ehhhhhhhhh)
-                  0001d83c    0000007c     LaunchPad.o (.text._Z14LaunchPad_Initv)
-                  0001d8b8    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
-                  0001d934    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  0001d9b0    00000074     UART2.o (.text.UART2_IRQHandler)
-                  0001da24    00000074     IRxmt.o (.text._Z13IRxmt_SendBiti)
-                  0001da98    00000070     ST7735.o (.text._Z16ST7735_DrawPixelsst)
-                  0001db08    0000006e     Player.o (.text._ZN6Player15getMachineInputE7Machine)
-                  0001db76    00000002     libc.a : _lock.c.obj (.text._nop)
-                  0001db78    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
-                  0001dbe4    0000006c                : hostrename.c.obj (.text.HOSTrename)
-                  0001dc50    0000006c     Lab9HMain.o (.text._GLOBAL__sub_I_Lab9HMain.cpp)
-                  0001dcbc    0000006c     libc.a : getdevice.c.obj (.text.getdevice)
-                  0001dd28    00000064     Machine.o (.text._ZN7MachineC2Ehhhhhh)
-                  0001dd8c    00000064     libc.a : memory.c.obj (.text.split)
-                  0001ddf0    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
-                  0001de50    00000058                : hostread.c.obj (.text.HOSTread)
-                  0001dea8    00000058                : hostwrite.c.obj (.text.HOSTwrite)
-                  0001df00    00000058     Sound.o (.text.SysTick_Handler)
-                  0001df58    00000058     TExaS.o (.text._Z10TExaS_InitP10ADC12_RegsjPFhvE)
-                  0001dfb0    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  0001e006    00000002     --HOLE-- [fill = 0]
-                  0001e008    00000054     Player.o (.text._ZN6Player14printPosessionEh)
-                  0001e05c    00000054     Player.o (.text._ZN6Player8moveLeftEv)
-                  0001e0b0    00000054     Player.o (.text._ZN6Player9moveRightEv)
-                  0001e104    00000054     SlidePot.o (.text._ZN8SlidePot2InEv)
-                  0001e158    00000054     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit)
-                  0001e1ac    00000052     Player.o (.text._ZN6Player8moveDownEv)
-                  0001e1fe    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
-                  0001e250    00000050     Lab9HMain.o (.text.__cxx_global_var_init.13)
-                  0001e2a0    00000050     libsysbm.a : close.c.obj (.text.close)
-                  0001e2f0    0000004c     FIFO2.o (.text._ZN5Queue3GetEPc)
-                  0001e33c    0000004c     FIFO2.o (.text._ZN5Queue3PutEc)
-                  0001e388    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
-                  0001e3d0    00000048                : hostunlink.c.obj (.text.HOSTunlink)
-                  0001e418    00000048     IRxmt.o (.text._Z13IRxmt_OutCharc)
-                  0001e460    00000048     SPI.o (.text._Z14SPI_OutCommandc)
-                  0001e4a8    00000044     Lab9HMain.o (.text._Z8checkWinv)
-                  0001e4ec    00000040     TExaS.o (.text.TIMG7_IRQHandler)
-                  0001e52c    00000040     Sound.o (.text._Z10Sound_Initv)
-                  0001e56c    00000040     SPI.o (.text._Z9SPI_Resetv)
-                  0001e5ac    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  0001e5ec    00000040     Lab9HMain.o (.text.__cxx_global_var_init.25)
-                  0001e62c    00000040     libc.a : fopen.c.obj (.text._search_fp)
-                  0001e66c    0000003c     Lab9HMain.o (.text.TIMG12_IRQHandler)
-                  0001e6a8    0000003c     DAC5.o (.text._Z9DAC5_Initv)
-                  0001e6e4    0000003c     Player.o (.text._ZN6Player6moveUpEv)
-                  0001e720    00000038     SPI.o (.text._Z11SPI_OutDatac)
-                  0001e758    00000038     LaunchPad.o (.text._Z15ActivatePortA_Bv)
-                  0001e790    00000034     ST7735.o (.text._Z12ST7735_writeiPKcj)
-                  0001e7c4    00000034     Clock.o (.text._Z14Clock_Delay1msj)
-                  0001e7f8    00000034     ST7735.o (.text._Z16ST7735_SetCursorjj)
-                  0001e82c    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
-                  0001e860    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
-                  0001e894    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
-                  0001e8c8    00000034     libc.a : exit.c.obj (.text.exit)
-                  0001e8fc    00000034            : getdevice.c.obj (.text.finddevice)
-                  0001e930    00000034            : fopen.c.obj (.text.freopen)
-                  0001e964    00000030     ST7735.o (.text._ZL10commonInitPKh)
-                  0001e994    00000030     Player.o (.text._ZN6Player14translateRightEv)
-                  0001e9c4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.10)
-                  0001e9f4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.11)
-                  0001ea24    00000030     Lab9HMain.o (.text.__cxx_global_var_init.12)
-                  0001ea54    00000030     Lab9HMain.o (.text.__cxx_global_var_init.16)
-                  0001ea84    00000030     Lab9HMain.o (.text.__cxx_global_var_init.22)
-                  0001eab4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.23)
-                  0001eae4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.24)
-                  0001eb14    00000030     Lab9HMain.o (.text.__cxx_global_var_init.5)
-                  0001eb44    00000030     libc.a : fopen.c.obj (.text.fopen)
-                  0001eb74    0000002c     UART2.o (.text._Z12UART2_InCharv)
-                  0001eba0    0000002c     ST7735.o (.text._Z17ST7735_FillScreent)
-                  0001ebcc    0000002c     Player.o (.text._ZN6Player13translateDownEv)
-                  0001ebf8    0000002c     Player.o (.text._ZN6Player13translateLeftEv)
-                  0001ec24    0000002c     Lab9HMain.o (.text.__cxx_global_var_init.9)
-                  0001ec50    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
-                  0001ec7c    00000028     IRxmt.o (.text._Z10IRxmt_Initv)
-                  0001eca4    00000028     TExaS.o (.text._Z9ADC_StartP10ADC12_Regs)
-                  0001eccc    00000028     Lab9HMain.o (.text.__cxx_global_var_init.4)
-                  0001ecf4    00000028     libc.a : memory.c.obj (.text.free_list_insert)
-                  0001ed1c    00000028     libsysbm.a : write.c.obj (.text.write)
-                  0001ed44    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  0001ed6c    00000026     ST7735.o (.text._Z16ST7735_OutStringPc)
-                  0001ed92    00000002     --HOLE-- [fill = 0]
-                  0001ed94    00000024     SlidePot.o (.text._ZN8SlidePot4SaveEj)
-                  0001edb8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.15)
-                  0001eddc    00000024     Lab9HMain.o (.text.__cxx_global_var_init.17)
-                  0001ee00    00000024     Lab9HMain.o (.text.__cxx_global_var_init.18)
-                  0001ee24    00000024     Lab9HMain.o (.text.__cxx_global_var_init.19)
-                  0001ee48    00000024     Lab9HMain.o (.text.__cxx_global_var_init.20)
-                  0001ee6c    00000024     Lab9HMain.o (.text.__cxx_global_var_init.21)
-                  0001ee90    00000024     Lab9HMain.o (.text.__cxx_global_var_init.2)
-                  0001eeb4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.3)
-                  0001eed8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.6)
-                  0001eefc    00000024     Lab9HMain.o (.text.__cxx_global_var_init.8)
-                  0001ef20    00000022     FIFO2.o (.text._ZN5Queue6IsFullEv)
-                  0001ef42    00000002     --HOLE-- [fill = 0]
-                  0001ef44    00000020     DAC5.o (.text._Z8DAC5_Outj)
-                  0001ef64    00000020     SlidePot.o (.text._ZN8SlidePot4SyncEv)
-                  0001ef84    00000020     Lab9HMain.o (.text.__cxx_global_var_init.14)
-                  0001efa4    00000020     Lab9HMain.o (.text.__cxx_global_var_init.7)
-                  0001efc4    0000001e     ST7735.o (.text._ZL9pushColort)
-                  0001efe2    00000002     --HOLE-- [fill = 0]
-                  0001efe4    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
-                  0001f000    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
-                  0001f01c    0000001c     Switch.o (.text._Z9Switch_Inv)
-                  0001f038    0000001c     Player.o (.text._ZN6PlayerC2Ev)
-                  0001f054    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
-                  0001f070    00000018     Switch.o (.text._Z11Switch_Initv)
-                  0001f088    00000016     ST7735.o (.text._Z11ST7735_openPKcji)
-                  0001f09e    00000016     ST7735.o (.text._Z11ST7735_readiPcj)
-                  0001f0b4    00000016     libc.a : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset)
-                  0001f0ca    00000014     FIFO2.o (.text._ZN5Queue7IsEmptyEv)
-                  0001f0de    00000012     Player.o (.text._ZN6Player13setPossessionEh)
-                  0001f0f0    00000012     Player.o (.text._ZN6Player7setXPosEs)
-                  0001f102    00000012     Player.o (.text._ZN6Player7setYPosEs)
-                  0001f114    00000012     Machine.o (.text._ZN7Machine11setRockTypeEh)
-                  0001f126    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
-                  0001f138    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
-                  0001f14a    00000010     Clock.o (.text._Z11Clock_Delayj)
-                  0001f15a    00000002     --HOLE-- [fill = 0]
-                  0001f15c    00000010     UART2.o (.text._Z12UART2_Enablev)
-                  0001f16c    00000010     UART2.o (.text._Z13UART2_Disablev)
-                  0001f17c    00000010     Lab9HMain.o (.text._Z28TExaS_LaunchPadLogicPB27PB26v)
-                  0001f18c    00000010     FIFO2.o (.text._ZN5QueueC2Ev)
-                  0001f19c    00000010     Lab9HMain.o (.text.__cxx_global_var_init.1)
-                  0001f1ac    00000010     Lab9HMain.o (.text.__cxx_global_var_init)
-                  0001f1bc    00000010     UART2.o (.text.__cxx_global_var_init)
-                  0001f1cc    0000000e     libc.a : memory.c.obj (.text.OUTLINED_FUNCTION_0)
-                  0001f1da    0000000e     ST7735.o (.text._Z12ST7735_lseekili)
-                  0001f1e8    0000000e     Player.o (.text._ZN6Player7getXPosEv)
-                  0001f1f6    0000000e     Player.o (.text._ZN6Player7getYPosEv)
-                  0001f204    0000000e     SlidePot.o (.text._ZN8SlidePotC2Ev)
-                  0001f212    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
-                  0001f220    0000000e                : hostrename.c.obj (.text.strlen)
-                  0001f22e    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
-                  0001f23c    0000000c     Clock.o (.text._Z10Clock_Freqv)
-                  0001f248    0000000c     ST7735.o (.text._Z13ST7735_renamePKcS0_)
-                  0001f254    0000000c     IRxmt.o (.text._Z5Delayj)
-                  0001f260    0000000c     Player.o (.text._ZN6Player7getSizeEv)
-                  0001f26c    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceXEv)
-                  0001f278    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceYEv)
-                  0001f284    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  0001f290    0000000c     libc.a : memory.c.obj (.text.malloc)
-                  0001f29c    0000000a     Sound.o (.text._Z11Sound_Clangv)
-                  0001f2a6    0000000a     ST7735.o (.text._Z12ST7735_closei)
-                  0001f2b0    0000000a     ST7735.o (.text._Z13ST7735_unlinkPKc)
-                  0001f2ba    0000000a     Lab9HMain.o (.text._Z8PLL_Initv)
-                  0001f2c4    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  0001f2cc    00000008     libsysbm.a : remove.c.obj (.text.remove)
-                  0001f2d4    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
-                  0001f2d8    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  0001f2dc    00000004            : exit.c.obj (.text:abort)
-
-.cinit     0    0001f2e0    00000610     
-                  0001f2e0    000005eb     (.cinit..data.load) [load image, compression = lzss]
-                  0001f8cb    00000001     --HOLE-- [fill = 0]
-                  0001f8cc    0000000c     (__TI_handler_table)
-                  0001f8d8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001f8e0    00000010     (__TI_cinit_table)
-
-.rodata    0    000000c0    00018568     
+.rodata    0    000000c0    000185d8     
                   000000c0    00002800     Machine.o (.rodata._ZL4todo)
                   000028c0    00002700     Machine.o (.rodata._ZL9anvilMenu)
                   00004fc0    00001ba8     Sound.o (.rodata._ZL7correct)
@@ -657,421 +318,126 @@ section   page    origin      length       input sections
                   000184b2    00000066     Lab9HMain.o (.rodata._ZL13Page5_English)
                   00018518    0000003b     ST7735.o (.rodata._ZL5Rcmd1)
                   00018553    0000002b     ST7735.o (.rodata._ZL5Rcmd3)
-                  0001857e    00000016     ST7735.o (.rodata.str1.128370289436029622301)
-                  00018594    00000010     Lab9HMain.o (.rodata.str1.36435047076059183751)
-                  000185a4    0000000f     Machine.o (.rodata._ZL7recipes)
-                  000185b3    0000000d     ST7735.o (.rodata._ZL10Rcmd2green)
-                  000185c0    0000000d     ST7735.o (.rodata._ZL8Rcmd2red)
-                  000185cd    00000009     Lab9HMain.o (.rodata.str1.144606553268132684431)
-                  000185d6    00000009     Lab9HMain.o (.rodata.str1.150236657587030721481)
-                  000185df    00000008     Lab9HMain.o (.rodata._ZL15Goodbye_English)
-                  000185e7    00000008     Lab9HMain.o (.rodata._ZL16Language_English)
-                  000185ef    00000008     Lab9HMain.o (.rodata._ZL16Language_Spanish)
-                  000185f7    00000008     ST7735.o (.rodata.str1.53591972959378542101)
-                  000185ff    00000007     Lab9HMain.o (.rodata._ZL13Hello_Spanish)
-                  00018606    00000007     ST7735.o (.rodata.str1.28611865845488554281)
-                  0001860d    00000007     ST7735.o (.rodata.str1.63348317913043414121)
-                  00018614    00000006     Lab9HMain.o (.rodata._ZL13Hello_English)
-                  0001861a    00000006     Lab9HMain.o (.rodata._ZL15Goodbye_Spanish)
-                  00018620    00000002     ST7735.o (.rodata.str1.90642305370257400361)
-                  00018622    00000006     --HOLE-- [fill = 0]
+                  0001857e    0000001e     Lab9HMain.o (.rodata._ZL11Won_Spanish)
+                  0001859c    0000001e     Lab9HMain.o (.rodata._ZL12Lost_Spanish)
+                  000185ba    00000019     Lab9HMain.o (.rodata._ZL12Lost_English)
+                  000185d3    00000018     Lab9HMain.o (.rodata._ZL11Won_English)
+                  000185eb    00000016     ST7735.o (.rodata.str1.128370289436029622301)
+                  00018601    00000015     Lab9HMain.o (.rodata.str1.150236657587030721481)
+                  00018616    00000010     Lab9HMain.o (.rodata.str1.36435047076059183751)
+                  00018626    0000000f     Machine.o (.rodata._ZL7recipes)
+                  00018635    0000000d     ST7735.o (.rodata._ZL10Rcmd2green)
+                  00018642    0000000d     ST7735.o (.rodata._ZL8Rcmd2red)
+                  0001864f    00000008     Lab9HMain.o (.rodata._ZL15Goodbye_English)
+                  00018657    00000008     Lab9HMain.o (.rodata._ZL16Language_English)
+                  0001865f    00000008     Lab9HMain.o (.rodata._ZL16Language_Spanish)
+                  00018667    00000008     ST7735.o (.rodata.str1.53591972959378542101)
+                  0001866f    00000007     Lab9HMain.o (.rodata._ZL13Hello_Spanish)
+                  00018676    00000007     ST7735.o (.rodata.str1.28611865845488554281)
+                  0001867d    00000007     ST7735.o (.rodata.str1.63348317913043414121)
+                  00018684    00000006     Lab9HMain.o (.rodata._ZL13Hello_English)
+                  0001868a    00000006     Lab9HMain.o (.rodata._ZL15Goodbye_Spanish)
+                  00018690    00000002     ST7735.o (.rodata.str1.90642305370257400361)
+                  00018692    00000006     --HOLE-- [fill = 0]
 
 .init_array 
-*          0    00018628    00000008     
-                  00018628    00000004     UART2.o (.init_array)
-                  0001862c    00000004     Lab9HMain.o (.init_array)
->>>>>>> Stashed changes
+*          0    00018698    00000008     
+                  00018698    00000004     UART2.o (.init_array)
+                  0001869c    00000004     Lab9HMain.o (.init_array)
 
-=======
-.text      0    00018630    00006cb0     
-                  00018630    00000d70     Lab9HMain.o (.text.main)
-                  000193a0    00000510     Machine.o (.text._ZN7Machine10updateCartEh)
-                  000198b0    000004c8     Machine.o (.text._ZN7Machine11updateAnvilEh)
-                  00019d78    0000040c     Machine.o (.text._ZN7Machine10updateRockEh)
-                  0001a184    0000038c     Machine.o (.text._ZN7Machine14updateCountersEhPS_)
-                  0001a510    00000340     Machine.o (.text._ZN7Machine13updateSmelterEh)
-                  0001a850    000002b8     Machine.o (.text._ZN7Machine10printAnvilEv)
-                  0001ab08    000002b0     Machine.o (.text._ZN7Machine13printCountersEPS_)
-                  0001adb8    00000244     Player.o (.text._ZN6Player8inBoundsEssPP7Machinehh)
-                  0001affc    00000210     ST7735.o (.text._Z17ST7735_DrawBitmapssPKtss)
-                  0001b20c    000001dc     Lab9HMain.o (.text._Z17setUpInstructionsv)
-                  0001b3e8    000001d8     Machine.o (.text._ZN7Machine9printCartEv)
-                  0001b5c0    000001b8     Machine.o (.text._ZN7Machine12printSmelterEv)
-                  0001b778    000001b4     Clock.o (.text._Z15Clock_Init80MHzi)
-                  0001b92c    000001a4     ST7735.o (.text._Z15ST7735_DrawCharsscssh)
-                  0001bad0    000001a0     ST7735.o (.text._Z16ST7735_DrawCharSsscssh)
-                  0001bc70    00000198     Machine.o (.text._ZN7Machine13computeRecipeEPaa)
-                  0001be08    0000017c     Machine.o (.text._ZN7Machine9printRockEv)
-                  0001bf84    00000160     Machine.o (.text._ZN7Machine15updateAnvilMenuEPaa)
-                  0001c0e4    0000015c     Machine.o (.text._ZN7Machine13cartSendErrorEhh)
-                  0001c240    00000154     libc.a : fopen.c.obj (.text._openfile)
-                  0001c394    00000128     TExaS.o (.text._Z8ADC_InitP10ADC12_Regsjj)
-                  0001c4bc    00000118     ST7735.o (.text._Z15ST7735_FillRectsssst)
-                  0001c5d4    00000114     libc.a : memory.c.obj (.text.aligned_alloc)
-                  0001c6e8    000000f8     SPI.o (.text._Z8SPI_Initv)
-                  0001c7e0    000000f4     ST7735.o (.text._Z18ST7735_SetRotationh)
-                  0001c8d4    000000ec     libsysbm.a : add_device.c.obj (.text.add_device)
-                  0001c9c0    000000e8     TExaS.o (.text._Z9UART_Initv)
-                  0001caa8    000000e8     libc.a : memory.c.obj (.text.free)
-                  0001cb90    000000e0            : setvbuf.c.obj (.text.setvbuf)
-                  0001cc70    000000dc     UART2.o (.text._Z10UART2_Initv)
-                  0001cd4c    000000d8     ST7735.o (.text._Z14ST7735_OutCharc)
-                  0001ce24    000000b0     ST7735.o (.text._Z20ST7735_DrawFastHLinessst)
-                  0001ced4    000000b0     ST7735.o (.text._Z20ST7735_DrawFastVLinessst)
-                  0001cf84    000000a8     Timer.o (.text._Z14TimerG7_IntArmtjj)
-                  0001d02c    000000a2     ST7735.o (.text._ZL11commandListPKh)
-                  0001d0ce    00000002     libclang_rt.builtins.a : aeabi_div0.c.obj (.text.__aeabi_idiv0)
-                  0001d0d0    000000a0     libsysbm.a : open.c.obj (.text.open)
-                  0001d170    0000009c     ST7735.o (.text._Z17ST7735_InitPrintfv)
-                  0001d20c    0000009c     Player.o (.text._ZN6Player14checkProximityE7Machine)
-                  0001d2a8    00000098     ST7735.o (.text._Z12ST7735_InitR10initRFlags)
-                  0001d340    00000098     Player.o (.text._ZN6Player16resetCoordinatesEPsS0_)
-                  0001d3d8    00000094     Timer.o (.text._Z15TimerG12_IntArmjj)
-                  0001d46c    00000090     Sound.o (.text._Z11Sound_Starth)
-                  0001d4fc    0000008c     ST7735.o (.text._Z17ST7735_DrawStringttPcs)
-                  0001d588    0000008c     Machine.o (.text._ZN7MachineC2Ehhhhhhhhhh)
-                  0001d614    0000008c     SlidePot.o (.text._ZN8SlidePot4InitEv)
-                  0001d6a0    00000088     ST7735.o (.text._ZL13setAddrWindowhhhh)
-                  0001d728    00000008     UART2.o (.text._GLOBAL__sub_I_UART2.cpp)
-                  0001d730    00000088     libc.a : strcmp-armv6m.S.obj (.text:strcmp)
-                  0001d7b8    00000084     Machine.o (.text._ZN7MachineC2Ehhhhhhhhh)
-                  0001d83c    0000007c     LaunchPad.o (.text._Z14LaunchPad_Initv)
-                  0001d8b8    0000007c     libc.a : fclose.c.obj (.text.__TI_closefile)
-                  0001d934    0000007c            : copy_decompress_lzss.c.obj (.text:decompress:lzss)
-                  0001d9b0    00000074     UART2.o (.text.UART2_IRQHandler)
-                  0001da24    00000074     IRxmt.o (.text._Z13IRxmt_SendBiti)
-                  0001da98    00000070     ST7735.o (.text._Z16ST7735_DrawPixelsst)
-                  0001db08    0000006e     Player.o (.text._ZN6Player15getMachineInputE7Machine)
-                  0001db76    00000002     libc.a : _lock.c.obj (.text._nop)
-                  0001db78    0000006c     libsysbm.a : hostlseek.c.obj (.text.HOSTlseek)
-                  0001dbe4    0000006c                : hostrename.c.obj (.text.HOSTrename)
-                  0001dc50    0000006c     Lab9HMain.o (.text._GLOBAL__sub_I_Lab9HMain.cpp)
-                  0001dcbc    0000006c     libc.a : getdevice.c.obj (.text.getdevice)
-                  0001dd28    00000064     Machine.o (.text._ZN7MachineC2Ehhhhhh)
-                  0001dd8c    00000064     libc.a : memory.c.obj (.text.split)
-                  0001ddf0    00000060     libsysbm.a : hostopen.c.obj (.text.HOSTopen)
-                  0001de50    00000058                : hostread.c.obj (.text.HOSTread)
-                  0001dea8    00000058                : hostwrite.c.obj (.text.HOSTwrite)
-                  0001df00    00000058     Sound.o (.text.SysTick_Handler)
-                  0001df58    00000058     TExaS.o (.text._Z10TExaS_InitP10ADC12_RegsjPFhvE)
-                  0001dfb0    00000056     libclang_rt.builtins.a : aeabi_idivmod.S.obj (.text.__aeabi_idivmod)
-                  0001e006    00000002     --HOLE-- [fill = 0]
-                  0001e008    00000054     Player.o (.text._ZN6Player14printPosessionEh)
-                  0001e05c    00000054     Player.o (.text._ZN6Player8moveLeftEv)
-                  0001e0b0    00000054     Player.o (.text._ZN6Player9moveRightEv)
-                  0001e104    00000054     SlidePot.o (.text._ZN8SlidePot2InEv)
-                  0001e158    00000054     libc.a : autoinit.c.obj (.text:__TI_auto_init_nobinit)
-                  0001e1ac    00000052     Player.o (.text._ZN6Player8moveDownEv)
-                  0001e1fe    00000052     libc.a : fflush.c.obj (.text.__TI_doflush)
-                  0001e250    00000050     Lab9HMain.o (.text.__cxx_global_var_init.13)
-                  0001e2a0    00000050     libsysbm.a : close.c.obj (.text.close)
-                  0001e2f0    0000004c     FIFO2.o (.text._ZN5Queue3GetEPc)
-                  0001e33c    0000004c     FIFO2.o (.text._ZN5Queue3PutEc)
-                  0001e388    00000048     libsysbm.a : hostclose.c.obj (.text.HOSTclose)
-                  0001e3d0    00000048                : hostunlink.c.obj (.text.HOSTunlink)
-                  0001e418    00000048     IRxmt.o (.text._Z13IRxmt_OutCharc)
-                  0001e460    00000048     SPI.o (.text._Z14SPI_OutCommandc)
-                  0001e4a8    00000044     Lab9HMain.o (.text._Z8checkWinv)
-                  0001e4ec    00000040     TExaS.o (.text.TIMG7_IRQHandler)
-                  0001e52c    00000040     Sound.o (.text._Z10Sound_Initv)
-                  0001e56c    00000040     SPI.o (.text._Z9SPI_Resetv)
-                  0001e5ac    00000040     libclang_rt.builtins.a : aeabi_uidivmod.S.obj (.text.__aeabi_uidivmod)
-                  0001e5ec    00000040     Lab9HMain.o (.text.__cxx_global_var_init.25)
-                  0001e62c    00000040     libc.a : fopen.c.obj (.text._search_fp)
-                  0001e66c    0000003c     Lab9HMain.o (.text.TIMG12_IRQHandler)
-                  0001e6a8    0000003c     DAC5.o (.text._Z9DAC5_Initv)
-                  0001e6e4    0000003c     Player.o (.text._ZN6Player6moveUpEv)
-                  0001e720    00000038     SPI.o (.text._Z11SPI_OutDatac)
-                  0001e758    00000038     LaunchPad.o (.text._Z15ActivatePortA_Bv)
-                  0001e790    00000034     ST7735.o (.text._Z12ST7735_writeiPKcj)
-                  0001e7c4    00000034     Clock.o (.text._Z14Clock_Delay1msj)
-                  0001e7f8    00000034     ST7735.o (.text._Z16ST7735_SetCursorjj)
-                  0001e82c    00000034     libc.a : fopen.c.obj (.text.__TI_cleanup)
-                  0001e860    00000034     libsysbm.a : trgmsg.c.obj (.text.__TI_readmsg)
-                  0001e894    00000034                : trgmsg.c.obj (.text.__TI_writemsg)
-                  0001e8c8    00000034     libc.a : exit.c.obj (.text.exit)
-                  0001e8fc    00000034            : getdevice.c.obj (.text.finddevice)
-                  0001e930    00000034            : fopen.c.obj (.text.freopen)
-                  0001e964    00000030     ST7735.o (.text._ZL10commonInitPKh)
-                  0001e994    00000030     Player.o (.text._ZN6Player14translateRightEv)
-                  0001e9c4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.10)
-                  0001e9f4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.11)
-                  0001ea24    00000030     Lab9HMain.o (.text.__cxx_global_var_init.12)
-                  0001ea54    00000030     Lab9HMain.o (.text.__cxx_global_var_init.16)
-                  0001ea84    00000030     Lab9HMain.o (.text.__cxx_global_var_init.22)
-                  0001eab4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.23)
-                  0001eae4    00000030     Lab9HMain.o (.text.__cxx_global_var_init.24)
-                  0001eb14    00000030     Lab9HMain.o (.text.__cxx_global_var_init.5)
-                  0001eb44    00000030     libc.a : fopen.c.obj (.text.fopen)
-                  0001eb74    0000002c     UART2.o (.text._Z12UART2_InCharv)
-                  0001eba0    0000002c     ST7735.o (.text._Z17ST7735_FillScreent)
-                  0001ebcc    0000002c     Player.o (.text._ZN6Player13translateDownEv)
-                  0001ebf8    0000002c     Player.o (.text._ZN6Player13translateLeftEv)
-                  0001ec24    0000002c     Lab9HMain.o (.text.__cxx_global_var_init.9)
-                  0001ec50    0000002c     libsysbm.a : unlink.c.obj (.text.unlink)
-                  0001ec7c    00000028     IRxmt.o (.text._Z10IRxmt_Initv)
-                  0001eca4    00000028     TExaS.o (.text._Z9ADC_StartP10ADC12_Regs)
-                  0001eccc    00000028     Lab9HMain.o (.text.__cxx_global_var_init.4)
-                  0001ecf4    00000028     libc.a : memory.c.obj (.text.free_list_insert)
-                  0001ed1c    00000028     libsysbm.a : write.c.obj (.text.write)
-                  0001ed44    00000028     libc.a : boot_cortex_m.c.obj (.text:_c_int00_noargs)
-                  0001ed6c    00000026     ST7735.o (.text._Z16ST7735_OutStringPc)
-                  0001ed92    00000002     --HOLE-- [fill = 0]
-                  0001ed94    00000024     SlidePot.o (.text._ZN8SlidePot4SaveEj)
-                  0001edb8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.15)
-                  0001eddc    00000024     Lab9HMain.o (.text.__cxx_global_var_init.17)
-                  0001ee00    00000024     Lab9HMain.o (.text.__cxx_global_var_init.18)
-                  0001ee24    00000024     Lab9HMain.o (.text.__cxx_global_var_init.19)
-                  0001ee48    00000024     Lab9HMain.o (.text.__cxx_global_var_init.20)
-                  0001ee6c    00000024     Lab9HMain.o (.text.__cxx_global_var_init.21)
-                  0001ee90    00000024     Lab9HMain.o (.text.__cxx_global_var_init.2)
-                  0001eeb4    00000024     Lab9HMain.o (.text.__cxx_global_var_init.3)
-                  0001eed8    00000024     Lab9HMain.o (.text.__cxx_global_var_init.6)
-                  0001eefc    00000024     Lab9HMain.o (.text.__cxx_global_var_init.8)
-                  0001ef20    00000022     FIFO2.o (.text._ZN5Queue6IsFullEv)
-                  0001ef42    00000002     --HOLE-- [fill = 0]
-                  0001ef44    00000020     DAC5.o (.text._Z8DAC5_Outj)
-                  0001ef64    00000020     SlidePot.o (.text._ZN8SlidePot4SyncEv)
-                  0001ef84    00000020     Lab9HMain.o (.text.__cxx_global_var_init.14)
-                  0001efa4    00000020     Lab9HMain.o (.text.__cxx_global_var_init.7)
-                  0001efc4    0000001e     ST7735.o (.text._ZL9pushColort)
-                  0001efe2    00000002     --HOLE-- [fill = 0]
-                  0001efe4    0000001c     startup_mspm0g3507_ticlang.o (.text.Default_Handler)
-                  0001f000    0000001c     startup_mspm0g3507_ticlang.o (.text.HardFault_Handler)
-                  0001f01c    0000001c     Switch.o (.text._Z9Switch_Inv)
-                  0001f038    0000001c     Player.o (.text._ZN6PlayerC2Ev)
-                  0001f054    0000001c     libc.a : memory.c.obj (.text.free_list_remove)
-                  0001f070    00000018     Switch.o (.text._Z11Switch_Initv)
-                  0001f088    00000016     ST7735.o (.text._Z11ST7735_openPKcji)
-                  0001f09e    00000016     ST7735.o (.text._Z11ST7735_readiPcj)
-                  0001f0b4    00000016     libc.a : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset)
-                  0001f0ca    00000014     FIFO2.o (.text._ZN5Queue7IsEmptyEv)
-                  0001f0de    00000012     Player.o (.text._ZN6Player13setPossessionEh)
-                  0001f0f0    00000012     Player.o (.text._ZN6Player7setXPosEs)
-                  0001f102    00000012     Player.o (.text._ZN6Player7setYPosEs)
-                  0001f114    00000012     Machine.o (.text._ZN7Machine11setRockTypeEh)
-                  0001f126    00000012     libc.a : memcpy16.S.obj (.text:TI_memcpy_small)
-                  0001f138    00000012            : copy_decompress_none.c.obj (.text:decompress:none)
-                  0001f14a    00000010     Clock.o (.text._Z11Clock_Delayj)
-                  0001f15a    00000002     --HOLE-- [fill = 0]
-                  0001f15c    00000010     UART2.o (.text._Z12UART2_Enablev)
-                  0001f16c    00000010     UART2.o (.text._Z13UART2_Disablev)
-                  0001f17c    00000010     Lab9HMain.o (.text._Z28TExaS_LaunchPadLogicPB27PB26v)
-                  0001f18c    00000010     FIFO2.o (.text._ZN5QueueC2Ev)
-                  0001f19c    00000010     Lab9HMain.o (.text.__cxx_global_var_init.1)
-                  0001f1ac    00000010     Lab9HMain.o (.text.__cxx_global_var_init)
-                  0001f1bc    00000010     UART2.o (.text.__cxx_global_var_init)
-                  0001f1cc    0000000e     libc.a : memory.c.obj (.text.OUTLINED_FUNCTION_0)
-                  0001f1da    0000000e     ST7735.o (.text._Z12ST7735_lseekili)
-                  0001f1e8    0000000e     Player.o (.text._ZN6Player7getXPosEv)
-                  0001f1f6    0000000e     Player.o (.text._ZN6Player7getYPosEv)
-                  0001f204    0000000e     SlidePot.o (.text._ZN8SlidePotC2Ev)
-                  0001f212    0000000e     libsysbm.a : hostrename.c.obj (.text.strcpy)
-                  0001f220    0000000e                : hostrename.c.obj (.text.strlen)
-                  0001f22e    0000000e     libc.a : memset16.S.obj (.text:TI_memset_small)
-                  0001f23c    0000000c     Clock.o (.text._Z10Clock_Freqv)
-                  0001f248    0000000c     ST7735.o (.text._Z13ST7735_renamePKcS0_)
-                  0001f254    0000000c     IRxmt.o (.text._Z5Delayj)
-                  0001f260    0000000c     Player.o (.text._ZN6Player7getSizeEv)
-                  0001f26c    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceXEv)
-                  0001f278    0000000c     SlidePot.o (.text._ZN8SlidePot9DistanceYEv)
-                  0001f284    0000000c     libclang_rt.builtins.a : aeabi_memset.S.obj (.text.__aeabi_memclr)
-                  0001f290    0000000c     libc.a : memory.c.obj (.text.malloc)
-                  0001f29c    0000000a     Sound.o (.text._Z11Sound_Clangv)
-                  0001f2a6    0000000a     ST7735.o (.text._Z12ST7735_closei)
-                  0001f2b0    0000000a     ST7735.o (.text._Z13ST7735_unlinkPKc)
-                  0001f2ba    0000000a     Lab9HMain.o (.text._Z8PLL_Initv)
-                  0001f2c4    00000008     libclang_rt.builtins.a : aeabi_memcpy.S.obj (.text.__aeabi_memcpy)
-                  0001f2cc    00000008     libsysbm.a : remove.c.obj (.text.remove)
-                  0001f2d4    00000004     startup_mspm0g3507_ticlang.o (.text.Reset_Handler)
-                  0001f2d8    00000004     libc.a : pre_init.c.obj (.text._system_pre_init)
-                  0001f2dc    00000004            : exit.c.obj (.text:abort)
-
-.cinit     0    0001f2e0    00000610     
-                  0001f2e0    000005eb     (.cinit..data.load) [load image, compression = lzss]
-                  0001f8cb    00000001     --HOLE-- [fill = 0]
-                  0001f8cc    0000000c     (__TI_handler_table)
-                  0001f8d8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  0001f8e0    00000010     (__TI_cinit_table)
-
-.rodata    0    000000c0    00018568     
-                  000000c0    00002800     Machine.o (.rodata._ZL4todo)
-                  000028c0    00002700     Machine.o (.rodata._ZL9anvilMenu)
-                  00004fc0    00001ba8     Sound.o (.rodata._ZL7correct)
-                  00006b68    00001b44     Sound.o (.rodata._ZL5clang)
-                  000086ac    00001008     Machine.o (.rodata._ZL11smelterFail)
-                  000096b4    00001008     Machine.o (.rodata._ZL14smelterWorking)
-                  0000a6bc    00001008     Machine.o (.rodata._ZL16smelterHighlight)
-                  0000b6c4    00001008     Machine.o (.rodata._ZL20smelterFailHighlight)
-                  0000c6cc    00001008     Machine.o (.rodata._ZL7smelter)
-                  0000d6d4    00000f78     Machine.o (.rodata._ZL12anvilWorking)
-                  0000e64c    00000f78     Machine.o (.rodata._ZL14anvilHighlight)
-                  0000f5c4    00000f78     Machine.o (.rodata._ZL5anvil)
-                  0001053c    00000f74     Machine.o (.rodata._ZL13cartHighlight)
-                  000114b0    00000f74     Machine.o (.rodata._ZL4cart)
-                  00012424    00000738     Machine.o (.rodata._ZL13rockWorking_b)
-                  00012b5c    00000738     Machine.o (.rodata._ZL15rockHighlight_b)
-                  00013294    00000738     Machine.o (.rodata._ZL22rockWorkingHighlight_b)
-                  000139cc    00000738     Machine.o (.rodata._ZL6rock_b)
-                  00014104    000006e0     Machine.o (.rodata._ZL6ladder)
-                  000147e4    00000548     Lab9HMain.o (.rodata._ZL5miner)
-                  00014d2c    00000540     Machine.o (.rodata._ZL7counter)
-                  0001526c    000004fb     ST7735.o (.rodata._ZL4Font)
-                  00015767    00000001     --HOLE-- [fill = 0]
-                  00015768    00000348     Machine.o (.rodata._ZL5watch)
-                  00015ab0    00000320     Machine.o (.rodata._ZL5trash)
-                  00015dd0    000002d2     Machine.o (.rodata._ZL5sword)
-                  000160a2    000002ac     Machine.o (.rodata._ZL3key)
-                  0001634e    000002a0     Machine.o (.rodata._ZL6shield)
-                  000165ee    00000220     Machine.o (.rodata._ZL4ring)
-                  0001680e    0000018c     Machine.o (.rodata._ZL10rawDiamond)
-                  0001699a    0000018c     Machine.o (.rodata._ZL10rawEmerald)
-                  00016b26    0000018c     Machine.o (.rodata._ZL7rawGold)
-                  00016cb2    0000018c     Machine.o (.rodata._ZL7rawRuby)
-                  00016e3e    0000018c     Machine.o (.rodata._ZL9rawSilver)
-                  00016fca    00000168     Machine.o (.rodata._ZL13rockWorking_m)
-                  00017132    00000168     Machine.o (.rodata._ZL15rockHighlight_m)
-                  0001729a    00000168     Machine.o (.rodata._ZL22rockWorkingHighlight_m)
-                  00017402    00000168     Machine.o (.rodata._ZL6rock_m)
-                  0001756a    0000010e     Machine.o (.rodata._ZL4gold)
-                  00017678    0000010e     Machine.o (.rodata._ZL6silver)
-                  00017786    0000010a     Machine.o (.rodata._ZL13rockWorking_t)
-                  00017890    0000010a     Machine.o (.rodata._ZL15rockHighlight_t)
-                  0001799a    0000010a     Machine.o (.rodata._ZL22rockWorkingHighlight_t)
-                  00017aa4    0000010a     Machine.o (.rodata._ZL6rock_t)
-                  00017bae    000000dd     Lab9HMain.o (.rodata._ZL13Page3_Spanish)
-                  00017c8b    000000d8     Lab9HMain.o (.rodata._ZL13Page2_English)
-                  00017d63    00000001     --HOLE-- [fill = 0]
-                  00017d64    000000d8     Machine.o (.rodata._ZL4Ruby)
-                  00017e3c    000000d8     Machine.o (.rodata._ZL7Diamond)
-                  00017f14    000000d8     Machine.o (.rodata._ZL7Emerald)
-                  00017fec    000000ce     Lab9HMain.o (.rodata._ZL13Page3_English)
-                  000180ba    000000c9     Lab9HMain.o (.rodata._ZL13Page2_Spanish)
-                  00018183    000000ac     Lab9HMain.o (.rodata._ZL13Page1_English)
-                  0001822f    000000a7     Lab9HMain.o (.rodata._ZL13Page1_Spanish)
-                  000182d6    000000a4     Lab9HMain.o (.rodata._ZL13Page4_English)
-                  0001837a    000000a2     Lab9HMain.o (.rodata._ZL13Page4_Spanish)
-                  0001841c    00000096     Lab9HMain.o (.rodata._ZL13Page5_Spanish)
-                  000184b2    00000066     Lab9HMain.o (.rodata._ZL13Page5_English)
-                  00018518    0000003b     ST7735.o (.rodata._ZL5Rcmd1)
-                  00018553    0000002b     ST7735.o (.rodata._ZL5Rcmd3)
-                  0001857e    00000016     ST7735.o (.rodata.str1.128370289436029622301)
-                  00018594    00000010     Lab9HMain.o (.rodata.str1.36435047076059183751)
-                  000185a4    0000000f     Machine.o (.rodata._ZL7recipes)
-                  000185b3    0000000d     ST7735.o (.rodata._ZL10Rcmd2green)
-                  000185c0    0000000d     ST7735.o (.rodata._ZL8Rcmd2red)
-                  000185cd    00000009     Lab9HMain.o (.rodata.str1.144606553268132684431)
-                  000185d6    00000009     Lab9HMain.o (.rodata.str1.150236657587030721481)
-                  000185df    00000008     Lab9HMain.o (.rodata._ZL15Goodbye_English)
-                  000185e7    00000008     Lab9HMain.o (.rodata._ZL16Language_English)
-                  000185ef    00000008     Lab9HMain.o (.rodata._ZL16Language_Spanish)
-                  000185f7    00000008     ST7735.o (.rodata.str1.53591972959378542101)
-                  000185ff    00000007     Lab9HMain.o (.rodata._ZL13Hello_Spanish)
-                  00018606    00000007     ST7735.o (.rodata.str1.28611865845488554281)
-                  0001860d    00000007     ST7735.o (.rodata.str1.63348317913043414121)
-                  00018614    00000006     Lab9HMain.o (.rodata._ZL13Hello_English)
-                  0001861a    00000006     Lab9HMain.o (.rodata._ZL15Goodbye_Spanish)
-                  00018620    00000002     ST7735.o (.rodata.str1.90642305370257400361)
-                  00018622    00000006     --HOLE-- [fill = 0]
-
-.init_array 
-*          0    00018628    00000008     
-                  00018628    00000004     UART2.o (.init_array)
-                  0001862c    00000004     Lab9HMain.o (.init_array)
-
->>>>>>> Stashed changes
-.data      0    20200000    00001459     UNINITIALIZED
+.data      0    20200000    00001469     UNINITIALIZED
                   20200000    00000f83     Sound.o (.data._ZL5wrong)
-                  20200f83    00000001     Machine.o (.data._ZZN7Machine10updateCartEhE8debounce)
+                  20200f83    00000001     Lab9HMain.o (.data._ZZ17setUpInstructionshE10currOption)
                   20200f84    000000f0     libc.a : defs.c.obj (.data._ftable)
                   20201074    00000088     Machine.o (.data.sprites)
                   202010fc    00000078     libsysbm.a : host_device.c.obj (.data._device)
                   20201174    00000050                : host_device.c.obj (.data._stream)
                   202011c4    0000003c     Lab9HMain.o (.data.Counters)
                   20201200    0000002d     Lab9HMain.o (.data.Counters2)
-                  2020122d    00000001     Machine.o (.data._ZZN7Machine10updateRockEhE7halfway)
+                  2020122d    00000001     Machine.o (.data._ZZN7Machine10updateCartEhE8debounce)
                   2020122e    00000002     ST7735.o (.data.StTextColor)
                   20201230    00000028     UART2.o (.data.FIFO2)
                   20201258    00000028     Lab9HMain.o (.data.Instructions)
-                  20201280    00000028     Lab9HMain.o (.data.machineArr2)
-                  202012a8    00000018     Lab9HMain.o (.data.Phrases)
-                  202012c0    0000000f     Lab9HMain.o (.data.m_anvil)
-                  202012cf    0000000f     Lab9HMain.o (.data.m_cart1)
-                  202012de    0000000f     Lab9HMain.o (.data.m_cart2)
-                  202012ed    0000000f     Lab9HMain.o (.data.m_counter1)
-                  202012fc    0000000f     Lab9HMain.o (.data.m_counter2)
-                  2020130b    0000000f     Lab9HMain.o (.data.m_counter3)
-                  2020131a    0000000f     Lab9HMain.o (.data.m_counter4)
-                  20201329    0000000f     Lab9HMain.o (.data.m_counter5)
-                  20201338    0000000f     Lab9HMain.o (.data.m_counter6)
-                  20201347    0000000f     Lab9HMain.o (.data.m_portal)
-                  20201356    0000000f     Lab9HMain.o (.data.m_refiner)
-                  20201365    0000000f     Lab9HMain.o (.data.m_rock1)
-                  20201374    0000000f     Lab9HMain.o (.data.m_rock1Mid)
-                  20201383    0000000f     Lab9HMain.o (.data.m_rock1Progress)
-                  20201392    0000000f     Lab9HMain.o (.data.m_rock1Top)
-                  202013a1    0000000f     Lab9HMain.o (.data.m_rock2)
-                  202013b0    0000000f     Lab9HMain.o (.data.m_rock2Mid)
-                  202013bf    0000000f     Lab9HMain.o (.data.m_rock2Top)
-                  202013ce    0000000f     Lab9HMain.o (.data.m_smelter)
-                  202013dd    0000000f     Lab9HMain.o (.data.m_smelterProgress)
-                  202013ec    0000000f     Lab9HMain.o (.data.m_todo)
-                  202013fb    0000000f     Lab9HMain.o (.data.m_todoDown)
-                  2020140a    00000002     ST7735.o (.data._ZL6_width)
-                  2020140c    0000000c     Lab9HMain.o (.data.Sensor)
-                  20201418    00000008     libc.a : exit.c.obj (.data..L_MergedGlobals)
-                  20201420    00000008     Lab9HMain.o (.data.p1)
-                  20201428    00000004     Clock.o (.data.BusFreq)
-                  2020142c    00000004     ST7735.o (.data.StX)
-                  20201430    00000004     ST7735.o (.data.StY)
-                  20201434    00000004     libc.a : defs.c.obj (.data.__TI_ft_end)
-                  20201438    00000004            : _lock.c.obj (.data._lock)
-                  2020143c    00000004            : _lock.c.obj (.data._unlock)
-                  20201440    00000002     ST7735.o (.data._ZL7_height)
-                  20201442    00000002     Sound.o (.data.clang_size)
-                  20201444    00000002     Sound.o (.data.correct_size)
-                  20201446    00000002     Sound.o (.data.wrong_size)
-                  20201448    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE10wasWorking)
-                  20201449    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE11anvilLength)
-                  2020144a    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE12menuDebounce)
-                  2020144b    00000001     Machine.o (.data._ZZN7Machine14updateCountersEhPS_E8debounce)
-                  2020144c    00000001     Machine.o (.data._ZZN7Machine9printCartEvE2in)
-                  2020144d    00000001     Machine.o (.data._ZZN7Machine9printCartEvE4sent)
-                  2020144e    00000001     Lab9HMain.o (.data.deadTimer)
-                  2020144f    00000001     Lab9HMain.o (.data.input)
-                  20201450    00000001     libsysbm.a : add_device.c.obj (.data.add_device.device_init)
-                  20201451    00000001     Lab9HMain.o (.data.numCounters)
-                  20201452    00000001     Machine.o (.data.progH)
-                  20201453    00000001     Machine.o (.data.progW)
-                  20201454    00000001     libc.a : memory.c.obj (.data.memory_is_initialized)
-                  20201455    00000003     --HOLE--
-                  20201458    00000001     libsysbm.a : open.c.obj (.data.open.stream_init)
+                  20201280    00000028     Lab9HMain.o (.data.Phrases)
+                  202012a8    00000028     Lab9HMain.o (.data.machineArr2)
+                  202012d0    0000000f     Lab9HMain.o (.data.m_anvil)
+                  202012df    0000000f     Lab9HMain.o (.data.m_cart1)
+                  202012ee    0000000f     Lab9HMain.o (.data.m_cart2)
+                  202012fd    0000000f     Lab9HMain.o (.data.m_counter1)
+                  2020130c    0000000f     Lab9HMain.o (.data.m_counter2)
+                  2020131b    0000000f     Lab9HMain.o (.data.m_counter3)
+                  2020132a    0000000f     Lab9HMain.o (.data.m_counter4)
+                  20201339    0000000f     Lab9HMain.o (.data.m_counter5)
+                  20201348    0000000f     Lab9HMain.o (.data.m_counter6)
+                  20201357    0000000f     Lab9HMain.o (.data.m_portal)
+                  20201366    0000000f     Lab9HMain.o (.data.m_refiner)
+                  20201375    0000000f     Lab9HMain.o (.data.m_rock1)
+                  20201384    0000000f     Lab9HMain.o (.data.m_rock1Mid)
+                  20201393    0000000f     Lab9HMain.o (.data.m_rock1Progress)
+                  202013a2    0000000f     Lab9HMain.o (.data.m_rock1Top)
+                  202013b1    0000000f     Lab9HMain.o (.data.m_rock2)
+                  202013c0    0000000f     Lab9HMain.o (.data.m_rock2Mid)
+                  202013cf    0000000f     Lab9HMain.o (.data.m_rock2Top)
+                  202013de    0000000f     Lab9HMain.o (.data.m_smelter)
+                  202013ed    0000000f     Lab9HMain.o (.data.m_smelterProgress)
+                  202013fc    0000000f     Lab9HMain.o (.data.m_todo)
+                  2020140b    0000000f     Lab9HMain.o (.data.m_todoDown)
+                  2020141a    00000002     ST7735.o (.data._ZL6_width)
+                  2020141c    0000000c     Lab9HMain.o (.data.Sensor)
+                  20201428    00000008     libc.a : exit.c.obj (.data..L_MergedGlobals)
+                  20201430    00000008     Lab9HMain.o (.data.p1)
+                  20201438    00000004     Clock.o (.data.BusFreq)
+                  2020143c    00000004     ST7735.o (.data.StX)
+                  20201440    00000004     ST7735.o (.data.StY)
+                  20201444    00000004     libc.a : defs.c.obj (.data.__TI_ft_end)
+                  20201448    00000004            : _lock.c.obj (.data._lock)
+                  2020144c    00000004            : _lock.c.obj (.data._unlock)
+                  20201450    00000002     ST7735.o (.data._ZL7_height)
+                  20201452    00000002     Sound.o (.data.clang_size)
+                  20201454    00000002     Sound.o (.data.correct_size)
+                  20201456    00000002     Sound.o (.data.wrong_size)
+                  20201458    00000001     Machine.o (.data._ZZN7Machine10updateRockEhE7halfway)
+                  20201459    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE10wasWorking)
+                  2020145a    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE11anvilLength)
+                  2020145b    00000001     Machine.o (.data._ZZN7Machine11updateAnvilEhE12menuDebounce)
+                  2020145c    00000001     Machine.o (.data._ZZN7Machine14updateCountersEhPS_E8debounce)
+                  2020145d    00000001     Machine.o (.data._ZZN7Machine9printCartEvE2in)
+                  2020145e    00000001     Machine.o (.data._ZZN7Machine9printCartEvE4sent)
+                  2020145f    00000001     Lab9HMain.o (.data.deadTimer)
+                  20201460    00000001     libsysbm.a : add_device.c.obj (.data.add_device.device_init)
+                  20201461    00000001     Lab9HMain.o (.data.input)
+                  20201462    00000001     Lab9HMain.o (.data.numCounters)
+                  20201463    00000001     Machine.o (.data.progH)
+                  20201464    00000001     libc.a : memory.c.obj (.data.memory_is_initialized)
+                  20201465    00000001     Machine.o (.data.progW)
+                  20201466    00000002     --HOLE--
+                  20201468    00000001     libsysbm.a : open.c.obj (.data.open.stream_init)
 
-.bss       0    2020145c    00000203     UNINITIALIZED
-                  2020145c    00000120     libsysbm.a : trgmsg.c.obj (.bss:_CIOBUF_)
-                  2020157c    000000a0     libc.a : defs.c.obj (.bss.__TI_tmpnams)
-                  2020161c    00000014     Machine.o (.bss.ToDoArr)
-                  20201630    00000008     libsysbm.a : hostopen.c.obj (.bss.parmbuf)
-                  20201638    00000005     Machine.o (.bss._ZZN7Machine11updateAnvilEhE10AnvilItems)
-                  2020163d    00000001     ST7735.o (.bss._ZL8ColStart)
-                  2020163e    00000002     Sound.o (.bss.soundLength)
-                  20201640    00000004     UART2.o (.bss.LostData)
-                  20201644    00000004     TExaS.o (.bss.TExaSLogic)
-                  20201648    00000004     TExaS.o (.bss.TExaSadc)
-                  2020164c    00000004     Sound.o (.bss.soundArr)
-                  20201650    00000004     Sound.o (.bss.soundIndex)
-                  20201654    00000004     libc.a : memory.c.obj (.bss.sys_free)
-                  20201658    00000001     ST7735.o (.bss._ZL8Rotation)
-                  20201659    00000001     ST7735.o (.bss._ZL8RowStart)
-                  2020165a    00000001     ST7735.o (.bss._ZL8TabColor)
-                  2020165b    00000001     Lab9HMain.o (.bss.buttons)
-                  2020165c    00000001     Lab9HMain.o (.bss.menuOpen)
-                  2020165d    00000001     Sound.o (.bss.sound_flag)
-                  2020165e    00000001     Lab9HMain.o (.bss.toDoOpen)
+.bss       0    2020146c    00000203     UNINITIALIZED
+                  2020146c    00000120     libsysbm.a : trgmsg.c.obj (.bss:_CIOBUF_)
+                  2020158c    000000a0     libc.a : defs.c.obj (.bss.__TI_tmpnams)
+                  2020162c    00000014     Machine.o (.bss.ToDoArr)
+                  20201640    00000008     libsysbm.a : hostopen.c.obj (.bss.parmbuf)
+                  20201648    00000005     Machine.o (.bss._ZZN7Machine11updateAnvilEhE10AnvilItems)
+                  2020164d    00000001     ST7735.o (.bss._ZL8ColStart)
+                  2020164e    00000002     Sound.o (.bss.soundLength)
+                  20201650    00000004     UART2.o (.bss.LostData)
+                  20201654    00000004     TExaS.o (.bss.TExaSLogic)
+                  20201658    00000004     TExaS.o (.bss.TExaSadc)
+                  2020165c    00000004     Sound.o (.bss.soundArr)
+                  20201660    00000004     Sound.o (.bss.soundIndex)
+                  20201664    00000004     libc.a : memory.c.obj (.bss.sys_free)
+                  20201668    00000001     ST7735.o (.bss._ZL8Rotation)
+                  20201669    00000001     ST7735.o (.bss._ZL8RowStart)
+                  2020166a    00000001     ST7735.o (.bss._ZL8TabColor)
+                  2020166b    00000001     Lab9HMain.o (.bss.buttons)
+                  2020166c    00000001     Lab9HMain.o (.bss.menuOpen)
+                  2020166d    00000001     Sound.o (.bss.sound_flag)
+                  2020166e    00000001     Lab9HMain.o (.bss.toDoOpen)
 
-.sysmem    0    20201660    00000200     UNINITIALIZED
-                  20201660    00000010     libc.a : memory.c.obj (.sysmem)
-                  20201670    000001f0     --HOLE--
+.sysmem    0    20201670    00000200     UNINITIALIZED
+                  20201670    00000010     libc.a : memory.c.obj (.sysmem)
+                  20201680    000001f0     --HOLE--
 
 .stack     0    20207e00    00000200     UNINITIALIZED
                   20207e00    00000004     libc.a : boot_cortex_m.c.obj (.stack)
@@ -1088,21 +454,9 @@ MODULE SUMMARY
        Module                         code    ro data   rw data
        ------                         ----    -------   -------
     .\
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-       Machine.o                      8138    55040     166    
-       Lab9HMain.o                    5914    13437     572    
-       Sound.o                        326     14060     3988   
-=======
-       Machine.o                      9470    80981     171    
+       Machine.o                      9462    80981     171    
        Sound.o                        306     14060     3988   
-       Lab9HMain.o                    5246    3194      565    
->>>>>>> Stashed changes
-=======
-       Machine.o                      9470    80981     171    
-       Sound.o                        306     14060     3988   
-       Lab9HMain.o                    5246    3194      565    
->>>>>>> Stashed changes
+       Lab9HMain.o                    5634    3306      582    
        ST7735.o                       3668    1449      18     
        Player.o                       1650    0         0      
        TExaS.o                        720     0         8      
@@ -1117,15 +471,7 @@ MODULE SUMMARY
        DAC5.o                         92      0         0      
        Switch.o                       52      0         0      
     +--+------------------------------+-------+---------+---------+
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-       Total:                         23232   83990     4804   
-=======
-       Total:                         23884   99688     4798   
->>>>>>> Stashed changes
-=======
-       Total:                         23884   99688     4798   
->>>>>>> Stashed changes
+       Total:                         24264   99800     4815   
                                                                
     .\ticlang\
        startup_mspm0g3507_ticlang.o   60      192       0      
@@ -1184,49 +530,21 @@ MODULE SUMMARY
                                                                
        Heap:                          0       0         512    
        Stack:                         0       0         512    
-       Linker Generated:              0       1551      0      
+       Linker Generated:              0       1572      0      
     +--+------------------------------+-------+---------+---------+
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-       Grand Total:                   27162   85741     6751   
-=======
-       Grand Total:                   27814   101431    6745   
->>>>>>> Stashed changes
-=======
-       Grand Total:                   27814   101431    6745   
->>>>>>> Stashed changes
+       Grand Total:                   28194   101564    6762   
 
 
 LINKER GENERATED COPY TABLES
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-__TI_cinit_table @ 0001b910 records: 2, size/record: 8, table size: 16
-	.data: load addr=0001b308, load size=000005f3 bytes, run addr=20200000, run size=00001465 bytes, compression=lzss
-	.bss: load addr=0001b908, load size=00000008 bytes, run addr=20201668, run size=000001fd bytes, compression=zero_init
-=======
-__TI_cinit_table @ 0001f8e0 records: 2, size/record: 8, table size: 16
-	.data: load addr=0001f2e0, load size=000005eb bytes, run addr=20200000, run size=00001459 bytes, compression=lzss
-	.bss: load addr=0001f8d8, load size=00000008 bytes, run addr=2020145c, run size=00000203 bytes, compression=zero_init
->>>>>>> Stashed changes
-=======
-__TI_cinit_table @ 0001f8e0 records: 2, size/record: 8, table size: 16
-	.data: load addr=0001f2e0, load size=000005eb bytes, run addr=20200000, run size=00001459 bytes, compression=lzss
-	.bss: load addr=0001f8d8, load size=00000008 bytes, run addr=2020145c, run size=00000203 bytes, compression=zero_init
->>>>>>> Stashed changes
+__TI_cinit_table @ 0001fae4 records: 2, size/record: 8, table size: 16
+	.data: load addr=0001f4d0, load size=00000600 bytes, run addr=20200000, run size=00001469 bytes, compression=lzss
+	.bss: load addr=0001fadc, load size=00000008 bytes, run addr=2020146c, run size=00000203 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-__TI_handler_table @ 0001b8fc records: 3, size/record: 4, table size: 12
-=======
-__TI_handler_table @ 0001f8cc records: 3, size/record: 4, table size: 12
->>>>>>> Stashed changes
-=======
-__TI_handler_table @ 0001f8cc records: 3, size/record: 4, table size: 12
->>>>>>> Stashed changes
+__TI_handler_table @ 0001fad0 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -1236,367 +554,177 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                                
 -------   ----                                
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-0001afd1  ADC0_IRQHandler                     
-0001afd1  ADC1_IRQHandler                     
-0001afd1  AES_IRQHandler                      
-20201434  BusFreq                             
-0001b2f0  C$$EXIT                             
-0001a881  C$$IO$$                             
-0001afd1  CANFD0_IRQHandler                   
+0001f1d1  ADC0_IRQHandler                     
+0001f1d1  ADC1_IRQHandler                     
+0001f1d1  AES_IRQHandler                      
+20201438  BusFreq                             
+0001f4c8  C$$EXIT                             
+0001eaad  C$$IO$$                             
+0001f1d1  CANFD0_IRQHandler                   
 202011c4  Counters                            
-20201230  Counters2                           
-0001afd1  DAC0_IRQHandler                     
-0001afd1  DMA_IRQHandler                      
-0001afd1  Default_Handler                     
-20201260  FIFO2                               
-0001afd1  GROUP0_IRQHandler                   
-0001afd1  GROUP1_IRQHandler                   
-0001a2c1  HOSTclose                           
-00019b49  HOSTlseek                           
-00019dc1  HOSTopen                            
-00019e21  HOSTread                            
-00019bb5  HOSTrename                          
-0001a309  HOSTunlink                          
-00019e79  HOSTwrite                           
-0001afed  HardFault_Handler                   
-0001afd1  I2C0_IRQHandler                     
-0001afd1  I2C1_IRQHandler                     
-2020128c  Instructions                        
-20201844  LostData                            
-0001afd1  NMI_Handler                         
-0001afd1  PendSV_Handler                      
-202012b4  Phrases                             
-0001afd1  RTC_IRQHandler                      
-0001b2ed  Reset_Handler                       
-0001b300  SHT$$INIT_ARRAY$$Base               
-0001b308  SHT$$INIT_ARRAY$$Limit              
-0001afd1  SPI0_IRQHandler                     
-0001afd1  SPI1_IRQHandler                     
-0001afd1  SVC_Handler                         
-20201418  Sensor                              
-2020125e  StTextColor                         
-20201438  StX                                 
-2020143c  StY                                 
-00019ed1  SysTick_Handler                     
-20201848  TExaSLogic                          
-2020184c  TExaSadc                            
-0001afd1  TIMA0_IRQHandler                    
-0001afd1  TIMA1_IRQHandler                    
-0001afd1  TIMG0_IRQHandler                    
-0001a5f1  TIMG12_IRQHandler                   
-0001afd1  TIMG6_IRQHandler                    
-0001a471  TIMG7_IRQHandler                    
-0001afd1  TIMG8_IRQHandler                    
-0001b125  TI_memcpy_small                     
-0001b22b  TI_memset_small                     
-20201828  ToDoArr                             
-0001afd1  UART0_IRQHandler                    
-0001afd1  UART1_IRQHandler                    
-00019981  UART2_IRQHandler                    
-0001afd1  UART3_IRQHandler                    
-20201668  _CIOBUF_                            
-0001b239  _Z10Clock_Freqv                     
-0001ac69  _Z10IRxmt_Initv                     
-0001a4b1  _Z10Sound_Initv                     
-00019f29  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
-00018c45  _Z10UART2_Initv                     
-0001b149  _Z11Clock_Delayj                    
-0001a6e1  _Z11SPI_OutDatac                    
-0001b075  _Z11ST7735_openPKcji                
-0001b08b  _Z11ST7735_readiPcj                 
-0001b299  _Z11Sound_Clangv                    
-00019441  _Z11Sound_Starth                    
-0001b2a3  _Z11Sound_Wrongv                    
-0001b05d  _Z11Switch_Initv                    
-0001927d  _Z12ST7735_InitR10initRFlags        
-0001b2ad  _Z12ST7735_closei                   
-0001b1d7  _Z12ST7735_lseekili                 
-0001a751  _Z12ST7735_writeiPKcj               
-0001b159  _Z12UART2_Enablev                   
-0001ab35  _Z12UART2_InCharv                   
-0001a351  _Z13IRxmt_OutCharc                  
-000199f5  _Z13IRxmt_SendBiti                  
-0001b245  _Z13ST7735_renamePKcS0_             
-0001b2b7  _Z13ST7735_unlinkPKc                
-0001b2c1  _Z13Sound_Correctv                  
-0001b169  _Z13UART2_Disablev                  
-0001a785  _Z14Clock_Delay1msj                 
-0001980d  _Z14LaunchPad_Initv                 
-0001a399  _Z14SPI_OutCommandc                 
-00018d21  _Z14ST7735_OutCharc                 
-00018f59  _Z14TimerG7_IntArmtjj               
-0001a719  _Z15ActivatePortA_Bv                
-00017909  _Z15Clock_Init80MHzi                
-00017abd  _Z15ST7735_DrawCharsscssh           
-00018491  _Z15ST7735_FillRectsssst            
-000193ad  _Z15TimerG12_IntArmjj               
-0001a62d  _Z15randomizeOrdersv                
-00017c61  _Z16ST7735_DrawCharSsscssh          
-00019a69  _Z16ST7735_DrawPixelsst             
-0001ad59  _Z16ST7735_OutStringPc              
-0001a7b9  _Z16ST7735_SetCursorjj              
-00017345  _Z17ST7735_DrawBitmapssPKtss        
-000194d1  _Z17ST7735_DrawStringttPcs          
-0001ab61  _Z17ST7735_FillScreent              
-00019145  _Z17ST7735_InitPrintfv              
-00017555  _Z17setUpInstructionsv              
-000187b5  _Z18ST7735_SetRotationh             
-00018df9  _Z20ST7735_DrawFastHLinessst        
-00018ea9  _Z20ST7735_DrawFastVLinessst        
-0001b179  _Z28TExaS_LaunchPadLogicPB27PB26v   
-0001b251  _Z5Delayj                           
-00018369  _Z8ADC_InitP10ADC12_Regsjj          
-0001af31  _Z8DAC5_Outj                        
-0001b2cb  _Z8PLL_Initv                        
-000186bd  _Z8SPI_Initv                        
-0001ac91  _Z9ADC_StartP10ADC12_Regs           
-0001a669  _Z9DAC5_Initv                       
-0001a4f1  _Z9SPI_Resetv                       
-0001b009  _Z9Switch_Inv                       
-00018995  _Z9UART_Initv                       
-0001a3e1  _ZN5Queue3GetEPc                    
-0001a429  _ZN5Queue3PutEc                     
-0001af0d  _ZN5Queue6IsFullEv                  
-0001b0b7  _ZN5Queue7IsEmptyEv                 
-0001b189  _ZN5QueueC1Ev                       
-0001b189  _ZN5QueueC2Ev                       
-0001b0cb  _ZN6Player13setPossessionEh         
-0001ab8d  _ZN6Player13translateDownEv         
-0001abb9  _ZN6Player13translateLeftEv         
-000191e1  _ZN6Player14checkProximityE7Machine 
-00019fd9  _ZN6Player14printPosessionEh        
-0001a955  _ZN6Player14translateRightEv        
-00019ad9  _ZN6Player15getMachineInputE7Machine
-00019315  _ZN6Player16resetCoordinatesEPsS0_  
-0001a6a5  _ZN6Player6moveUpEv                 
-0001b25d  _ZN6Player7getSizeEv                
-0001b1e5  _ZN6Player7getXPosEv                
-0001b1f3  _ZN6Player7getYPosEv                
-0001b0dd  _ZN6Player7setXPosEs                
-0001b0ef  _ZN6Player7setYPosEs                
-00017101  _ZN6Player8inBoundsEssPP7Machinehh  
-0001a17d  _ZN6Player8moveDownEv               
-0001a02d  _ZN6Player8moveLeftEv               
-0001a081  _ZN6Player9moveRightEv              
-0001b025  _ZN6PlayerC1Ev                      
-0001b025  _ZN6PlayerC2Ev                      
-000158e5  _ZN7Machine10updateCartEh           
-00015df5  _ZN7Machine10updateRockEh           
-0001b101  _ZN7Machine11setRockTypeEh          
-00016c01  _ZN7Machine12printRefinerEv         
-00017f7d  _ZN7Machine13cartSendErrorEhh       
-0001ac3d  _ZN7Machine13menuPrintCartEv        
-00016951  _ZN7Machine13printCountersEPS_      
-00016201  _ZN7Machine13updateRefinerEh        
-000165c5  _ZN7Machine14updateCountersEhPS_    
-0001822d  _ZN7Machine15printTurnInAreaEv      
-00016ead  _ZN7Machine16updateTurnInAreaEh     
-00017731  _ZN7Machine9printCartEv             
-00017e01  _ZN7Machine9printRockEv             
-0001b113  _ZN7Machine9setSpriteEh             
-00019cf9  _ZN7MachineC1Ehhhhhh                
-00019789  _ZN7MachineC1Ehhhhhhhhh             
-0001955d  _ZN7MachineC1Ehhhhhhhhhh            
-00019cf9  _ZN7MachineC2Ehhhhhh                
-00019789  _ZN7MachineC2Ehhhhhhhhh             
-0001955d  _ZN7MachineC2Ehhhhhhhhhh            
-0001a0d5  _ZN8SlidePot2InEv                   
-000195e9  _ZN8SlidePot4InitEv                 
-0001ad81  _ZN8SlidePot4SaveEj                 
-0001af51  _ZN8SlidePot4SyncEv                 
-0001b269  _ZN8SlidePot9DistanceXEv            
-0001b275  _ZN8SlidePot9DistanceYEv            
-0001b201  _ZN8SlidePotC1Ev                    
-0001b201  _ZN8SlidePotC2Ev                    
-20201668  __CIOBUF_                           
-=======
-0001efe5  ADC0_IRQHandler                     
-0001efe5  ADC1_IRQHandler                     
-0001efe5  AES_IRQHandler                      
-20201428  BusFreq                             
-0001f2dc  C$$EXIT                             
-0001e8c1  C$$IO$$                             
-0001efe5  CANFD0_IRQHandler                   
-202011c4  Counters                            
-=======
-0001efe5  ADC0_IRQHandler                     
-0001efe5  ADC1_IRQHandler                     
-0001efe5  AES_IRQHandler                      
-20201428  BusFreq                             
-0001f2dc  C$$EXIT                             
-0001e8c1  C$$IO$$                             
-0001efe5  CANFD0_IRQHandler                   
-202011c4  Counters                            
->>>>>>> Stashed changes
 20201200  Counters2                           
-0001efe5  DAC0_IRQHandler                     
-0001efe5  DMA_IRQHandler                      
-0001efe5  Default_Handler                     
+0001f1d1  DAC0_IRQHandler                     
+0001f1d1  DMA_IRQHandler                      
+0001f1d1  Default_Handler                     
 20201230  FIFO2                               
-0001efe5  GROUP0_IRQHandler                   
-0001efe5  GROUP1_IRQHandler                   
-0001e389  HOSTclose                           
-0001db79  HOSTlseek                           
-0001ddf1  HOSTopen                            
-0001de51  HOSTread                            
-0001dbe5  HOSTrename                          
-0001e3d1  HOSTunlink                          
-0001dea9  HOSTwrite                           
-0001f001  HardFault_Handler                   
-0001efe5  I2C0_IRQHandler                     
-0001efe5  I2C1_IRQHandler                     
+0001f1d1  GROUP0_IRQHandler                   
+0001f1d1  GROUP1_IRQHandler                   
+0001e5b9  HOSTclose                           
+0001dda9  HOSTlseek                           
+0001e021  HOSTopen                            
+0001e081  HOSTread                            
+0001de15  HOSTrename                          
+0001e601  HOSTunlink                          
+0001e0d9  HOSTwrite                           
+0001f1ed  HardFault_Handler                   
+0001f1d1  I2C0_IRQHandler                     
+0001f1d1  I2C1_IRQHandler                     
 20201258  Instructions                        
-20201640  LostData                            
-0001efe5  NMI_Handler                         
-0001efe5  PendSV_Handler                      
-202012a8  Phrases                             
-0001efe5  RTC_IRQHandler                      
-0001f2d5  Reset_Handler                       
-00018628  SHT$$INIT_ARRAY$$Base               
-00018630  SHT$$INIT_ARRAY$$Limit              
-0001efe5  SPI0_IRQHandler                     
-0001efe5  SPI1_IRQHandler                     
-0001efe5  SVC_Handler                         
-2020140c  Sensor                              
+20201650  LostData                            
+0001f1d1  NMI_Handler                         
+0001f1d1  PendSV_Handler                      
+20201280  Phrases                             
+0001f1d1  RTC_IRQHandler                      
+0001f4c1  Reset_Handler                       
+00018698  SHT$$INIT_ARRAY$$Base               
+000186a0  SHT$$INIT_ARRAY$$Limit              
+0001f1d1  SPI0_IRQHandler                     
+0001f1d1  SPI1_IRQHandler                     
+0001f1d1  SVC_Handler                         
+2020141c  Sensor                              
 2020122e  StTextColor                         
-2020142c  StX                                 
-20201430  StY                                 
-0001df01  SysTick_Handler                     
-20201644  TExaSLogic                          
-20201648  TExaSadc                            
-0001efe5  TIMA0_IRQHandler                    
-0001efe5  TIMA1_IRQHandler                    
-0001efe5  TIMG0_IRQHandler                    
-0001e66d  TIMG12_IRQHandler                   
-0001efe5  TIMG6_IRQHandler                    
-0001e4ed  TIMG7_IRQHandler                    
-0001efe5  TIMG8_IRQHandler                    
-0001f127  TI_memcpy_small                     
-0001f22f  TI_memset_small                     
-2020161c  ToDoArr                             
-0001efe5  UART0_IRQHandler                    
-0001efe5  UART1_IRQHandler                    
-0001d9b1  UART2_IRQHandler                    
-0001efe5  UART3_IRQHandler                    
-2020145c  _CIOBUF_                            
-0001f23d  _Z10Clock_Freqv                     
-0001ec7d  _Z10IRxmt_Initv                     
-0001e52d  _Z10Sound_Initv                     
-0001df59  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
-0001cc71  _Z10UART2_Initv                     
-0001f14b  _Z11Clock_Delayj                    
-0001e721  _Z11SPI_OutDatac                    
-0001f089  _Z11ST7735_openPKcji                
-0001f09f  _Z11ST7735_readiPcj                 
-0001f29d  _Z11Sound_Clangv                    
-0001d46d  _Z11Sound_Starth                    
-0001f071  _Z11Switch_Initv                    
-0001d2a9  _Z12ST7735_InitR10initRFlags        
-0001f2a7  _Z12ST7735_closei                   
-0001f1db  _Z12ST7735_lseekili                 
-0001e791  _Z12ST7735_writeiPKcj               
-0001f15d  _Z12UART2_Enablev                   
-0001eb75  _Z12UART2_InCharv                   
-0001e419  _Z13IRxmt_OutCharc                  
-0001da25  _Z13IRxmt_SendBiti                  
-0001f249  _Z13ST7735_renamePKcS0_             
-0001f2b1  _Z13ST7735_unlinkPKc                
-0001f16d  _Z13UART2_Disablev                  
-0001e7c5  _Z14Clock_Delay1msj                 
-0001d83d  _Z14LaunchPad_Initv                 
-0001e461  _Z14SPI_OutCommandc                 
-0001cd4d  _Z14ST7735_OutCharc                 
-0001cf85  _Z14TimerG7_IntArmtjj               
-0001e759  _Z15ActivatePortA_Bv                
-0001b779  _Z15Clock_Init80MHzi                
-0001b92d  _Z15ST7735_DrawCharsscssh           
-0001c4bd  _Z15ST7735_FillRectsssst            
-0001d3d9  _Z15TimerG12_IntArmjj               
-0001bad1  _Z16ST7735_DrawCharSsscssh          
-0001da99  _Z16ST7735_DrawPixelsst             
-0001ed6d  _Z16ST7735_OutStringPc              
-0001e7f9  _Z16ST7735_SetCursorjj              
-0001affd  _Z17ST7735_DrawBitmapssPKtss        
-0001d4fd  _Z17ST7735_DrawStringttPcs          
-0001eba1  _Z17ST7735_FillScreent              
-0001d171  _Z17ST7735_InitPrintfv              
-0001b20d  _Z17setUpInstructionsv              
-0001c7e1  _Z18ST7735_SetRotationh             
-0001ce25  _Z20ST7735_DrawFastHLinessst        
-0001ced5  _Z20ST7735_DrawFastVLinessst        
-0001f17d  _Z28TExaS_LaunchPadLogicPB27PB26v   
-0001f255  _Z5Delayj                           
-0001c395  _Z8ADC_InitP10ADC12_Regsjj          
-0001ef45  _Z8DAC5_Outj                        
-0001f2bb  _Z8PLL_Initv                        
-0001c6e9  _Z8SPI_Initv                        
-0001e4a9  _Z8checkWinv                        
-0001eca5  _Z9ADC_StartP10ADC12_Regs           
-0001e6a9  _Z9DAC5_Initv                       
-0001e56d  _Z9SPI_Resetv                       
-0001f01d  _Z9Switch_Inv                       
-0001c9c1  _Z9UART_Initv                       
-0001e2f1  _ZN5Queue3GetEPc                    
-0001e33d  _ZN5Queue3PutEc                     
-0001ef21  _ZN5Queue6IsFullEv                  
-0001f0cb  _ZN5Queue7IsEmptyEv                 
-0001f18d  _ZN5QueueC1Ev                       
-0001f18d  _ZN5QueueC2Ev                       
-0001f0df  _ZN6Player13setPossessionEh         
-0001ebcd  _ZN6Player13translateDownEv         
-0001ebf9  _ZN6Player13translateLeftEv         
-0001d20d  _ZN6Player14checkProximityE7Machine 
-0001e009  _ZN6Player14printPosessionEh        
-0001e995  _ZN6Player14translateRightEv        
-0001db09  _ZN6Player15getMachineInputE7Machine
-0001d341  _ZN6Player16resetCoordinatesEPsS0_  
-0001e6e5  _ZN6Player6moveUpEv                 
-0001f261  _ZN6Player7getSizeEv                
-0001f1e9  _ZN6Player7getXPosEv                
-0001f1f7  _ZN6Player7getYPosEv                
-0001f0f1  _ZN6Player7setXPosEs                
-0001f103  _ZN6Player7setYPosEs                
-0001adb9  _ZN6Player8inBoundsEssPP7Machinehh  
-0001e1ad  _ZN6Player8moveDownEv               
-0001e05d  _ZN6Player8moveLeftEv               
-0001e0b1  _ZN6Player9moveRightEv              
-0001f039  _ZN6PlayerC1Ev                      
-0001f039  _ZN6PlayerC2Ev                      
-0001a851  _ZN7Machine10printAnvilEv           
-000193a1  _ZN7Machine10updateCartEh           
-00019d79  _ZN7Machine10updateRockEh           
-0001f115  _ZN7Machine11setRockTypeEh          
-000198b1  _ZN7Machine11updateAnvilEh          
-0001b5c1  _ZN7Machine12printSmelterEv         
-0001c0e5  _ZN7Machine13cartSendErrorEhh       
-0001bc71  _ZN7Machine13computeRecipeEPaa      
-0001ab09  _ZN7Machine13printCountersEPS_      
-0001a511  _ZN7Machine13updateSmelterEh        
-0001a185  _ZN7Machine14updateCountersEhPS_    
-0001bf85  _ZN7Machine15updateAnvilMenuEPaa    
-0001b3e9  _ZN7Machine9printCartEv             
-0001be09  _ZN7Machine9printRockEv             
-0001dd29  _ZN7MachineC1Ehhhhhh                
-0001d7b9  _ZN7MachineC1Ehhhhhhhhh             
-0001d589  _ZN7MachineC1Ehhhhhhhhhh            
-0001dd29  _ZN7MachineC2Ehhhhhh                
-0001d7b9  _ZN7MachineC2Ehhhhhhhhh             
-0001d589  _ZN7MachineC2Ehhhhhhhhhh            
-0001e105  _ZN8SlidePot2InEv                   
-0001d615  _ZN8SlidePot4InitEv                 
-0001ed95  _ZN8SlidePot4SaveEj                 
-0001ef65  _ZN8SlidePot4SyncEv                 
-0001f26d  _ZN8SlidePot9DistanceXEv            
-0001f279  _ZN8SlidePot9DistanceYEv            
-0001f205  _ZN8SlidePotC1Ev                    
-0001f205  _ZN8SlidePotC2Ev                    
-2020145c  __CIOBUF_                           
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+2020143c  StX                                 
+20201440  StY                                 
+0001e131  SysTick_Handler                     
+20201654  TExaSLogic                          
+20201658  TExaSadc                            
+0001f1d1  TIMA0_IRQHandler                    
+0001f1d1  TIMA1_IRQHandler                    
+0001f1d1  TIMG0_IRQHandler                    
+0001e859  TIMG12_IRQHandler                   
+0001f1d1  TIMG6_IRQHandler                    
+0001e6d9  TIMG7_IRQHandler                    
+0001f1d1  TIMG8_IRQHandler                    
+0001f313  TI_memcpy_small                     
+0001f41b  TI_memset_small                     
+2020162c  ToDoArr                             
+0001f1d1  UART0_IRQHandler                    
+0001f1d1  UART1_IRQHandler                    
+0001dbe1  UART2_IRQHandler                    
+0001f1d1  UART3_IRQHandler                    
+2020146c  _CIOBUF_                            
+0001f429  _Z10Clock_Freqv                     
+0001ee69  _Z10IRxmt_Initv                     
+0001e719  _Z10Sound_Initv                     
+0001e189  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
+0001cdd5  _Z10UART2_Initv                     
+0001cf89  _Z10printScoreshhh                  
+0001f337  _Z11Clock_Delayj                    
+0001e90d  _Z11SPI_OutDatac                    
+0001f275  _Z11ST7735_openPKcji                
+0001f28b  _Z11ST7735_readiPcj                 
+0001f489  _Z11Sound_Clangv                    
+0001d69d  _Z11Sound_Starth                    
+0001f25d  _Z11Switch_Initv                    
+0001d4d9  _Z12ST7735_InitR10initRFlags        
+0001f493  _Z12ST7735_closei                   
+0001f3c7  _Z12ST7735_lseekili                 
+0001e97d  _Z12ST7735_writeiPKcj               
+0001f349  _Z12UART2_Enablev                   
+0001ed61  _Z12UART2_InCharv                   
+0001e649  _Z13IRxmt_OutCharc                  
+0001dc55  _Z13IRxmt_SendBiti                  
+0001f435  _Z13ST7735_renamePKcS0_             
+0001f49d  _Z13ST7735_unlinkPKc                
+0001f359  _Z13UART2_Disablev                  
+0001e9b1  _Z14Clock_Delay1msj                 
+0001da6d  _Z14LaunchPad_Initv                 
+0001e691  _Z14SPI_OutCommandc                 
+0001ceb1  _Z14ST7735_OutCharc                 
+0001d1b5  _Z14TimerG7_IntArmtjj               
+0001e945  _Z15ActivatePortA_Bv                
+0001b8dd  _Z15Clock_Init80MHzi                
+0001ba91  _Z15ST7735_DrawCharsscssh           
+0001c621  _Z15ST7735_FillRectsssst            
+0001d609  _Z15TimerG12_IntArmjj               
+0001bc35  _Z16ST7735_DrawCharSsscssh          
+0001dcc9  _Z16ST7735_DrawPixelsst             
+0001ef59  _Z16ST7735_OutStringPc              
+0001e9e5  _Z16ST7735_SetCursorjj              
+0001b33d  _Z17ST7735_DrawBitmapssPKtss        
+0001d72d  _Z17ST7735_DrawStringttPcs          
+0001ed8d  _Z17ST7735_FillScreent              
+0001d3a1  _Z17ST7735_InitPrintfv              
+0001b10d  _Z17setUpInstructionsh              
+0001c945  _Z18ST7735_SetRotationh             
+0001d055  _Z20ST7735_DrawFastHLinessst        
+0001d105  _Z20ST7735_DrawFastVLinessst        
+0001f369  _Z28TExaS_LaunchPadLogicPB27PB26v   
+0001f441  _Z5Delayj                           
+0001c4f9  _Z8ADC_InitP10ADC12_Regsjj          
+0001f131  _Z8DAC5_Outj                        
+0001f4a7  _Z8PLL_Initv                        
+0001c84d  _Z8SPI_Initv                        
+0001ee91  _Z9ADC_StartP10ADC12_Regs           
+0001e895  _Z9DAC5_Initv                       
+0001e759  _Z9SPI_Resetv                       
+0001f209  _Z9Switch_Inv                       
+0001cb25  _Z9UART_Initv                       
+0001e521  _ZN5Queue3GetEPc                    
+0001e56d  _ZN5Queue3PutEc                     
+0001f10d  _ZN5Queue6IsFullEv                  
+0001f2b7  _ZN5Queue7IsEmptyEv                 
+0001f379  _ZN5QueueC1Ev                       
+0001f379  _ZN5QueueC2Ev                       
+0001f2cb  _ZN6Player13setPossessionEh         
+0001edb9  _ZN6Player13translateDownEv         
+0001ede5  _ZN6Player13translateLeftEv         
+0001d43d  _ZN6Player14checkProximityE7Machine 
+0001e239  _ZN6Player14printPosessionEh        
+0001eb81  _ZN6Player14translateRightEv        
+0001dd39  _ZN6Player15getMachineInputE7Machine
+0001d571  _ZN6Player16resetCoordinatesEPsS0_  
+0001e8d1  _ZN6Player6moveUpEv                 
+0001f44d  _ZN6Player7getSizeEv                
+0001f3d5  _ZN6Player7getXPosEv                
+0001f3e3  _ZN6Player7getYPosEv                
+0001f2dd  _ZN6Player7setXPosEs                
+0001f2ef  _ZN6Player7setYPosEs                
+0001aec9  _ZN6Player8inBoundsEssPP7Machinehh  
+0001e3dd  _ZN6Player8moveDownEv               
+0001e28d  _ZN6Player8moveLeftEv               
+0001e2e1  _ZN6Player9moveRightEv              
+0001f225  _ZN6PlayerC1Ev                      
+0001f225  _ZN6PlayerC2Ev                      
+0001a961  _ZN7Machine10printAnvilEv           
+000194b9  _ZN7Machine10updateCartEh           
+00019e8d  _ZN7Machine10updateRockEh           
+0001f301  _ZN7Machine11setRockTypeEh          
+000199c9  _ZN7Machine11updateAnvilEh          
+0001b725  _ZN7Machine12printSmelterEv         
+0001c249  _ZN7Machine13cartSendErrorEhh       
+0001bdd5  _ZN7Machine13computeRecipeEPaa      
+0001ac19  _ZN7Machine13printCountersEPS_      
+0001a621  _ZN7Machine13updateSmelterEh        
+0001a295  _ZN7Machine14updateCountersEhPS_    
+0001c0e9  _ZN7Machine15updateAnvilMenuEPaa    
+0001b54d  _ZN7Machine9printCartEv             
+0001bf6d  _ZN7Machine9printRockEv             
+0001df59  _ZN7MachineC1Ehhhhhh                
+0001d9e9  _ZN7MachineC1Ehhhhhhhhh             
+0001d7b9  _ZN7MachineC1Ehhhhhhhhhh            
+0001df59  _ZN7MachineC2Ehhhhhh                
+0001d9e9  _ZN7MachineC2Ehhhhhhhhh             
+0001d7b9  _ZN7MachineC2Ehhhhhhhhhh            
+0001e335  _ZN8SlidePot2InEv                   
+0001d845  _ZN8SlidePot4InitEv                 
+0001ef81  _ZN8SlidePot4SaveEj                 
+0001f151  _ZN8SlidePot4SyncEv                 
+0001f459  _ZN8SlidePot9DistanceXEv            
+0001f465  _ZN8SlidePot9DistanceYEv            
+0001f3f1  _ZN8SlidePotC1Ev                    
+0001f3f1  _ZN8SlidePotC2Ev                    
+2020146c  __CIOBUF_                           
 20208000  __STACK_END                         
 00000200  __STACK_SIZE                        
 00000200  __SYSMEM_SIZE                       
@@ -1609,100 +737,39 @@ address   name
 00000000  __TI_ATRegion2_region_sz            
 00000000  __TI_ATRegion2_src_addr             
 00000000  __TI_ATRegion2_trg_addr             
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-0001b910  __TI_CINIT_Base                     
-0001b920  __TI_CINIT_Limit                    
-0001b920  __TI_CINIT_Warm                     
-0001b8fc  __TI_Handler_Table_Base             
-0001b908  __TI_Handler_Table_Limit            
-0001a129  __TI_auto_init_nobinit              
-0001a7ed  __TI_cleanup                        
-20201424  __TI_cleanup_ptr                    
-00019889  __TI_closefile                      
-00019905  __TI_decompress_lzss                
-0001b137  __TI_decompress_none                
-0001a1cf  __TI_doflush                        
-20201428  __TI_dtors_ptr                      
-20201440  __TI_ft_end                         
+0001fae4  __TI_CINIT_Base                     
+0001faf4  __TI_CINIT_Limit                    
+0001faf4  __TI_CINIT_Warm                     
+0001fad0  __TI_Handler_Table_Base             
+0001fadc  __TI_Handler_Table_Limit            
+0001e389  __TI_auto_init_nobinit              
+0001ea19  __TI_cleanup                        
+20201428  __TI_cleanup_ptr                    
+0001dae9  __TI_closefile                      
+0001db65  __TI_decompress_lzss                
+0001f325  __TI_decompress_none                
+0001e42f  __TI_doflush                        
+2020142c  __TI_dtors_ptr                      
+20201444  __TI_ft_end                         
 ffffffff  __TI_pprof_out_hndl                 
 ffffffff  __TI_prof_data_size                 
 ffffffff  __TI_prof_data_start                
-0001a821  __TI_readmsg                        
+0001ea4d  __TI_readmsg                        
 00000000  __TI_static_base__                  
-20201788  __TI_tmpnams                        
-0001a855  __TI_writemsg                       
-0001b0a1  __TI_zero_init_nomemset             
-00019f81  __aeabi_idiv                        
-000190a3  __aeabi_idiv0                       
-00019f81  __aeabi_idivmod                     
-0001b281  __aeabi_memclr                      
-0001b281  __aeabi_memclr4                     
-0001b281  __aeabi_memclr8                     
-0001b2dd  __aeabi_memcpy                      
-0001b2dd  __aeabi_memcpy4                     
-0001b2dd  __aeabi_memcpy8                     
-0001a531  __aeabi_uidiv                       
-0001a531  __aeabi_uidivmod                    
-=======
-0001f8e0  __TI_CINIT_Base                     
-0001f8f0  __TI_CINIT_Limit                    
-0001f8f0  __TI_CINIT_Warm                     
-0001f8cc  __TI_Handler_Table_Base             
-0001f8d8  __TI_Handler_Table_Limit            
-0001e159  __TI_auto_init_nobinit              
-0001e82d  __TI_cleanup                        
-20201418  __TI_cleanup_ptr                    
-0001d8b9  __TI_closefile                      
-0001d935  __TI_decompress_lzss                
-0001f139  __TI_decompress_none                
-0001e1ff  __TI_doflush                        
-2020141c  __TI_dtors_ptr                      
-20201434  __TI_ft_end                         
-ffffffff  __TI_pprof_out_hndl                 
-ffffffff  __TI_prof_data_size                 
-ffffffff  __TI_prof_data_start                
-0001e861  __TI_readmsg                        
-00000000  __TI_static_base__                  
-=======
-0001f8e0  __TI_CINIT_Base                     
-0001f8f0  __TI_CINIT_Limit                    
-0001f8f0  __TI_CINIT_Warm                     
-0001f8cc  __TI_Handler_Table_Base             
-0001f8d8  __TI_Handler_Table_Limit            
-0001e159  __TI_auto_init_nobinit              
-0001e82d  __TI_cleanup                        
-20201418  __TI_cleanup_ptr                    
-0001d8b9  __TI_closefile                      
-0001d935  __TI_decompress_lzss                
-0001f139  __TI_decompress_none                
-0001e1ff  __TI_doflush                        
-2020141c  __TI_dtors_ptr                      
-20201434  __TI_ft_end                         
-ffffffff  __TI_pprof_out_hndl                 
-ffffffff  __TI_prof_data_size                 
-ffffffff  __TI_prof_data_start                
-0001e861  __TI_readmsg                        
-00000000  __TI_static_base__                  
->>>>>>> Stashed changes
-2020157c  __TI_tmpnams                        
-0001e895  __TI_writemsg                       
-0001f0b5  __TI_zero_init_nomemset             
-0001dfb1  __aeabi_idiv                        
-0001d0cf  __aeabi_idiv0                       
-0001dfb1  __aeabi_idivmod                     
-0001f285  __aeabi_memclr                      
-0001f285  __aeabi_memclr4                     
-0001f285  __aeabi_memclr8                     
-0001f2c5  __aeabi_memcpy                      
-0001f2c5  __aeabi_memcpy4                     
-0001f2c5  __aeabi_memcpy8                     
-0001e5ad  __aeabi_uidiv                       
-0001e5ad  __aeabi_uidivmod                    
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+2020158c  __TI_tmpnams                        
+0001ea81  __TI_writemsg                       
+0001f2a1  __TI_zero_init_nomemset             
+0001e1e1  __aeabi_idiv                        
+0001d2ff  __aeabi_idiv0                       
+0001e1e1  __aeabi_idivmod                     
+0001f471  __aeabi_memclr                      
+0001f471  __aeabi_memclr4                     
+0001f471  __aeabi_memclr8                     
+0001f4b1  __aeabi_memcpy                      
+0001f4b1  __aeabi_memcpy4                     
+0001f4b1  __aeabi_memcpy8                     
+0001e799  __aeabi_uidiv                       
+0001e799  __aeabi_uidivmod                    
 ffffffff  __binit__                           
 UNDEFED   __mpu_init                          
 20207e00  __stack                             
@@ -1710,225 +777,78 @@ UNDEFED   __mpu_init
 20200000  __start___llvm_prf_cnts             
 20200000  __stop___llvm_prf_bits              
 20200000  __stop___llvm_prf_cnts              
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-0001ad31  _c_int00_noargs                     
+0001ef31  _c_int00_noargs                     
 202010fc  _device                             
 20200f84  _ftable                             
-20201444  _lock                               
-00019b47  _nop                                
-=======
-0001ed45  _c_int00_noargs                     
-202010fc  _device                             
-20200f84  _ftable                             
-20201438  _lock                               
-0001db77  _nop                                
->>>>>>> Stashed changes
+20201448  _lock                               
+0001dda7  _nop                                
 20201174  _stream                             
-20201660  _sys_memory                         
+20201670  _sys_memory                         
 UNDEFED   _system_post_cinit                  
-<<<<<<< Updated upstream
-000196fd  _system_pre_init                    
-20201448  _unlock                             
-0001b2f1  abort                               
-000188a9  add_device                          
-000185a9  aligned_alloc                       
+0001f4c5  _system_pre_init                    
+2020144c  _unlock                             
+0001f4c9  abort                               
+0001ca39  add_device                          
+0001c739  aligned_alloc                       
 ffffffff  binit                               
-20201862  buttons                             
-20201450  clang_size                          
-0001a271  close                               
-20201452  correct_size                        
-2020145a  deadTimer                           
-0001a889  exit                                
-0001a8bd  finddevice                          
-0001ab05  fopen                               
-00018a7d  free                                
-0001a8f1  freopen                             
-00019c8d  getdevice                           
-2020145b  input                               
+2020166b  buttons                             
+20201452  clang_size                          
+0001e4d1  close                               
+20201454  correct_size                        
+2020145f  deadTimer                           
+0001eab5  exit                                
+0001eae9  finddevice                          
+0001ed31  fopen                               
+0001cc0d  free                                
+0001eb1d  freopen                             
+0001deed  getdevice                           
+20201461  input                               
 00000000  interruptVectors                    
-202012cc  m_anvil                             
-202012db  m_cart1                             
-202012ea  m_cart2                             
-202012f9  m_counter1                          
-20201308  m_counter2                          
-20201317  m_counter3                          
-20201326  m_counter4                          
-20201335  m_counter5                          
-20201344  m_counter6                          
-20201353  m_portal                            
-20201362  m_refiner                           
-20201371  m_rock1                             
-20201380  m_rock1Mid                          
-2020138f  m_rock1Progress                     
-2020139e  m_rock1Top                          
-202013ad  m_rock2                             
-202013bc  m_rock2Mid                          
-202013cb  m_rock2Top                          
-202013da  m_smelter                           
-202013e9  m_smelterProgress                   
-202013f8  m_todo                              
-20201407  m_todoDown                          
-20201200  machineArr1                         
-000148d1  main                                
-0001b28d  malloc                              
-000185a9  memalign                            
-2020145d  numCounters                         
-000190a5  open                                
-2020142c  p1                                  
-2020183c  parmbuf                             
-2020145e  progH                               
-2020145f  progW                               
-0001b2e5  remove                              
-00018b65  setvbuf                             
-20201850  soundArr                            
-20201854  soundIndex                          
-2020185c  soundLength                         
-20201863  sound_flag                          
+202012d0  m_anvil                             
+202012df  m_cart1                             
+202012ee  m_cart2                             
+202012fd  m_counter1                          
+2020130c  m_counter2                          
+2020131b  m_counter3                          
+2020132a  m_counter4                          
+20201339  m_counter5                          
+20201348  m_counter6                          
+20201357  m_portal                            
+20201366  m_refiner                           
+20201375  m_rock1                             
+20201384  m_rock1Mid                          
+20201393  m_rock1Progress                     
+202013a2  m_rock1Top                          
+202013b1  m_rock2                             
+202013c0  m_rock2Mid                          
+202013cf  m_rock2Top                          
+202013de  m_smelter                           
+202013ed  m_smelterProgress                   
+202013fc  m_todo                              
+2020140b  m_todoDown                          
+202012a8  machineArr2                         
+000186a1  main                                
+0001f47d  malloc                              
+0001c739  memalign                            
+2020166c  menuOpen                            
+20201462  numCounters                         
+0001d301  open                                
+20201430  p1                                  
+20201640  parmbuf                             
+20201463  progH                               
+20201465  progW                               
+0001f4b9  remove                              
+0001ccf5  setvbuf                             
+2020165c  soundArr                            
+20201660  soundIndex                          
+2020164e  soundLength                         
+2020166d  sound_flag                          
 20201074  sprites                             
-00019701  strcmp                              
-20201864  toDoOpen                            
-0001ac11  unlink                              
-0001ad09  write                               
-20201454  wrong_size                          
-=======
-0001f2d9  _system_pre_init                    
-2020143c  _unlock                             
-0001f2dd  abort                               
-0001c8d5  add_device                          
-0001c5d5  aligned_alloc                       
-ffffffff  binit                               
-2020165b  buttons                             
-20201442  clang_size                          
-0001e2a1  close                               
-20201444  correct_size                        
-2020144e  deadTimer                           
-0001e8c9  exit                                
-0001e8fd  finddevice                          
-0001eb45  fopen                               
-0001caa9  free                                
-0001e931  freopen                             
-0001dcbd  getdevice                           
-2020144f  input                               
-00000000  interruptVectors                    
-202012c0  m_anvil                             
-202012cf  m_cart1                             
-202012de  m_cart2                             
-202012ed  m_counter1                          
-202012fc  m_counter2                          
-2020130b  m_counter3                          
-2020131a  m_counter4                          
-20201329  m_counter5                          
-20201338  m_counter6                          
-20201347  m_portal                            
-20201356  m_refiner                           
-20201365  m_rock1                             
-20201374  m_rock1Mid                          
-20201383  m_rock1Progress                     
-20201392  m_rock1Top                          
-202013a1  m_rock2                             
-202013b0  m_rock2Mid                          
-202013bf  m_rock2Top                          
-202013ce  m_smelter                           
-202013dd  m_smelterProgress                   
-202013ec  m_todo                              
-202013fb  m_todoDown                          
-20201280  machineArr2                         
-00018631  main                                
-0001f291  malloc                              
-0001c5d5  memalign                            
-2020165c  menuOpen                            
-20201451  numCounters                         
-0001d0d1  open                                
-20201420  p1                                  
-20201630  parmbuf                             
-20201452  progH                               
-20201453  progW                               
-0001f2cd  remove                              
-0001cb91  setvbuf                             
-2020164c  soundArr                            
-20201650  soundIndex                          
-2020163e  soundLength                         
-2020165d  sound_flag                          
-20201074  sprites                             
-=======
-0001ed45  _c_int00_noargs                     
-202010fc  _device                             
-20200f84  _ftable                             
-20201438  _lock                               
-0001db77  _nop                                
-20201174  _stream                             
-20201660  _sys_memory                         
-UNDEFED   _system_post_cinit                  
-0001f2d9  _system_pre_init                    
-2020143c  _unlock                             
-0001f2dd  abort                               
-0001c8d5  add_device                          
-0001c5d5  aligned_alloc                       
-ffffffff  binit                               
-2020165b  buttons                             
-20201442  clang_size                          
-0001e2a1  close                               
-20201444  correct_size                        
-2020144e  deadTimer                           
-0001e8c9  exit                                
-0001e8fd  finddevice                          
-0001eb45  fopen                               
-0001caa9  free                                
-0001e931  freopen                             
-0001dcbd  getdevice                           
-2020144f  input                               
-00000000  interruptVectors                    
-202012c0  m_anvil                             
-202012cf  m_cart1                             
-202012de  m_cart2                             
-202012ed  m_counter1                          
-202012fc  m_counter2                          
-2020130b  m_counter3                          
-2020131a  m_counter4                          
-20201329  m_counter5                          
-20201338  m_counter6                          
-20201347  m_portal                            
-20201356  m_refiner                           
-20201365  m_rock1                             
-20201374  m_rock1Mid                          
-20201383  m_rock1Progress                     
-20201392  m_rock1Top                          
-202013a1  m_rock2                             
-202013b0  m_rock2Mid                          
-202013bf  m_rock2Top                          
-202013ce  m_smelter                           
-202013dd  m_smelterProgress                   
-202013ec  m_todo                              
-202013fb  m_todoDown                          
-20201280  machineArr2                         
-00018631  main                                
-0001f291  malloc                              
-0001c5d5  memalign                            
-2020165c  menuOpen                            
-20201451  numCounters                         
-0001d0d1  open                                
-20201420  p1                                  
-20201630  parmbuf                             
-20201452  progH                               
-20201453  progW                               
-0001f2cd  remove                              
-0001cb91  setvbuf                             
-2020164c  soundArr                            
-20201650  soundIndex                          
-2020163e  soundLength                         
-2020165d  sound_flag                          
-20201074  sprites                             
->>>>>>> Stashed changes
-0001d731  strcmp                              
-2020165e  toDoOpen                            
-0001ec51  unlink                              
-0001ed1d  write                               
-20201446  wrong_size                          
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+0001d961  strcmp                              
+2020166e  toDoOpen                            
+0001ee3d  unlink                              
+0001ef09  write                               
+20201456  wrong_size                          
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1948,421 +868,208 @@ address   name
 00000000  interruptVectors                    
 00000200  __STACK_SIZE                        
 00000200  __SYSMEM_SIZE                       
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-000148d1  main                                
-000158e5  _ZN7Machine10updateCartEh           
-00015df5  _ZN7Machine10updateRockEh           
-00016201  _ZN7Machine13updateRefinerEh        
-000165c5  _ZN7Machine14updateCountersEhPS_    
-00016951  _ZN7Machine13printCountersEPS_      
-00016c01  _ZN7Machine12printRefinerEv         
-00016ead  _ZN7Machine16updateTurnInAreaEh     
-00017101  _ZN6Player8inBoundsEssPP7Machinehh  
-00017345  _Z17ST7735_DrawBitmapssPKtss        
-00017555  _Z17setUpInstructionsv              
-00017731  _ZN7Machine9printCartEv             
-00017909  _Z15Clock_Init80MHzi                
-00017abd  _Z15ST7735_DrawCharsscssh           
-00017c61  _Z16ST7735_DrawCharSsscssh          
-00017e01  _ZN7Machine9printRockEv             
-00017f7d  _ZN7Machine13cartSendErrorEhh       
-0001822d  _ZN7Machine15printTurnInAreaEv      
-00018369  _Z8ADC_InitP10ADC12_Regsjj          
-00018491  _Z15ST7735_FillRectsssst            
-000185a9  aligned_alloc                       
-000185a9  memalign                            
-000186bd  _Z8SPI_Initv                        
-000187b5  _Z18ST7735_SetRotationh             
-000188a9  add_device                          
-00018995  _Z9UART_Initv                       
-00018a7d  free                                
-00018b65  setvbuf                             
-00018c45  _Z10UART2_Initv                     
-00018d21  _Z14ST7735_OutCharc                 
-00018df9  _Z20ST7735_DrawFastHLinessst        
-00018ea9  _Z20ST7735_DrawFastVLinessst        
-00018f59  _Z14TimerG7_IntArmtjj               
-000190a3  __aeabi_idiv0                       
-000190a5  open                                
-00019145  _Z17ST7735_InitPrintfv              
-000191e1  _ZN6Player14checkProximityE7Machine 
-0001927d  _Z12ST7735_InitR10initRFlags        
-00019315  _ZN6Player16resetCoordinatesEPsS0_  
-000193ad  _Z15TimerG12_IntArmjj               
-00019441  _Z11Sound_Starth                    
-000194d1  _Z17ST7735_DrawStringttPcs          
-0001955d  _ZN7MachineC1Ehhhhhhhhhh            
-0001955d  _ZN7MachineC2Ehhhhhhhhhh            
-000195e9  _ZN8SlidePot4InitEv                 
-000196fd  _system_pre_init                    
-00019701  strcmp                              
-00019789  _ZN7MachineC1Ehhhhhhhhh             
-00019789  _ZN7MachineC2Ehhhhhhhhh             
-0001980d  _Z14LaunchPad_Initv                 
-00019889  __TI_closefile                      
-00019905  __TI_decompress_lzss                
-00019981  UART2_IRQHandler                    
-000199f5  _Z13IRxmt_SendBiti                  
-00019a69  _Z16ST7735_DrawPixelsst             
-00019ad9  _ZN6Player15getMachineInputE7Machine
-00019b47  _nop                                
-00019b49  HOSTlseek                           
-00019bb5  HOSTrename                          
-00019c8d  getdevice                           
-00019cf9  _ZN7MachineC1Ehhhhhh                
-00019cf9  _ZN7MachineC2Ehhhhhh                
-00019dc1  HOSTopen                            
-00019e21  HOSTread                            
-00019e79  HOSTwrite                           
-00019ed1  SysTick_Handler                     
-00019f29  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
-00019f81  __aeabi_idiv                        
-00019f81  __aeabi_idivmod                     
-00019fd9  _ZN6Player14printPosessionEh        
-0001a02d  _ZN6Player8moveLeftEv               
-0001a081  _ZN6Player9moveRightEv              
-0001a0d5  _ZN8SlidePot2InEv                   
-0001a129  __TI_auto_init_nobinit              
-0001a17d  _ZN6Player8moveDownEv               
-0001a1cf  __TI_doflush                        
-0001a271  close                               
-0001a2c1  HOSTclose                           
-0001a309  HOSTunlink                          
-0001a351  _Z13IRxmt_OutCharc                  
-0001a399  _Z14SPI_OutCommandc                 
-0001a3e1  _ZN5Queue3GetEPc                    
-0001a429  _ZN5Queue3PutEc                     
-0001a471  TIMG7_IRQHandler                    
-0001a4b1  _Z10Sound_Initv                     
-0001a4f1  _Z9SPI_Resetv                       
-0001a531  __aeabi_uidiv                       
-0001a531  __aeabi_uidivmod                    
-0001a5f1  TIMG12_IRQHandler                   
-0001a62d  _Z15randomizeOrdersv                
-0001a669  _Z9DAC5_Initv                       
-0001a6a5  _ZN6Player6moveUpEv                 
-0001a6e1  _Z11SPI_OutDatac                    
-0001a719  _Z15ActivatePortA_Bv                
-0001a751  _Z12ST7735_writeiPKcj               
-0001a785  _Z14Clock_Delay1msj                 
-0001a7b9  _Z16ST7735_SetCursorjj              
-0001a7ed  __TI_cleanup                        
-0001a821  __TI_readmsg                        
-0001a855  __TI_writemsg                       
-0001a881  C$$IO$$                             
-0001a889  exit                                
-0001a8bd  finddevice                          
-0001a8f1  freopen                             
-0001a955  _ZN6Player14translateRightEv        
-0001ab05  fopen                               
-0001ab35  _Z12UART2_InCharv                   
-0001ab61  _Z17ST7735_FillScreent              
-0001ab8d  _ZN6Player13translateDownEv         
-0001abb9  _ZN6Player13translateLeftEv         
-0001ac11  unlink                              
-0001ac3d  _ZN7Machine13menuPrintCartEv        
-0001ac69  _Z10IRxmt_Initv                     
-0001ac91  _Z9ADC_StartP10ADC12_Regs           
-0001ad09  write                               
-0001ad31  _c_int00_noargs                     
-0001ad59  _Z16ST7735_OutStringPc              
-0001ad81  _ZN8SlidePot4SaveEj                 
-0001af0d  _ZN5Queue6IsFullEv                  
-0001af31  _Z8DAC5_Outj                        
-0001af51  _ZN8SlidePot4SyncEv                 
-0001afd1  ADC0_IRQHandler                     
-0001afd1  ADC1_IRQHandler                     
-0001afd1  AES_IRQHandler                      
-0001afd1  CANFD0_IRQHandler                   
-0001afd1  DAC0_IRQHandler                     
-0001afd1  DMA_IRQHandler                      
-0001afd1  Default_Handler                     
-0001afd1  GROUP0_IRQHandler                   
-0001afd1  GROUP1_IRQHandler                   
-0001afd1  I2C0_IRQHandler                     
-0001afd1  I2C1_IRQHandler                     
-0001afd1  NMI_Handler                         
-0001afd1  PendSV_Handler                      
-0001afd1  RTC_IRQHandler                      
-0001afd1  SPI0_IRQHandler                     
-0001afd1  SPI1_IRQHandler                     
-0001afd1  SVC_Handler                         
-0001afd1  TIMA0_IRQHandler                    
-0001afd1  TIMA1_IRQHandler                    
-0001afd1  TIMG0_IRQHandler                    
-0001afd1  TIMG6_IRQHandler                    
-0001afd1  TIMG8_IRQHandler                    
-0001afd1  UART0_IRQHandler                    
-0001afd1  UART1_IRQHandler                    
-0001afd1  UART3_IRQHandler                    
-0001afed  HardFault_Handler                   
-0001b009  _Z9Switch_Inv                       
-0001b025  _ZN6PlayerC1Ev                      
-0001b025  _ZN6PlayerC2Ev                      
-0001b05d  _Z11Switch_Initv                    
-0001b075  _Z11ST7735_openPKcji                
-0001b08b  _Z11ST7735_readiPcj                 
-0001b0a1  __TI_zero_init_nomemset             
-0001b0b7  _ZN5Queue7IsEmptyEv                 
-0001b0cb  _ZN6Player13setPossessionEh         
-0001b0dd  _ZN6Player7setXPosEs                
-0001b0ef  _ZN6Player7setYPosEs                
-0001b101  _ZN7Machine11setRockTypeEh          
-0001b113  _ZN7Machine9setSpriteEh             
-0001b125  TI_memcpy_small                     
-0001b137  __TI_decompress_none                
-0001b149  _Z11Clock_Delayj                    
-0001b159  _Z12UART2_Enablev                   
-0001b169  _Z13UART2_Disablev                  
-0001b179  _Z28TExaS_LaunchPadLogicPB27PB26v   
-0001b189  _ZN5QueueC1Ev                       
-0001b189  _ZN5QueueC2Ev                       
-0001b1d7  _Z12ST7735_lseekili                 
-0001b1e5  _ZN6Player7getXPosEv                
-0001b1f3  _ZN6Player7getYPosEv                
-0001b201  _ZN8SlidePotC1Ev                    
-0001b201  _ZN8SlidePotC2Ev                    
-0001b22b  TI_memset_small                     
-0001b239  _Z10Clock_Freqv                     
-0001b245  _Z13ST7735_renamePKcS0_             
-0001b251  _Z5Delayj                           
-0001b25d  _ZN6Player7getSizeEv                
-0001b269  _ZN8SlidePot9DistanceXEv            
-0001b275  _ZN8SlidePot9DistanceYEv            
-0001b281  __aeabi_memclr                      
-0001b281  __aeabi_memclr4                     
-0001b281  __aeabi_memclr8                     
-0001b28d  malloc                              
-0001b299  _Z11Sound_Clangv                    
-0001b2a3  _Z11Sound_Wrongv                    
-0001b2ad  _Z12ST7735_closei                   
-0001b2b7  _Z13ST7735_unlinkPKc                
-0001b2c1  _Z13Sound_Correctv                  
-0001b2cb  _Z8PLL_Initv                        
-0001b2dd  __aeabi_memcpy                      
-0001b2dd  __aeabi_memcpy4                     
-0001b2dd  __aeabi_memcpy8                     
-0001b2e5  remove                              
-0001b2ed  Reset_Handler                       
-0001b2f0  C$$EXIT                             
-0001b2f1  abort                               
-0001b300  SHT$$INIT_ARRAY$$Base               
-0001b308  SHT$$INIT_ARRAY$$Limit              
-0001b8fc  __TI_Handler_Table_Base             
-0001b908  __TI_Handler_Table_Limit            
-0001b910  __TI_CINIT_Base                     
-0001b920  __TI_CINIT_Limit                    
-0001b920  __TI_CINIT_Warm                     
-=======
-=======
->>>>>>> Stashed changes
-00018628  SHT$$INIT_ARRAY$$Base               
-00018630  SHT$$INIT_ARRAY$$Limit              
-00018631  main                                
-000193a1  _ZN7Machine10updateCartEh           
-000198b1  _ZN7Machine11updateAnvilEh          
-00019d79  _ZN7Machine10updateRockEh           
-0001a185  _ZN7Machine14updateCountersEhPS_    
-0001a511  _ZN7Machine13updateSmelterEh        
-0001a851  _ZN7Machine10printAnvilEv           
-0001ab09  _ZN7Machine13printCountersEPS_      
-0001adb9  _ZN6Player8inBoundsEssPP7Machinehh  
-0001affd  _Z17ST7735_DrawBitmapssPKtss        
-0001b20d  _Z17setUpInstructionsv              
-0001b3e9  _ZN7Machine9printCartEv             
-0001b5c1  _ZN7Machine12printSmelterEv         
-0001b779  _Z15Clock_Init80MHzi                
-0001b92d  _Z15ST7735_DrawCharsscssh           
-0001bad1  _Z16ST7735_DrawCharSsscssh          
-0001bc71  _ZN7Machine13computeRecipeEPaa      
-0001be09  _ZN7Machine9printRockEv             
-0001bf85  _ZN7Machine15updateAnvilMenuEPaa    
-0001c0e5  _ZN7Machine13cartSendErrorEhh       
-0001c395  _Z8ADC_InitP10ADC12_Regsjj          
-0001c4bd  _Z15ST7735_FillRectsssst            
-0001c5d5  aligned_alloc                       
-0001c5d5  memalign                            
-0001c6e9  _Z8SPI_Initv                        
-0001c7e1  _Z18ST7735_SetRotationh             
-0001c8d5  add_device                          
-0001c9c1  _Z9UART_Initv                       
-0001caa9  free                                
-0001cb91  setvbuf                             
-0001cc71  _Z10UART2_Initv                     
-0001cd4d  _Z14ST7735_OutCharc                 
-0001ce25  _Z20ST7735_DrawFastHLinessst        
-0001ced5  _Z20ST7735_DrawFastVLinessst        
-0001cf85  _Z14TimerG7_IntArmtjj               
-0001d0cf  __aeabi_idiv0                       
-0001d0d1  open                                
-0001d171  _Z17ST7735_InitPrintfv              
-0001d20d  _ZN6Player14checkProximityE7Machine 
-0001d2a9  _Z12ST7735_InitR10initRFlags        
-0001d341  _ZN6Player16resetCoordinatesEPsS0_  
-0001d3d9  _Z15TimerG12_IntArmjj               
-0001d46d  _Z11Sound_Starth                    
-0001d4fd  _Z17ST7735_DrawStringttPcs          
-0001d589  _ZN7MachineC1Ehhhhhhhhhh            
-0001d589  _ZN7MachineC2Ehhhhhhhhhh            
-0001d615  _ZN8SlidePot4InitEv                 
-0001d731  strcmp                              
-0001d7b9  _ZN7MachineC1Ehhhhhhhhh             
-0001d7b9  _ZN7MachineC2Ehhhhhhhhh             
-0001d83d  _Z14LaunchPad_Initv                 
-0001d8b9  __TI_closefile                      
-0001d935  __TI_decompress_lzss                
-0001d9b1  UART2_IRQHandler                    
-0001da25  _Z13IRxmt_SendBiti                  
-0001da99  _Z16ST7735_DrawPixelsst             
-0001db09  _ZN6Player15getMachineInputE7Machine
-0001db77  _nop                                
-0001db79  HOSTlseek                           
-0001dbe5  HOSTrename                          
-0001dcbd  getdevice                           
-0001dd29  _ZN7MachineC1Ehhhhhh                
-0001dd29  _ZN7MachineC2Ehhhhhh                
-0001ddf1  HOSTopen                            
-0001de51  HOSTread                            
-0001dea9  HOSTwrite                           
-0001df01  SysTick_Handler                     
-0001df59  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
-0001dfb1  __aeabi_idiv                        
-0001dfb1  __aeabi_idivmod                     
-0001e009  _ZN6Player14printPosessionEh        
-0001e05d  _ZN6Player8moveLeftEv               
-0001e0b1  _ZN6Player9moveRightEv              
-0001e105  _ZN8SlidePot2InEv                   
-0001e159  __TI_auto_init_nobinit              
-0001e1ad  _ZN6Player8moveDownEv               
-0001e1ff  __TI_doflush                        
-0001e2a1  close                               
-0001e2f1  _ZN5Queue3GetEPc                    
-0001e33d  _ZN5Queue3PutEc                     
-0001e389  HOSTclose                           
-0001e3d1  HOSTunlink                          
-0001e419  _Z13IRxmt_OutCharc                  
-0001e461  _Z14SPI_OutCommandc                 
-0001e4a9  _Z8checkWinv                        
-0001e4ed  TIMG7_IRQHandler                    
-0001e52d  _Z10Sound_Initv                     
-0001e56d  _Z9SPI_Resetv                       
-0001e5ad  __aeabi_uidiv                       
-0001e5ad  __aeabi_uidivmod                    
-0001e66d  TIMG12_IRQHandler                   
-0001e6a9  _Z9DAC5_Initv                       
-0001e6e5  _ZN6Player6moveUpEv                 
-0001e721  _Z11SPI_OutDatac                    
-0001e759  _Z15ActivatePortA_Bv                
-0001e791  _Z12ST7735_writeiPKcj               
-0001e7c5  _Z14Clock_Delay1msj                 
-0001e7f9  _Z16ST7735_SetCursorjj              
-0001e82d  __TI_cleanup                        
-0001e861  __TI_readmsg                        
-0001e895  __TI_writemsg                       
-0001e8c1  C$$IO$$                             
-0001e8c9  exit                                
-0001e8fd  finddevice                          
-0001e931  freopen                             
-0001e995  _ZN6Player14translateRightEv        
-0001eb45  fopen                               
-0001eb75  _Z12UART2_InCharv                   
-0001eba1  _Z17ST7735_FillScreent              
-0001ebcd  _ZN6Player13translateDownEv         
-0001ebf9  _ZN6Player13translateLeftEv         
-0001ec51  unlink                              
-0001ec7d  _Z10IRxmt_Initv                     
-0001eca5  _Z9ADC_StartP10ADC12_Regs           
-0001ed1d  write                               
-0001ed45  _c_int00_noargs                     
-0001ed6d  _Z16ST7735_OutStringPc              
-0001ed95  _ZN8SlidePot4SaveEj                 
-0001ef21  _ZN5Queue6IsFullEv                  
-0001ef45  _Z8DAC5_Outj                        
-0001ef65  _ZN8SlidePot4SyncEv                 
-0001efe5  ADC0_IRQHandler                     
-0001efe5  ADC1_IRQHandler                     
-0001efe5  AES_IRQHandler                      
-0001efe5  CANFD0_IRQHandler                   
-0001efe5  DAC0_IRQHandler                     
-0001efe5  DMA_IRQHandler                      
-0001efe5  Default_Handler                     
-0001efe5  GROUP0_IRQHandler                   
-0001efe5  GROUP1_IRQHandler                   
-0001efe5  I2C0_IRQHandler                     
-0001efe5  I2C1_IRQHandler                     
-0001efe5  NMI_Handler                         
-0001efe5  PendSV_Handler                      
-0001efe5  RTC_IRQHandler                      
-0001efe5  SPI0_IRQHandler                     
-0001efe5  SPI1_IRQHandler                     
-0001efe5  SVC_Handler                         
-0001efe5  TIMA0_IRQHandler                    
-0001efe5  TIMA1_IRQHandler                    
-0001efe5  TIMG0_IRQHandler                    
-0001efe5  TIMG6_IRQHandler                    
-0001efe5  TIMG8_IRQHandler                    
-0001efe5  UART0_IRQHandler                    
-0001efe5  UART1_IRQHandler                    
-0001efe5  UART3_IRQHandler                    
-0001f001  HardFault_Handler                   
-0001f01d  _Z9Switch_Inv                       
-0001f039  _ZN6PlayerC1Ev                      
-0001f039  _ZN6PlayerC2Ev                      
-0001f071  _Z11Switch_Initv                    
-0001f089  _Z11ST7735_openPKcji                
-0001f09f  _Z11ST7735_readiPcj                 
-0001f0b5  __TI_zero_init_nomemset             
-0001f0cb  _ZN5Queue7IsEmptyEv                 
-0001f0df  _ZN6Player13setPossessionEh         
-0001f0f1  _ZN6Player7setXPosEs                
-0001f103  _ZN6Player7setYPosEs                
-0001f115  _ZN7Machine11setRockTypeEh          
-0001f127  TI_memcpy_small                     
-0001f139  __TI_decompress_none                
-0001f14b  _Z11Clock_Delayj                    
-0001f15d  _Z12UART2_Enablev                   
-0001f16d  _Z13UART2_Disablev                  
-0001f17d  _Z28TExaS_LaunchPadLogicPB27PB26v   
-0001f18d  _ZN5QueueC1Ev                       
-0001f18d  _ZN5QueueC2Ev                       
-0001f1db  _Z12ST7735_lseekili                 
-0001f1e9  _ZN6Player7getXPosEv                
-0001f1f7  _ZN6Player7getYPosEv                
-0001f205  _ZN8SlidePotC1Ev                    
-0001f205  _ZN8SlidePotC2Ev                    
-0001f22f  TI_memset_small                     
-0001f23d  _Z10Clock_Freqv                     
-0001f249  _Z13ST7735_renamePKcS0_             
-0001f255  _Z5Delayj                           
-0001f261  _ZN6Player7getSizeEv                
-0001f26d  _ZN8SlidePot9DistanceXEv            
-0001f279  _ZN8SlidePot9DistanceYEv            
-0001f285  __aeabi_memclr                      
-0001f285  __aeabi_memclr4                     
-0001f285  __aeabi_memclr8                     
-0001f291  malloc                              
-0001f29d  _Z11Sound_Clangv                    
-0001f2a7  _Z12ST7735_closei                   
-0001f2b1  _Z13ST7735_unlinkPKc                
-0001f2bb  _Z8PLL_Initv                        
-0001f2c5  __aeabi_memcpy                      
-0001f2c5  __aeabi_memcpy4                     
-0001f2c5  __aeabi_memcpy8                     
-0001f2cd  remove                              
-0001f2d5  Reset_Handler                       
-0001f2d9  _system_pre_init                    
-0001f2dc  C$$EXIT                             
-0001f2dd  abort                               
-0001f8cc  __TI_Handler_Table_Base             
-0001f8d8  __TI_Handler_Table_Limit            
-0001f8e0  __TI_CINIT_Base                     
-0001f8f0  __TI_CINIT_Limit                    
-0001f8f0  __TI_CINIT_Warm                     
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+00018698  SHT$$INIT_ARRAY$$Base               
+000186a0  SHT$$INIT_ARRAY$$Limit              
+000186a1  main                                
+000194b9  _ZN7Machine10updateCartEh           
+000199c9  _ZN7Machine11updateAnvilEh          
+00019e8d  _ZN7Machine10updateRockEh           
+0001a295  _ZN7Machine14updateCountersEhPS_    
+0001a621  _ZN7Machine13updateSmelterEh        
+0001a961  _ZN7Machine10printAnvilEv           
+0001ac19  _ZN7Machine13printCountersEPS_      
+0001aec9  _ZN6Player8inBoundsEssPP7Machinehh  
+0001b10d  _Z17setUpInstructionsh              
+0001b33d  _Z17ST7735_DrawBitmapssPKtss        
+0001b54d  _ZN7Machine9printCartEv             
+0001b725  _ZN7Machine12printSmelterEv         
+0001b8dd  _Z15Clock_Init80MHzi                
+0001ba91  _Z15ST7735_DrawCharsscssh           
+0001bc35  _Z16ST7735_DrawCharSsscssh          
+0001bdd5  _ZN7Machine13computeRecipeEPaa      
+0001bf6d  _ZN7Machine9printRockEv             
+0001c0e9  _ZN7Machine15updateAnvilMenuEPaa    
+0001c249  _ZN7Machine13cartSendErrorEhh       
+0001c4f9  _Z8ADC_InitP10ADC12_Regsjj          
+0001c621  _Z15ST7735_FillRectsssst            
+0001c739  aligned_alloc                       
+0001c739  memalign                            
+0001c84d  _Z8SPI_Initv                        
+0001c945  _Z18ST7735_SetRotationh             
+0001ca39  add_device                          
+0001cb25  _Z9UART_Initv                       
+0001cc0d  free                                
+0001ccf5  setvbuf                             
+0001cdd5  _Z10UART2_Initv                     
+0001ceb1  _Z14ST7735_OutCharc                 
+0001cf89  _Z10printScoreshhh                  
+0001d055  _Z20ST7735_DrawFastHLinessst        
+0001d105  _Z20ST7735_DrawFastVLinessst        
+0001d1b5  _Z14TimerG7_IntArmtjj               
+0001d2ff  __aeabi_idiv0                       
+0001d301  open                                
+0001d3a1  _Z17ST7735_InitPrintfv              
+0001d43d  _ZN6Player14checkProximityE7Machine 
+0001d4d9  _Z12ST7735_InitR10initRFlags        
+0001d571  _ZN6Player16resetCoordinatesEPsS0_  
+0001d609  _Z15TimerG12_IntArmjj               
+0001d69d  _Z11Sound_Starth                    
+0001d72d  _Z17ST7735_DrawStringttPcs          
+0001d7b9  _ZN7MachineC1Ehhhhhhhhhh            
+0001d7b9  _ZN7MachineC2Ehhhhhhhhhh            
+0001d845  _ZN8SlidePot4InitEv                 
+0001d961  strcmp                              
+0001d9e9  _ZN7MachineC1Ehhhhhhhhh             
+0001d9e9  _ZN7MachineC2Ehhhhhhhhh             
+0001da6d  _Z14LaunchPad_Initv                 
+0001dae9  __TI_closefile                      
+0001db65  __TI_decompress_lzss                
+0001dbe1  UART2_IRQHandler                    
+0001dc55  _Z13IRxmt_SendBiti                  
+0001dcc9  _Z16ST7735_DrawPixelsst             
+0001dd39  _ZN6Player15getMachineInputE7Machine
+0001dda7  _nop                                
+0001dda9  HOSTlseek                           
+0001de15  HOSTrename                          
+0001deed  getdevice                           
+0001df59  _ZN7MachineC1Ehhhhhh                
+0001df59  _ZN7MachineC2Ehhhhhh                
+0001e021  HOSTopen                            
+0001e081  HOSTread                            
+0001e0d9  HOSTwrite                           
+0001e131  SysTick_Handler                     
+0001e189  _Z10TExaS_InitP10ADC12_RegsjPFhvE   
+0001e1e1  __aeabi_idiv                        
+0001e1e1  __aeabi_idivmod                     
+0001e239  _ZN6Player14printPosessionEh        
+0001e28d  _ZN6Player8moveLeftEv               
+0001e2e1  _ZN6Player9moveRightEv              
+0001e335  _ZN8SlidePot2InEv                   
+0001e389  __TI_auto_init_nobinit              
+0001e3dd  _ZN6Player8moveDownEv               
+0001e42f  __TI_doflush                        
+0001e4d1  close                               
+0001e521  _ZN5Queue3GetEPc                    
+0001e56d  _ZN5Queue3PutEc                     
+0001e5b9  HOSTclose                           
+0001e601  HOSTunlink                          
+0001e649  _Z13IRxmt_OutCharc                  
+0001e691  _Z14SPI_OutCommandc                 
+0001e6d9  TIMG7_IRQHandler                    
+0001e719  _Z10Sound_Initv                     
+0001e759  _Z9SPI_Resetv                       
+0001e799  __aeabi_uidiv                       
+0001e799  __aeabi_uidivmod                    
+0001e859  TIMG12_IRQHandler                   
+0001e895  _Z9DAC5_Initv                       
+0001e8d1  _ZN6Player6moveUpEv                 
+0001e90d  _Z11SPI_OutDatac                    
+0001e945  _Z15ActivatePortA_Bv                
+0001e97d  _Z12ST7735_writeiPKcj               
+0001e9b1  _Z14Clock_Delay1msj                 
+0001e9e5  _Z16ST7735_SetCursorjj              
+0001ea19  __TI_cleanup                        
+0001ea4d  __TI_readmsg                        
+0001ea81  __TI_writemsg                       
+0001eaad  C$$IO$$                             
+0001eab5  exit                                
+0001eae9  finddevice                          
+0001eb1d  freopen                             
+0001eb81  _ZN6Player14translateRightEv        
+0001ed31  fopen                               
+0001ed61  _Z12UART2_InCharv                   
+0001ed8d  _Z17ST7735_FillScreent              
+0001edb9  _ZN6Player13translateDownEv         
+0001ede5  _ZN6Player13translateLeftEv         
+0001ee3d  unlink                              
+0001ee69  _Z10IRxmt_Initv                     
+0001ee91  _Z9ADC_StartP10ADC12_Regs           
+0001ef09  write                               
+0001ef31  _c_int00_noargs                     
+0001ef59  _Z16ST7735_OutStringPc              
+0001ef81  _ZN8SlidePot4SaveEj                 
+0001f10d  _ZN5Queue6IsFullEv                  
+0001f131  _Z8DAC5_Outj                        
+0001f151  _ZN8SlidePot4SyncEv                 
+0001f1d1  ADC0_IRQHandler                     
+0001f1d1  ADC1_IRQHandler                     
+0001f1d1  AES_IRQHandler                      
+0001f1d1  CANFD0_IRQHandler                   
+0001f1d1  DAC0_IRQHandler                     
+0001f1d1  DMA_IRQHandler                      
+0001f1d1  Default_Handler                     
+0001f1d1  GROUP0_IRQHandler                   
+0001f1d1  GROUP1_IRQHandler                   
+0001f1d1  I2C0_IRQHandler                     
+0001f1d1  I2C1_IRQHandler                     
+0001f1d1  NMI_Handler                         
+0001f1d1  PendSV_Handler                      
+0001f1d1  RTC_IRQHandler                      
+0001f1d1  SPI0_IRQHandler                     
+0001f1d1  SPI1_IRQHandler                     
+0001f1d1  SVC_Handler                         
+0001f1d1  TIMA0_IRQHandler                    
+0001f1d1  TIMA1_IRQHandler                    
+0001f1d1  TIMG0_IRQHandler                    
+0001f1d1  TIMG6_IRQHandler                    
+0001f1d1  TIMG8_IRQHandler                    
+0001f1d1  UART0_IRQHandler                    
+0001f1d1  UART1_IRQHandler                    
+0001f1d1  UART3_IRQHandler                    
+0001f1ed  HardFault_Handler                   
+0001f209  _Z9Switch_Inv                       
+0001f225  _ZN6PlayerC1Ev                      
+0001f225  _ZN6PlayerC2Ev                      
+0001f25d  _Z11Switch_Initv                    
+0001f275  _Z11ST7735_openPKcji                
+0001f28b  _Z11ST7735_readiPcj                 
+0001f2a1  __TI_zero_init_nomemset             
+0001f2b7  _ZN5Queue7IsEmptyEv                 
+0001f2cb  _ZN6Player13setPossessionEh         
+0001f2dd  _ZN6Player7setXPosEs                
+0001f2ef  _ZN6Player7setYPosEs                
+0001f301  _ZN7Machine11setRockTypeEh          
+0001f313  TI_memcpy_small                     
+0001f325  __TI_decompress_none                
+0001f337  _Z11Clock_Delayj                    
+0001f349  _Z12UART2_Enablev                   
+0001f359  _Z13UART2_Disablev                  
+0001f369  _Z28TExaS_LaunchPadLogicPB27PB26v   
+0001f379  _ZN5QueueC1Ev                       
+0001f379  _ZN5QueueC2Ev                       
+0001f3c7  _Z12ST7735_lseekili                 
+0001f3d5  _ZN6Player7getXPosEv                
+0001f3e3  _ZN6Player7getYPosEv                
+0001f3f1  _ZN8SlidePotC1Ev                    
+0001f3f1  _ZN8SlidePotC2Ev                    
+0001f41b  TI_memset_small                     
+0001f429  _Z10Clock_Freqv                     
+0001f435  _Z13ST7735_renamePKcS0_             
+0001f441  _Z5Delayj                           
+0001f44d  _ZN6Player7getSizeEv                
+0001f459  _ZN8SlidePot9DistanceXEv            
+0001f465  _ZN8SlidePot9DistanceYEv            
+0001f471  __aeabi_memclr                      
+0001f471  __aeabi_memclr4                     
+0001f471  __aeabi_memclr8                     
+0001f47d  malloc                              
+0001f489  _Z11Sound_Clangv                    
+0001f493  _Z12ST7735_closei                   
+0001f49d  _Z13ST7735_unlinkPKc                
+0001f4a7  _Z8PLL_Initv                        
+0001f4b1  __aeabi_memcpy                      
+0001f4b1  __aeabi_memcpy4                     
+0001f4b1  __aeabi_memcpy8                     
+0001f4b9  remove                              
+0001f4c1  Reset_Handler                       
+0001f4c5  _system_pre_init                    
+0001f4c8  C$$EXIT                             
+0001f4c9  abort                               
+0001fad0  __TI_Handler_Table_Base             
+0001fadc  __TI_Handler_Table_Limit            
+0001fae4  __TI_CINIT_Base                     
+0001faf4  __TI_CINIT_Limit                    
+0001faf4  __TI_CINIT_Warm                     
 20200000  __start___llvm_prf_bits             
 20200000  __start___llvm_prf_cnts             
 20200000  __stop___llvm_prf_bits              
@@ -2376,64 +1083,64 @@ address   name
 2020122e  StTextColor                         
 20201230  FIFO2                               
 20201258  Instructions                        
-20201280  machineArr2                         
-202012a8  Phrases                             
-202012c0  m_anvil                             
-202012cf  m_cart1                             
-202012de  m_cart2                             
-202012ed  m_counter1                          
-202012fc  m_counter2                          
-2020130b  m_counter3                          
-2020131a  m_counter4                          
-20201329  m_counter5                          
-20201338  m_counter6                          
-20201347  m_portal                            
-20201356  m_refiner                           
-20201365  m_rock1                             
-20201374  m_rock1Mid                          
-20201383  m_rock1Progress                     
-20201392  m_rock1Top                          
-202013a1  m_rock2                             
-202013b0  m_rock2Mid                          
-202013bf  m_rock2Top                          
-202013ce  m_smelter                           
-202013dd  m_smelterProgress                   
-202013ec  m_todo                              
-202013fb  m_todoDown                          
-2020140c  Sensor                              
-20201418  __TI_cleanup_ptr                    
-2020141c  __TI_dtors_ptr                      
-20201420  p1                                  
-20201428  BusFreq                             
-2020142c  StX                                 
-20201430  StY                                 
-20201434  __TI_ft_end                         
-20201438  _lock                               
-2020143c  _unlock                             
-20201442  clang_size                          
-20201444  correct_size                        
-20201446  wrong_size                          
-2020144e  deadTimer                           
-2020144f  input                               
-20201451  numCounters                         
-20201452  progH                               
-20201453  progW                               
-2020145c  _CIOBUF_                            
-2020145c  __CIOBUF_                           
-2020157c  __TI_tmpnams                        
-2020161c  ToDoArr                             
-20201630  parmbuf                             
-2020163e  soundLength                         
-20201640  LostData                            
-20201644  TExaSLogic                          
-20201648  TExaSadc                            
-2020164c  soundArr                            
-20201650  soundIndex                          
-2020165b  buttons                             
-2020165c  menuOpen                            
-2020165d  sound_flag                          
-2020165e  toDoOpen                            
-20201660  _sys_memory                         
+20201280  Phrases                             
+202012a8  machineArr2                         
+202012d0  m_anvil                             
+202012df  m_cart1                             
+202012ee  m_cart2                             
+202012fd  m_counter1                          
+2020130c  m_counter2                          
+2020131b  m_counter3                          
+2020132a  m_counter4                          
+20201339  m_counter5                          
+20201348  m_counter6                          
+20201357  m_portal                            
+20201366  m_refiner                           
+20201375  m_rock1                             
+20201384  m_rock1Mid                          
+20201393  m_rock1Progress                     
+202013a2  m_rock1Top                          
+202013b1  m_rock2                             
+202013c0  m_rock2Mid                          
+202013cf  m_rock2Top                          
+202013de  m_smelter                           
+202013ed  m_smelterProgress                   
+202013fc  m_todo                              
+2020140b  m_todoDown                          
+2020141c  Sensor                              
+20201428  __TI_cleanup_ptr                    
+2020142c  __TI_dtors_ptr                      
+20201430  p1                                  
+20201438  BusFreq                             
+2020143c  StX                                 
+20201440  StY                                 
+20201444  __TI_ft_end                         
+20201448  _lock                               
+2020144c  _unlock                             
+20201452  clang_size                          
+20201454  correct_size                        
+20201456  wrong_size                          
+2020145f  deadTimer                           
+20201461  input                               
+20201462  numCounters                         
+20201463  progH                               
+20201465  progW                               
+2020146c  _CIOBUF_                            
+2020146c  __CIOBUF_                           
+2020158c  __TI_tmpnams                        
+2020162c  ToDoArr                             
+20201640  parmbuf                             
+2020164e  soundLength                         
+20201650  LostData                            
+20201654  TExaSLogic                          
+20201658  TExaSadc                            
+2020165c  soundArr                            
+20201660  soundIndex                          
+2020166b  buttons                             
+2020166c  menuOpen                            
+2020166d  sound_flag                          
+2020166e  toDoOpen                            
+20201670  _sys_memory                         
 20207e00  __stack                             
 20208000  __STACK_END                         
 ffffffff  __TI_pprof_out_hndl                 
@@ -2444,4 +1151,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                          
 UNDEFED   _system_post_cinit                  
 
-[296 symbols]
+[295 symbols]

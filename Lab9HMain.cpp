@@ -45,6 +45,7 @@ SlidePot Sensor; // copy calibration from Lab 7
 uint8_t buttons;
 int8_t menuOpen;
 int8_t toDoOpen;
+
 // games  engine runs at 30Hz
 void TIMG12_IRQHandler(void){uint32_t pos, msg;
   if((TIMG12->CPU_INT.IIDX) == 1){ // this will acknowledge
@@ -76,9 +77,11 @@ uint8_t checkWin(void){
 
 
 // use main1 to observe special characters
-void setUpInstructions(void){ // main1
-  uint8_t currOption = 0;
-  ST7735_SetCursor(1, 1);
+void setUpInstructions(uint8_t mode){ // main1
+  static uint8_t currOption = 0;
+  switch(mode){
+    case 0:
+    ST7735_SetCursor(1, 1);
   ST7735_OutString((char *)"Language/Idioma"); //english
   ST7735_SetCursor(1, 3);
   ST7735_OutString((char *)Phrases[2][0]); //english
@@ -135,59 +138,15 @@ void setUpInstructions(void){ // main1
       }
     }
   }
-  return;  
-}
-
-// use main2 to observe graphics
-int main2(void){ // main2
-  __disable_irq();
-  PLL_Init(); // set bus speed
-  LaunchPad_Init();
-  ST7735_InitPrintf();
-    //note: if you colors are weird, see different options for
-    // ST7735_InitR(INITR_REDTAB); inside ST7735_InitPrintf()
-  //ST7735_FillScreen(ST7735_BLACK);
-  ST7735_FillScreen(ST7735_Color565(0x96, 0x4B, 0x00));
-
-  //ST7735_DrawBitmap(100, 80, miner_sprite, 30,38);
-  //ST7735_DrawBitmap(20, 50, emerald, 18,21);
-  /*
-  IT READS IN THE HEX VALUES BACKWARDS
-  BITS 15-11 BLUE (5)
-  BITS 10-5 GREEN (6)
-  BITS 4-0 RED (5)  
-  */
-
-  while(1){
-  }
-  for(uint32_t t=500;t>0;t=t-5){
-    SmallFont_OutVertical(t,104,6); // top left
-    Clock_Delay1ms(50);              // delay 50 msec
-  }
-  ST7735_FillScreen(0x0000);   // set screen to black
-  ST7735_SetCursor(1, 1);
-  ST7735_OutString((char *)"GAME OVER");
-  ST7735_SetCursor(1, 2);
-  ST7735_OutString((char *)"Nice try,");
-  ST7735_SetCursor(1, 3);
-  ST7735_OutString((char *)"Earthling!");
-  ST7735_SetCursor(2, 4);
-  ST7735_OutUDec(1234);
-  
-}
-
-// use main4 to test sound outputs
-int main4(void){ uint32_t last=0,now;
-  __disable_irq();
-  PLL_Init(); // set bus speed
-  LaunchPad_Init();
-  Switch_Init(); // initialize switches
-  LED_Init(); // initialize LED
-  Sound_Init();  // initialize sound
-  TExaS_Init(ADC0,6,0); // ADC1 channel 6 is PB20, TExaS scope
-  __enable_irq();
-  while(1){
-    // modify this to test all your sounds
+  return;
+  case 1: //this is for printing at the end
+   ST7735_SetCursor(5, 10);
+   ST7735_OutString((char *)Phrases[3][currOption]); //
+   return;
+   case 2:
+    ST7735_SetCursor(7,9);
+    ST7735_OutString((char *)Phrases[4][currOption]);
+    return;  
   }
 }
 
@@ -195,6 +154,22 @@ void randomizeOrders(void){
   for (int i = 0; i < 5; i++) {
     ToDoArr[i] = SysTick->VAL%3;//0-2
   }
+}
+
+void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontSize){
+  bool isNeg = false;
+    if(score<0){
+        isNeg = true;
+        score*= -1;
+    }
+    while(score!=0){
+      ST7735_DrawChar(x_cursor, y_cursor, (score%10)+48, 0xFFFF, 0x630C, fontSize);
+      score /=10;
+      x_cursor-=6;
+    }
+    if(isNeg){
+      ST7735_DrawChar(x_cursor, y_cursor, '-', 0xFFFF, 0x630C, fontSize);
+    }
 }
 
 Player p1; //player 1
@@ -245,11 +220,11 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   // initialize all data structures
   __enable_irq();
   randomizeOrders();
-  setUpInstructions(); //does the intro screen
+  setUpInstructions(0); //does the intro screen
 
   ST7735_FillScreen(0x630C);//set screen grey
-  ST7735_SetCursor(0, 0);
-  ST7735_OutString("Waiting for Player 2");
+  ST7735_SetCursor(0, 1);
+  ST7735_OutString((char*)"Waiting for Player 2");
   uint8_t acknowledge = 0;
   score = 0;
   char startMsg[4] = {'1', '2', '3' ,'4'};
@@ -522,36 +497,32 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   }
   if(checkWin()==1){
   ST7735_FillScreen(0x630C);
-  ST7735_SetCursor(7, 8);
-  ST7735_OutString((char *)"YOU WON!");
+  setUpInstructions(1);
+  startMsg[2] = 0x0F; //won
   }else{
   ST7735_FillScreen(0x630C);
-  ST7735_SetCursor(7, 8);
-  ST7735_OutString((char *)"YOU LOST");
+  setUpInstructions(2);
+  startMsg[2] = 0xF0; //lost
  }
- ST7735_SetCursor(7,9);
- ST7735_OutString((char*)"FINAL SCORE: ");
- int16_t temp = score;
-  int x_cursor = 70;
-  bool isNeg = false;
-    if(score<0){
-        isNeg = true;
-        temp*= -1;
+ printScore(score, 62, 80, 2);
+
+ startMsg[0] = 197;
+ startMsg[1] = (score<<8);
+ startMsg[3] = (score&0xFF);
+    while(1){///sends score to other player
+    UART2_Disable();
+    for (int i = 0; i < 4; i++) {
+      IRxmt_OutChar(startMsg[i]);
     }
-    while(temp!=0){
-      ST7735_DrawChar(x_cursor, 80, (temp%10)+48, 0xFFFF, 0x630C, 2);
-      temp /=10;
-      x_cursor-=6;
-    }
-    if(isNeg){
-      ST7735_DrawChar(x_cursor, 80, '-', 0xFFFF, 0x630C, 2);
-    }
+    UART2_Enable();
+    Clock_Delay1ms(10);
+  }
   return 0;
 }
 
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
 Machine m_smelter(89, 80, 127, 134, 103, 72);
-Machine m_anvil(31, 130, 98, 159, 25, 136, 70, 98, 130, 159); 
+Machine m_anvil(31, 130, 98, 159, 25, 136, 70, 90, 130, 159); 
 Machine m_rock2(67, 21, 111, 42, 113, 17);
 Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
 Machine m_rock2Top(87, 8, 106, 15, 0, 0);
@@ -589,11 +560,11 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   // initialize all data structures
   __enable_irq();
 
-  setUpInstructions(); //does the intro screen
+  setUpInstructions(0); //does the intro screen
   ST7735_FillScreen(0x630C);
   UART2_Enable();
-  ST7735_SetCursor(0, 0);
-  ST7735_OutString("Waiting for Player 1");
+  ST7735_SetCursor(0, 1);
+  ST7735_OutString((char*)"Waiting for Player 1");
   uint8_t startGame = 0;
 
   char c1, c2, c3, c4;
@@ -842,39 +813,23 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
         }
     }
   }
-  int16_t score = 0;
+  int16_t temp = 0;
   uint8_t receiveScore = 0;
   while(!receiveScore){
     while(UART2_InChar() != 167){
       c2 = UART2_InChar();
       c3 = UART2_InChar();
       c4 = UART2_InChar();
-      if(c3 == 99){
-        score = c2<<8+c4;
-      }
+      temp = (c2<<8)+c4;
     }
-    
   }
- if(checkWin()==1){
+ if(c3==0x0F){
   ST7735_FillScreen(0x630C);
-  ST7735_SetCursor(5, 10);
-  ST7735_OutString((char *)"YOU WON!");
-  ST7735_SetCursor(5, 11);
-  char endScore[] = "Final Score: ";
-  char scoreStr[5];
-  sprintf(scoreStr, "%d", score);
-  strcat(endScore, scoreStr);
-  ST7735_OutString(endScore);
+  setUpInstructions(1);
  }else{
   ST7735_FillScreen(0x630C);
-  ST7735_SetCursor(5, 10);
-  ST7735_OutString((char *)"YOU LOST");
-  ST7735_SetCursor(5, 11);
-  char endScore[] = "Final Score: ";
-  char scoreStr[5];
-  sprintf(scoreStr, "%d", score);
-  strcat(endScore, scoreStr);
-  ST7735_OutString(endScore);
+  setUpInstructions(2);
  }
+  printScore(temp, 62, 80, 2);
   return -1;
 }
