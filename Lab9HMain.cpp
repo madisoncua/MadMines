@@ -492,8 +492,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       if(machineOut == 80){
         if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
-          p1.setXPos(42);
-          p1.setYPos(102);
+          p1.setXPos(51);
+          p1.setYPos(93);
           deadTimer = 90;
         }
       }else{
@@ -538,12 +538,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
- printScore(score, 70, 80, 2);
-
-  if(score < 0){
-    startMsg[2] = 0x0F;
-    score*= -1;
-  }
+  
   if(checkWin()==1){
   ST7735_FillScreen(0x630C);
   setUpInstructions(1);
@@ -552,7 +547,12 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_FillScreen(0x630C);
   setUpInstructions(2);
   startMsg[2] += 0x30; //lost
- }
+  }
+  printScore(score, 70, 80, 2);
+  if(score < 0){
+    startMsg[2] = 0x0F;
+    score*= -1;
+  }
  startMsg[0] = 167;
  startMsg[1] = (score>>8)&0xFF;
  startMsg[3] = (score&0xFF);
@@ -845,8 +845,8 @@ ST7735_FillScreen(0x630C);
       if(machineOut == 80){
         if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
-          p1.setXPos(42);
-          p1.setYPos(102);
+          p1.setXPos(51);
+          p1.setYPos(93);
           deadTimer = 90;
         }
       }else{
@@ -868,7 +868,7 @@ ST7735_FillScreen(0x630C);
   }
   char c5, c6, c7;
   int16_t temp = 0;
-   while((c2!=c5) || (c4 != c7) || (c3!=c6)){
+   while((c2!=c5) || (c4 != c7) || (c3!=c6) || ((temp%100) != 0 && temp != 999)){
     while(UART2_InChar() != 167){}
     c2 = UART2_InChar();
     c3 = UART2_InChar();
@@ -878,9 +878,8 @@ ST7735_FillScreen(0x630C);
     c5 = UART2_InChar();
     c6 = UART2_InChar();
     c7 = UART2_InChar();
-    
+    temp = ((c2<<8)&0xFF00)+c4;
   }
-  temp = ((c2<<8)&0xFF00)+c4;
   if((c3&0xF) == 0xF){
     temp*= -1;
   }

@@ -47,8 +47,6 @@ extern int16_t score;
 // //Bit 7:player proximity
  #define Prox (1<<7)
 
-//{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
-//SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
 itemHeld sprites[18] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
             {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {boot, 20, 20}, {turnip, 13, 19}};

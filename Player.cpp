@@ -6,8 +6,8 @@
 
  Player::Player(){
     this->possession = 0; 
-    this->posX = 42;    
-    this->posY = 102;
+    this->posX = 51;    
+    this->posY = 93;
     this->last = 0; 
     this->size = 26;
  }
