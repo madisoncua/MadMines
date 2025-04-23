@@ -220,8 +220,9 @@ uint8_t input = 0;
 uint8_t deadTimer = 0;
 
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
+int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -236,23 +237,21 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
-  
-  
+  //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
     // initialize interrupts on TimerG12 at 30 Hz
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
   __enable_irq();
   randomizeOrders();
   setUpInstructions(); //does the intro screen
-  
-  //Wireless Inits
-  IRxmt_Init();   //transmitter PA8
-  UART2_Init();   //just receive, PA22, receiver timeout synchronization
 
   ST7735_FillScreen(0x630C);//set screen grey
   ST7735_SetCursor(0, 0);
   ST7735_OutString("Waiting for Player 2");
   uint8_t acknowledge = 0;
+  score = 0;
   char startMsg[4] = {'1', '2', '3' ,'4'};
   while(!acknowledge){
     UART2_Disable();
@@ -279,8 +278,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       c1 = UART2_InChar();  //continue if there's more messages
     }
   }
-  ST7735_FillScreen(0x630C);//set screen grey
-  Clock_Delay1ms(5); //this is a guess to delay until the other one starts
+  Clock_Delay1ms(10); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
   m_rock1.setRockType(1);//only gives metal (silver or gold)
   m_cart1.setSprite(4);
@@ -325,7 +323,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
       }
     }
-    
     Sensor.Sync(); //checks for semaphore to be set that interrupt has occured
     uint32_t vert = Sensor.DistanceY();
     uint32_t horiz = Sensor.DistanceX();
@@ -523,13 +520,38 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
-
+  if(checkWin()==1){
+  ST7735_FillScreen(0x630C);
+  ST7735_SetCursor(7, 8);
+  ST7735_OutString((char *)"YOU WON!");
+  }else{
+  ST7735_FillScreen(0x630C);
+  ST7735_SetCursor(7, 8);
+  ST7735_OutString((char *)"YOU LOST");
+ }
+ ST7735_SetCursor(7,9);
+ ST7735_OutString((char*)"FINAL SCORE: ");
+ int16_t temp = score;
+  int x_cursor = 70;
+  bool isNeg = false;
+    if(score<0){
+        isNeg = true;
+        temp*= -1;
+    }
+    while(temp!=0){
+      ST7735_DrawChar(x_cursor, 80, (temp%10)+48, 0xFFFF, 0x630C, 2);
+      temp /=10;
+      x_cursor-=6;
+    }
+    if(isNeg){
+      ST7735_DrawChar(x_cursor, 80, '-', 0xFFFF, 0x630C, 2);
+    }
   return 0;
 }
 
 //uint8_t TLX, uint8_t TLY, uint8_t BRX, uint8_t BRY, uint8_t PBX, uint8_t PBY, uint8_t XL, uint8_t XR, uint8_t YT, uint8_t YB
 Machine m_smelter(89, 80, 127, 134, 103, 72);
-Machine m_anvil(31, 130, 98, 159, 25, 136, 40, 98, 130, 159); 
+Machine m_anvil(31, 130, 98, 159, 25, 136, 70, 98, 130, 159); 
 Machine m_rock2(67, 21, 111, 42, 113, 17);
 Machine m_rock2Mid(78, 15, 108, 21, 0, 0);
 Machine m_rock2Top(87, 8, 106, 15, 0, 0);
@@ -538,12 +560,12 @@ Machine m_smelterProgress(103, 72, 125, 78, 0, 0);
 
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
 Machine m_counter4(0, 60, 28, 84, 0, 35, 65, 74, 1);
-Machine m_counter5(0, 84, 28, 108, 0, 35, 89, 100, 1);
-Machine m_counter6(0, 108, 28, 132, 0, 35, 111, 125, 1);
+Machine m_counter5(0, 84, 28, 108, 0, 35, 89, 90, 1);
+Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -555,22 +577,21 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   ST7735_FillScreen(0x630C);
   Sensor.Init(); // PB18 = ADC1 channel 5, slidepot
   Switch_Init(); // initialize switches PA24, PA25
-
+  //Wireless Inits
+  IRxmt_Init();   //transmitter PA8
+  UART2_Init();   //just receive, PA22, receiver timeout synchronization
+  UART2_Disable();
   //LED_Init();    // initialize LED
   Sound_Init();  // initialize sound
   TExaS_Init(0,0,&TExaS_LaunchPadLogicPB27PB26); // PB27 and PB26
     // initialize interrupts on TimerG12 at 30 Hz
-    while(UART2_InChar()){};
   TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
 
   setUpInstructions(); //does the intro screen
-  //Wireless Inits
-  IRxmt_Init();   //transmitter PA8
-  UART2_Init();   //just receive, PA22, receiver timeout synchronization
-
   ST7735_FillScreen(0x630C);
+  UART2_Enable();
   ST7735_SetCursor(0, 0);
   ST7735_OutString("Waiting for Player 1");
   uint8_t startGame = 0;

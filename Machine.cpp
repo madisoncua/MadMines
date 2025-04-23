@@ -17,6 +17,7 @@
 #include "ti/devices/msp/m0p/mspm0g350x.h"
 
 extern uint8_t menuOpen, toDoOpen, sound_flag;
+extern int16_t score;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
@@ -818,7 +819,6 @@ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
 }
 
 int8_t Machine::updateTurnInArea(uint8_t input){
-    static int16_t score = 0;
     switch(state){
       case 0:
         if((input&Prox) == 0){
@@ -858,7 +858,7 @@ int8_t Machine::updateTurnInArea(uint8_t input){
             printTurnInArea(); //set turn in area back to default
             int x_cursor = 120;
             bool isNeg = false;
-            uint8_t temp = score;
+            int16_t temp = score;
             if(score<-999){
                 score = -999;
             }
