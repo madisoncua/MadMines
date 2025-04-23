@@ -845,6 +845,9 @@ int8_t Machine::updateTurnInArea(uint8_t input){
                     }
                 }else{
                     score -= 100;
+                    if(score<-999){
+                        score = -999;
+                    }
                     //output bad ding
                     Sound_Wrong();
                 }
@@ -859,9 +862,6 @@ int8_t Machine::updateTurnInArea(uint8_t input){
             int x_cursor = 120;
             bool isNeg = false;
             int16_t temp = score;
-            if(score<-999){
-                score = -999;
-            }
             if(score<0){
                 isNeg = true;
                 temp*= -1;

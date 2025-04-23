@@ -827,14 +827,25 @@ ST7735_FillScreen(0x630C);
         }
     }
   }
+  char c5, c6, c7;
   int16_t temp = 0;
-  while(UART2_InChar() != 167){}
-  c2 = UART2_InChar();
-  c3 = UART2_InChar();
-  c4 = UART2_InChar();
-  temp = (c2<<8)+c4;
-  
- if(c3==0x0F){
+   while((c2!=c5) || (c4 != c7) || (c3!=c6)){
+    while(UART2_InChar() != 167){}
+    c2 = UART2_InChar();
+    c3 = UART2_InChar();
+    c4 = UART2_InChar();
+
+    while(UART2_InChar() != 167){}
+    c5 = UART2_InChar();
+    c6 = UART2_InChar();
+    c7 = UART2_InChar();
+    
+  }
+  temp = ((c2<<8)&0xFF00)+c4;
+  if((c3&0xF) == 0xF){
+    temp*= -1;
+  }
+ if((c3&0xF0)==0xC0){
   ST7735_FillScreen(0x630C);
   setUpInstructions(1);
  }else{
