@@ -21,7 +21,7 @@ extern int16_t score;
 // //inputs (bits 0-4)
  #define material 0x1F
  enum Materials {EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
- SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, TRASH};
+ SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, WATCH, RING, KEY, TRASH, TURNIP};
 // //0-empty
 // //1-raw silver
 // //2-raw gold
@@ -328,6 +328,7 @@ void Machine::setRockType(uint8_t isMetal){//indicates if rock outputs metal or 
 
 int8_t Machine::updateRock(uint8_t input){
     static uint8_t halfway = 0;
+    static uint8_t lastOuts[3] = {0, 1, 0};
     switch(state){
       case 0: //wait state
         if((input&Prox) ==0){      //ser to default state
@@ -413,8 +414,16 @@ int8_t Machine::updateRock(uint8_t input){
             }else{
                 ST7735_FillRect(progX, progY, progH, progW, 0x630C); //fills inside of empty progress bar
             }
-            uint8_t randOre = (holdItem)? (SysTick->VAL&1)+1: (SysTick->VAL%3)+3; //gives random metal or random gem
-            return ((input&material) == EMPTY)? randOre : -1;
+            if((input&material) != EMPTY)return -1;
+            uint8_t randOre;
+            do{
+                uint32_t randNumber = SysTick->VAL+(TIMG12->COUNTERREGS.CTR&0xFFFF);
+                randOre = (holdItem)? (randNumber&1)+1: (randNumber%3)+3; //gives random metal or random gem
+            }while((lastOuts[0] | lastOuts[1] | lastOuts[2] | randOre) == (randOre & lastOuts[0] & lastOuts[1] & lastOuts[2]));
+            lastOuts[0] = lastOuts[1];
+            lastOuts[1] = lastOuts[2];
+            lastOuts[2] = randOre;
+            return randOre;
         }
         return -1;
         case 2: //small refresh delay before rock can be used again
@@ -711,8 +720,8 @@ int8_t Machine::updateCart(uint8_t input){
                 contents |= 0x40;
             }else if(holdItem < 16){
                 contents |= 0x80;
-            }else{//this is trash
-                contents |= 0xE0;
+            }else{//this is trash or turnip
+                contents |= ((holdItem == 16)? 0xE0: 0xEE);
             }
         }
         char msg[4];
@@ -800,7 +809,7 @@ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
         val1&=material; //just grab the item now
         val2&=material;
         if(parity == 0)return EMPTY;
-        if(parity == 0xE0)return TRASH;
+        if(parity == 0xE0)return (val1)? TURNIP: TRASH;
         if(parity == 0x80){ //item should be a finished product
             if(val1 > EMERALD && val1 < TRASH)return val1;  //return whichever item fits the parity
             if(val2 > EMERALD && val2 < TRASH)return val2;
