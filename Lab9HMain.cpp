@@ -475,7 +475,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
     machineOut = m_cart1.updateCart(input);
     if(machineOut > -1){
       if(machineOut == 80){
-        if(p1.getYPos() < 45){
+        if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
           p1.setXPos(42);
           p1.setYPos(102);
@@ -798,7 +798,7 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     machineOut = m_cart2.updateCart(input);
     if(machineOut > -1){
       if(machineOut == 80){
-        if(p1.getYPos() < 45){
+        if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
           p1.setXPos(42);
           p1.setYPos(102);
