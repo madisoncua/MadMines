@@ -140,11 +140,11 @@ void setUpInstructions(uint8_t mode){ // main1
   }
   return;
   case 1: //this is for printing at the end
-   ST7735_SetCursor(5, 10);
+   ST7735_SetCursor(7, 7);
    ST7735_OutString((char *)Phrases[3][currOption]); //
    return;
    case 2:
-    ST7735_SetCursor(7,9);
+    ST7735_SetCursor(7, 7);
     ST7735_OutString((char *)Phrases[4][currOption]);
     return;  
   }
@@ -165,7 +165,7 @@ void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontS
     while(score!=0){
       ST7735_DrawChar(x_cursor, y_cursor, (score%10)+48, 0xFFFF, 0x630C, fontSize);
       score /=10;
-      x_cursor-=6;
+      x_cursor-=20;
     }
     if(isNeg){
       ST7735_DrawChar(x_cursor, y_cursor, '-', 0xFFFF, 0x630C, fontSize);
@@ -253,6 +253,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
       c1 = UART2_InChar();  //continue if there's more messages
     }
   }
+  ST7735_FillScreen(0x630C);
   Clock_Delay1ms(10); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
   m_rock1.setRockType(1);//only gives metal (silver or gold)
@@ -584,6 +585,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     }
   }
 
+
   startGame = 0;  //now wait until transmitter stops sending stuff to know it also saw acknowledge
   char ackMsg[4] = {'a', 'b', 'c', 'd'};
   while(!startGame){
@@ -599,7 +601,7 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       startGame = 1;
     }
   }
-
+ST7735_FillScreen(0x630C);
   ///////////begin game//////////////////////////
   menuOpen = 0;
   toDoOpen = 0;
@@ -814,14 +816,11 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
     }
   }
   int16_t temp = 0;
-  uint8_t receiveScore = 0;
-  while(!receiveScore){
-    while(UART2_InChar() != 167){
+  while(UART2_InChar() != 167){
       c2 = UART2_InChar();
       c3 = UART2_InChar();
       c4 = UART2_InChar();
       temp = (c2<<8)+c4;
-    }
   }
  if(c3==0x0F){
   ST7735_FillScreen(0x630C);
