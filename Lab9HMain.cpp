@@ -507,7 +507,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
  }
  printScore(score, 70, 80, 2);
 
- startMsg[0] = 197;
+ startMsg[0] = 167;
  startMsg[1] = (score<<8);
  startMsg[3] = (score&0xFF);
     while(1){///sends score to other player
@@ -518,6 +518,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
     UART2_Enable();
     Clock_Delay1ms(10);
   }
+  while(1){}
   return 0;
 }
 
@@ -816,12 +817,12 @@ ST7735_FillScreen(0x630C);
     }
   }
   int16_t temp = 0;
-  while(UART2_InChar() != 167){
-      c2 = UART2_InChar();
-      c3 = UART2_InChar();
-      c4 = UART2_InChar();
-      temp = (c2<<8)+c4;
-  }
+  while(UART2_InChar() != 167){}
+  c2 = UART2_InChar();
+  c3 = UART2_InChar();
+  c4 = UART2_InChar();
+  temp = (c2<<8)+c4;
+  
  if(c3==0x0F){
   ST7735_FillScreen(0x630C);
   setUpInstructions(1);
@@ -830,5 +831,6 @@ ST7735_FillScreen(0x630C);
   setUpInstructions(2);
  }
   printScore(temp, 70, 80, 2);
+  while(1){}
   return -1;
 }
