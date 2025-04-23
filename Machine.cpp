@@ -810,10 +810,10 @@ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
         val1&=material; //just grab the item now
         val2&=material;
         if(parity == 0)return EMPTY;
-        if(parity == 0xE0)return (val1)? TURNIP: TRASH;
+        if(parity == 0xE0)return (val1)? TURNIP: BOOT;
         if(parity == 0x80){ //item should be a finished product
-            if(val1 > EMERALD && val1 < TRASH)return val1;  //return whichever item fits the parity
-            if(val2 > EMERALD && val2 < TRASH)return val2;
+            if(val1 > EMERALD && val1 < BOOT)return val1;  //return whichever item fits the parity
+            if(val2 > EMERALD && val2 < BOOT)return val2;
         }
         if(parity == 0x40){ //item should be a processed material
             if(val1 > EMERALD_ORE && val1 < SWORD)return val1;  //return whichever item fits the parity
