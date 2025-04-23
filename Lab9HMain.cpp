@@ -140,11 +140,11 @@ void setUpInstructions(uint8_t mode){ // main1
   }
   return;
   case 1: //this is for printing at the end
-   ST7735_SetCursor(7, 7);
+   ST7735_SetCursor(7, 4);
    ST7735_OutString((char *)Phrases[3][currOption]); //
    return;
    case 2:
-    ST7735_SetCursor(7, 7);
+    ST7735_SetCursor(7, 4);
     ST7735_OutString((char *)Phrases[4][currOption]);
     return;  
   }
@@ -165,7 +165,7 @@ void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontS
     while(score!=0){
       ST7735_DrawChar(x_cursor, y_cursor, (score%10)+48, 0xFFFF, 0x630C, fontSize);
       score /=10;
-      x_cursor-=20;
+      x_cursor-=10;
     }
     if(isNeg){
       ST7735_DrawChar(x_cursor, y_cursor, '-', 0xFFFF, 0x630C, fontSize);
@@ -505,7 +505,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   setUpInstructions(2);
   startMsg[2] = 0xF0; //lost
  }
- printScore(score, 62, 80, 2);
+ printScore(score, 70, 80, 2);
 
  startMsg[0] = 197;
  startMsg[1] = (score<<8);
@@ -829,6 +829,6 @@ ST7735_FillScreen(0x630C);
   ST7735_FillScreen(0x630C);
   setUpInstructions(2);
  }
-  printScore(temp, 62, 80, 2);
+  printScore(temp, 70, 80, 2);
   return -1;
 }

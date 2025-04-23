@@ -141,16 +141,16 @@ const char Page5_Spanish[] = "Men\xA3 de tareas:\n\n"
                               "para empezar";
 
 const char Won_English[] = "YOU WON!\n"
-                            "                FINAL SCORE: \n";
+                            "    FINAL SCORE: \n";
 
 const char Lost_English[] = "YOU LOST!\n"
-                            "                FINAL SCORE: \n";
+                            "    FINAL SCORE: \n";
 
 const char Won_Spanish[] = "GANASTE!\n"
-                            "                PUNTUACIÓN FINAL: \n";
+                            "PUNTUACIÓN FINAL: \n";
 
 const char Lost_Spanish[] = "PERDISTE!\n"
-                            "                PUNTUACI\xA2N FINAL: \n";
+                            "PUNTUACI\xA2N FINAL: \n";
 
 
 
