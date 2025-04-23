@@ -242,7 +242,6 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
   __enable_irq();
-  randomizeOrders();
   setUpInstructions(); //does the intro screen
   
   //Wireless Inits
@@ -279,6 +278,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       c1 = UART2_InChar();  //continue if there's more messages
     }
   }
+  randomizeOrders();
   ST7735_FillScreen(0x630C);//set screen grey
   Clock_Delay1ms(5); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
