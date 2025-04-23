@@ -359,7 +359,7 @@ int8_t Machine::updateRock(uint8_t input){
         if((input&RButton) == 0x40){
             state++;
             if(!wasWorking){
-                //Sound_Clang();
+                Sound_Clang();
                 sprite = 0;
                 printRock();
                 workTimer = 150;    //5 sec of work time
@@ -566,7 +566,7 @@ void Machine::updateAnvilMenu(int8_t* AnvilItems, int8_t anvilLength){
             }
             workTimer--;
             if(workTimer%15 == 0){
-                //Sound_Clang();
+                Sound_Clang();
                 if(sprite == 0){
                     sprite = 2;
                 }else{
