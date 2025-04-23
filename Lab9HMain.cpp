@@ -78,7 +78,7 @@ uint8_t checkWin(void){
 
 // use main1 to observe special characters
 void setUpInstructions(uint8_t mode){ // main1
-  static uint8_t currOption = 0;
+  static uint8_t currOption = -1;
   switch(mode){
     case 0:
     ST7735_SetCursor(1, 1);
@@ -150,6 +150,33 @@ void setUpInstructions(uint8_t mode){ // main1
    case 3:
    ST7735_SetCursor(0, 1);
    ST7735_OutString((char*)Phrases[5][currOption]);
+
+   case 4:
+    uint8_t madX = 20;
+    uint8_t madY = 20;
+    uint8_t wordSpace = 20;
+    int16_t madcolor = 0xD5E0; 
+    ST7735_DrawChar(madX+20, madY, 'M',madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+20+wordSpace, madY, 'A', madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+20+(wordSpace*2), madY, 'D', madcolor, 0x630C, 3);
+
+    ST7735_DrawChar(madX, madY+30, 'M', madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+wordSpace, madY+30, 'I', madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+(wordSpace*2), madY+30, 'N', madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+(wordSpace*3), madY+30, 'E', madcolor, 0x630C, 3);
+    ST7735_DrawChar(madX+(wordSpace*4), madY+30, 'S', madcolor, 0x630C, 3);
+
+    ST7735_SetCursor(2, 15);
+    ST7735_OutString((char*)"(Click any button)");
+
+    uint8_t gemX = 44;
+    uint8_t gemY = 120;
+    uint8_t gemSpace = 20;
+    ST7735_DrawBitmap(gemX, gemY, Ruby, 9, 12);
+    ST7735_DrawBitmap(gemX+15, gemY, Emerald, 9, 12);
+    ST7735_DrawBitmap(gemX+30, gemY, Diamond, 9, 12);
+   while(buttons==0){}
+   return;
   }
 }
 
@@ -231,6 +258,10 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   TimerG12_IntArm(2666666, 2);//2666666
   // initialize all data structures
   __enable_irq();
+  /////////////intro stuff///////////////////////
+  setUpInstructions(4); //does the intro screen
+   ST7735_FillScreen(0x630C);//set screen grey
+   Clock_Delay1ms(200);
   setUpInstructions(0); //does the intro screen
 
   ST7735_FillScreen(0x630C);//set screen grey
@@ -547,7 +578,7 @@ Machine m_cart2(5, 8, 51, 54, 0, 0);//51 should be 36 if it's the ladder
 Machine m_smelterProgress(103, 72, 125, 78, 0, 0);
 
 //(top_left_x, top_left_y, bot_right_x, bot_right_y, proXL, proXR, proYT, proYB, state)
-Machine m_counter4(0, 60, 28, 84, 0, 35, 65, 74, 1);
+Machine m_counter4(0, 60, 28, 84, 0, 35, 72, 74, 1);
 Machine m_counter5(0, 84, 28, 108, 0, 35, 89, 90, 1);
 Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
@@ -576,8 +607,12 @@ int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
   TimerG12_IntArm(2666666, 2);
   // initialize all data structures
   __enable_irq();
-
+ /////////////intro stuff///////////////////////
+  setUpInstructions(4); //does the intro screen
+   ST7735_FillScreen(0x630C);//set screen grey
+   Clock_Delay1ms(200);
   setUpInstructions(0); //does the intro screen
+
   ST7735_FillScreen(0x630C);
   UART2_Enable();
   ST7735_SetCursor(0, 1);
