@@ -163,7 +163,7 @@ do{
     uint16_t thing = (SysTick->VAL&1)? Sensor.DistanceX() : Sensor.DistanceY();
     ToDoArr[i] = (thing&0xF)%3;//0-2
     count+= (thing&0xF)%3;
-    if(count)unique++;
+    if((thing&0xF)%3)unique++;
   }
 }while(count < 2 || count > 5 || unique < 3);
 }
@@ -209,7 +209,7 @@ uint8_t deadTimer = 0;
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -507,19 +507,23 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
         }
       }
   }
+  if(score < 0){
+    startMsg[2] = 0x0F;
+    score*= -1;
+  }
   if(checkWin()==1){
   ST7735_FillScreen(0x630C);
   setUpInstructions(1);
-  startMsg[2] = 0x0F; //won
+  startMsg[2] += 0xC0; //won
   }else{
   ST7735_FillScreen(0x630C);
   setUpInstructions(2);
-  startMsg[2] = 0xF0; //lost
+  startMsg[2] += 0x30; //lost
  }
  printScore(score, 70, 80, 2);
 
  startMsg[0] = 167;
- startMsg[1] = (score<<8);
+ startMsg[1] = (score>>8)&0xFF;
  startMsg[3] = (score&0xFF);
     while(1){///sends score to other player
     UART2_Disable();
@@ -549,7 +553,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
