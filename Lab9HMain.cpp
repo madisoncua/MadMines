@@ -151,9 +151,18 @@ void setUpInstructions(uint8_t mode){ // main1
 }
 
 void randomizeOrders(void){
+uint8_t count = 0, unique = 0;
+do{
+  count = 0;
+  unique = 0;
   for (int i = 0; i < 5; i++) {
-    ToDoArr[i] = SysTick->VAL%3;//0-2
+    Sensor.Sync();
+    uint16_t thing = (SysTick->VAL&1)? Sensor.DistanceX() : Sensor.DistanceY();
+    ToDoArr[i] = (thing&0xF)%3;//0-2
+    count+= (thing&0xF)%3;
+    if(count)unique++;
   }
+}while(count < 2 || count > 5 || unique < 3);
 }
 
 void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontSize){
