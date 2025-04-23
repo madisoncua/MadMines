@@ -631,7 +631,7 @@ int8_t Machine::updateCart(uint8_t input){
     switch(state){
       case 0: //wait state
         if(debounce > 0)debounce--;
-        if((input&Prox) ==0){      //ser to default state
+        if((input&Prox) ==0){      //set to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
                 printCart();
@@ -720,7 +720,7 @@ int8_t Machine::updateCart(uint8_t input){
             }else if(holdItem < 16){
                 contents |= 0x80;
             }else{//this is trash or turnip
-                contents |= ((holdItem == 16)? 0xE0: 0xEE);
+                contents |= 0xE0;//((holdItem == 16)? 0xE0: 0xEE);
             }
         }
         char msg[4];
@@ -808,7 +808,7 @@ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
         val1&=material; //just grab the item now
         val2&=material;
         if(parity == 0)return EMPTY;
-        if(parity == 0xE0)return (val1)? TURNIP: BOOT;
+        if(parity == 0xE0)return (val1 == 17)? TURNIP: BOOT;
         if(parity == 0x80){ //item should be a finished product
             if(val1 > EMERALD && val1 < BOOT)return val1;  //return whichever item fits the parity
             if(val2 > EMERALD && val2 < BOOT)return val2;
