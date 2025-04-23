@@ -140,11 +140,11 @@ void setUpInstructions(uint8_t mode){ // main1
   }
   return;
   case 1: //this is for printing at the end
-   ST7735_SetCursor(7, 4);
+   ST7735_SetCursor(6, 5);
    ST7735_OutString((char *)Phrases[3][currOption]); //
    return;
    case 2:
-    ST7735_SetCursor(7, 4);
+    ST7735_SetCursor(6, 5);
     ST7735_OutString((char *)Phrases[4][currOption]);
     return;  
   }
@@ -162,11 +162,11 @@ void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontS
         isNeg = true;
         score*= -1;
     }
-    while(score!=0){
+    do{
       ST7735_DrawChar(x_cursor, y_cursor, (score%10)+48, 0xFFFF, 0x630C, fontSize);
       score /=10;
-      x_cursor-=10;
-    }
+      x_cursor-=15;
+    }while(score!=0);
     if(isNeg){
       ST7735_DrawChar(x_cursor, y_cursor, '-', 0xFFFF, 0x630C, fontSize);
     }
@@ -197,7 +197,7 @@ uint8_t deadTimer = 0;
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -538,7 +538,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
