@@ -147,19 +147,24 @@ const char Lost_English[] = "YOU LOST!\n"
                             "    FINAL SCORE: \n";
 
 const char Won_Spanish[] = "GANASTE!\n"
-                            "     PUNTUACIÓN FINAL: \n";
+                            " PUNTUACIÓN FINAL: \n";
 
 const char Lost_Spanish[] = "PERDISTE!\n"
-                            "     PUNTUACI\xA2N FINAL: \n";
+                            " PUNTUACI\xA2N FINAL: \n";
+
+const char Wait_English[] = "Waiting for other \nplayer...";
+
+const char Wait_Spanish[] = "Esperando a otra \njugadora ...";
 
 
 
-const char *Phrases[5][2]={
+const char *Phrases[6][2]={
   {Hello_English,Hello_Spanish},
   {Goodbye_English,Goodbye_Spanish},
   {Language_English,Language_Spanish},
   {Won_English, Won_Spanish},
-  {Lost_English, Lost_Spanish}
+  {Lost_English, Lost_Spanish},
+  {Wait_English, Wait_Spanish}
 };
 
 const char *Instructions[2][5]{
