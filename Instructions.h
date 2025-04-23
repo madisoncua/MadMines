@@ -147,10 +147,10 @@ const char Lost_English[] = "YOU LOST!\n"
                             "    FINAL SCORE: \n";
 
 const char Won_Spanish[] = "GANASTE!\n"
-                            "PUNTUACIÓN FINAL: \n";
+                            "     PUNTUACIÓN FINAL: \n";
 
 const char Lost_Spanish[] = "PERDISTE!\n"
-                            "PUNTUACI\xA2N FINAL: \n";
+                            "     PUNTUACI\xA2N FINAL: \n";
 
 
 
