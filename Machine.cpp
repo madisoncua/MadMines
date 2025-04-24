@@ -47,8 +47,6 @@ extern int16_t score;
 // //Bit 7:player proximity
  #define Prox (1<<7)
 
-//{EMPTY, SILVER_ORE, GOLD_ORE, DIAMOND_ORE, RUBY_ORE, EMERALD_ORE, 
-//SILVER, GOLD, DIAMOND, RUBY, EMERALD, SWORD, SHIELD, RING, WATCH, KEY, TRASH};
 itemHeld sprites[18] = {{0x0, 0, 0}, {rawSilver, 18, 11}, {rawGold, 18, 11}, {rawDiamond, 18, 11}, {rawRuby, 18, 11}, {rawEmerald, 18, 11},
             {silver, 15, 9}, {gold, 15, 9}, {Diamond, 9, 12}, {Ruby, 9, 12}, {Emerald, 9, 12}, {sword, 19, 19},
             {shield, 16, 21}, {watch, 20, 21}, {ring, 16, 17}, {key, 18, 19}, {boot, 20, 20}, {turnip, 13, 19}};
@@ -633,7 +631,7 @@ int8_t Machine::updateCart(uint8_t input){
     switch(state){
       case 0: //wait state
         if(debounce > 0)debounce--;
-        if((input&Prox) ==0){      //ser to default state
+        if((input&Prox) ==0){      //set to default state
             if(sprite !=0){ //don't reprint if already default
                 sprite = 0;
                 printCart();
@@ -722,7 +720,7 @@ int8_t Machine::updateCart(uint8_t input){
             }else if(holdItem < 16){
                 contents |= 0x80;
             }else{//this is trash or turnip
-                contents |= ((holdItem == 16)? 0xE0: 0xEE);
+                contents |= 0xE0;//((holdItem == 16)? 0xE0: 0xEE);
             }
         }
         char msg[4];
@@ -810,7 +808,7 @@ uint8_t Machine::cartSendError(uint8_t val1, uint8_t val2){
         val1&=material; //just grab the item now
         val2&=material;
         if(parity == 0)return EMPTY;
-        if(parity == 0xE0)return (val1)? TURNIP: BOOT;
+        if(parity == 0xE0)return (val1 == 17)? TURNIP: BOOT;
         if(parity == 0x80){ //item should be a finished product
             if(val1 > EMERALD && val1 < BOOT)return val1;  //return whichever item fits the parity
             if(val2 > EMERALD && val2 < BOOT)return val2;
@@ -842,7 +840,7 @@ int8_t Machine::updateTurnInArea(uint8_t input){
                 sprite = 1;
                 printTurnInArea();
             }
-            if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=16)){
+            if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=TURNIP)){
                 holdItem = input&material;
                 workTimer = 100; //set work timer
                 state++;

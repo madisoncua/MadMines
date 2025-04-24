@@ -241,7 +241,7 @@ uint8_t deadTimer = 0;
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -265,8 +265,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   __enable_irq();
   /////////////intro stuff///////////////////////
   setUpInstructions(4); //does the intro screen
-   ST7735_FillScreen(0x630C);//set screen grey
-   Clock_Delay1ms(200);
+  ST7735_FillScreen(0x630C);//set screen grey
+  Clock_Delay1ms(200);
   setUpInstructions(0); //does the intro screen
 
   ST7735_FillScreen(0x630C);//set screen grey
@@ -497,8 +497,8 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
       if(machineOut == 80){
         if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
-          p1.setXPos(42);
-          p1.setYPos(102);
+          p1.setXPos(51);
+          p1.setYPos(93);
           deadTimer = 90;
         }
       }else{
@@ -543,12 +543,7 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
         }
       }
   }
- printScore(score, 70, 80, 2);
-
-  if(score < 0){
-    startMsg[2] = 0x0F;
-    score*= -1;
-  }
+  
   if(checkWin()==1){
   ST7735_FillScreen(0x630C);
   setUpInstructions(1);
@@ -557,7 +552,12 @@ int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
   ST7735_FillScreen(0x630C);
   setUpInstructions(2);
   startMsg[2] += 0x30; //lost
- }
+  }
+  printScore(score, 70, 80, 2);
+  if(score < 0){
+    startMsg[2] = 0x0F;
+    score*= -1;
+  }
  startMsg[0] = 167;
  startMsg[1] = (score>>8)&0xFF;
  startMsg[3] = (score&0xFF);
@@ -589,7 +589,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -850,8 +850,8 @@ ST7735_FillScreen(0x630C);
       if(machineOut == 80){
         if(p1.getYPos() <= 80 && p1.getXPos() <= 51){
           ST7735_FillRect(p1.getXPos(), p1.getYPos()-p1.getSize(), p1.getSize(), p1.getSize(), 0x630C);
-          p1.setXPos(42);
-          p1.setYPos(102);
+          p1.setXPos(51);
+          p1.setYPos(93);
           deadTimer = 90;
         }
       }else{
@@ -873,7 +873,7 @@ ST7735_FillScreen(0x630C);
   }
   char c5, c6, c7;
   int16_t temp = 0;
-   while((c2!=c5) || (c4 != c7) || (c3!=c6)){
+   while((c2!=c5) || (c4 != c7) || (c3!=c6) || ((temp%100) != 0 && temp != 999)){
     while(UART2_InChar() != 167){}
     c2 = UART2_InChar();
     c3 = UART2_InChar();
@@ -883,9 +883,8 @@ ST7735_FillScreen(0x630C);
     c5 = UART2_InChar();
     c6 = UART2_InChar();
     c7 = UART2_InChar();
-    
+    temp = ((c2<<8)&0xFF00)+c4;
   }
-  temp = ((c2<<8)&0xFF00)+c4;
   if((c3&0xF) == 0xF){
     temp*= -1;
   }
