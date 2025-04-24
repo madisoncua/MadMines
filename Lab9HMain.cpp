@@ -186,23 +186,43 @@ void setUpInstructions(uint8_t mode){ // main1
 }
 
 void randomizeOrders(void){
-// uint8_t count = 0, unique = 0;
-// do{
-//   count = 0;
-//   unique = 0;
-//   for (int i = 0; i < 5; i++) {
-//     Sensor.Sync();
-//     uint16_t thing = (SysTick->VAL&1)? Sensor.DistanceX() : Sensor.DistanceY();
-//     ToDoArr[i] = (thing&0xF)%3;//0-2
-//     count+= (thing&0xF)%3;
-//     if((thing&0xF)%3)unique++;
-//   }
-// }while(count < 2 || count > 5 || unique < 3);
-  ToDoArr[0] = 1;
-  ToDoArr[1] = 0;
-  ToDoArr[2] = 2;
-  ToDoArr[3] = 1;
-  ToDoArr[4] = 0;
+  switch(SysTick->VAL%5){ //5 different options for order list
+    case 0:
+      ToDoArr[0] = 1;
+      ToDoArr[1] = 0;
+      ToDoArr[2] = 2;
+      ToDoArr[3] = 1;
+      ToDoArr[4] = 0;
+      break;
+    case 1:
+      ToDoArr[0] = 2;
+      ToDoArr[1] = 0;
+      ToDoArr[2] = 1;
+      ToDoArr[3] = 1;
+      ToDoArr[4] = 0;
+      break;
+    case 2:
+      ToDoArr[0] = 0;
+      ToDoArr[1] = 1;
+      ToDoArr[2] = 0;
+      ToDoArr[3] = 1;
+      ToDoArr[4] = 1;
+      break;
+    case 3:
+      ToDoArr[0] = 0;
+      ToDoArr[1] = 2;
+      ToDoArr[2] = 0;
+      ToDoArr[3] = 1;
+      ToDoArr[4] = 1;
+      break;
+    case 4:
+      ToDoArr[0] = 1;
+      ToDoArr[1] = 1;
+      ToDoArr[2] = 0;
+      ToDoArr[3] = 0;
+      ToDoArr[4] = 2;
+      break;
+  };
 }
 
 void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontSize){
