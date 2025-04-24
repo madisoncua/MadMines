@@ -69,14 +69,14 @@ void IRxmt_SendBit(int bit){
 // 1 means no pulses for 1 bit time
 // should take 10*421.06us = 4.2106ms
 void IRxmt_OutChar(char data){
-    GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
-    GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
     IRxmt_SendBit(0);   //start bit
     for(int i=0; i<8; i++){
         IRxmt_SendBit(data & 0x1);
         data>>=1;
     }
     IRxmt_SendBit(1);   //stop bit
-    GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = (1<<22); // toggle PB22 (minimally intrusive debugging)
 }
 

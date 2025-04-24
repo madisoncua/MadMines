@@ -66,8 +66,8 @@ extern "C" void UART2_IRQHandler(void);
 void UART2_IRQHandler(void){ uint32_t status; char letter;
   status = UART2->CPU_INT.IIDX; // reading clears bit in RTOUT
   if(status == 0x01){   // 0x01 receive timeout
-    GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
-    GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
     char data;
     while((UART2->STAT&(0x4))==0){
       data = (UART2->RXDATA)&(0xFF);
@@ -77,6 +77,6 @@ void UART2_IRQHandler(void){ uint32_t status; char letter;
       //ReceiveCount++;
     }
 
-    GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
+    //GPIOB->DOUTTGL31_0 = BLUE; // toggle PB22 (minimally intrusive debugging)
   }
 }
