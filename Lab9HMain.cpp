@@ -186,18 +186,23 @@ void setUpInstructions(uint8_t mode){ // main1
 }
 
 void randomizeOrders(void){
-uint8_t count = 0, unique = 0;
-do{
-  count = 0;
-  unique = 0;
-  for (int i = 0; i < 5; i++) {
-    Sensor.Sync();
-    uint16_t thing = (SysTick->VAL&1)? Sensor.DistanceX() : Sensor.DistanceY();
-    ToDoArr[i] = (thing&0xF)%3;//0-2
-    count+= (thing&0xF)%3;
-    if((thing&0xF)%3)unique++;
-  }
-}while(count < 2 || count > 5 || unique < 3);
+// uint8_t count = 0, unique = 0;
+// do{
+//   count = 0;
+//   unique = 0;
+//   for (int i = 0; i < 5; i++) {
+//     Sensor.Sync();
+//     uint16_t thing = (SysTick->VAL&1)? Sensor.DistanceX() : Sensor.DistanceY();
+//     ToDoArr[i] = (thing&0xF)%3;//0-2
+//     count+= (thing&0xF)%3;
+//     if((thing&0xF)%3)unique++;
+//   }
+// }while(count < 2 || count > 5 || unique < 3);
+  ToDoArr[0] = 1;
+  ToDoArr[1] = 0;
+  ToDoArr[2] = 2;
+  ToDoArr[3] = 1;
+  ToDoArr[4] = 0;
 }
 
 void printScore(int16_t score, uint8_t x_cursor, uint8_t y_cursor, uint8_t fontSize){
@@ -241,7 +246,7 @@ uint8_t deadTimer = 0;
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -280,26 +285,24 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
       IRxmt_OutChar(startMsg[i]);
     }
     UART2_Enable();
-    Clock_Delay1ms(10);
+    Clock_Delay1ms(100);
     char c1, c2, c3, c4;
     c1 = UART2_InChar();
-    while(c1){
-      c2 = UART2_InChar();
-      c3 = UART2_InChar();
-      c4 = UART2_InChar();
-      uint8_t count = 0;
-      if(c1 == 'a')count++;
-      if(c2 == 'b')count++;
-      if(c3 == 'c')count++;
-      if(c4 == 'd')count++;
-      if(count >= 2){   //acknowledge received that player 2 is ready to start the game
-        acknowledge = 1;
-        break;
-      }
-      c1 = UART2_InChar();  //continue if there's more messages
+    while(c1 != 'a' && c1 != 0)c1 = UART2_InChar();
+    c2 = UART2_InChar();
+    c3 = UART2_InChar();
+    c4 = UART2_InChar();
+    uint8_t count = 0;
+    if(c1 == 'a')count++;
+    if(c2 == 'b')count++;
+    if(c3 == 'c')count++;
+    if(c4 == 'd')count++;
+    if(count >= 2){   //acknowledge received that player 2 is ready to start the game
+      acknowledge = 1;
+      break;
     }
   }
-  randomizeOrders();
+ 
   ST7735_FillScreen(0x630C);//set screen grey
   Clock_Delay1ms(10); //this is a guess to delay until the other one starts
   /////////////begin game///////////////////
@@ -325,6 +328,7 @@ int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDO
   ST7735_DrawBitmap(0, 159, todo+4800, 32, 10); //draws the to do button at the bottom
   ST7735_DrawBitmap(p1.getXPos(), p1.getYPos(), miner, p1.getSize(), p1.getSize());
   int16_t timer = 5400;
+  randomizeOrders();
   Sensor.Sync();
   while(timer>=0){
     if(timer%30 == 0 && toDoOpen == 0){
@@ -589,7 +593,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -657,6 +661,15 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
       startGame = 1;
     }
   }
+  for (int j = 0; j < 4; j++) {
+    UART2_Disable();
+    for (int i = 0; i < 4; i++) {
+      IRxmt_OutChar(ackMsg[i]);
+    }
+    UART2_Enable();
+    Clock_Delay1ms(5);
+  }
+    
 ST7735_FillScreen(0x630C);
   ///////////begin game//////////////////////////
   menuOpen = 0;
