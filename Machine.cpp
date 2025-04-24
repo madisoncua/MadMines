@@ -141,6 +141,8 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
             state++;
             //output a sound??
             return 80;               //tells the main to empty player's hand
+        }else if((input&LButton) == 0x20){
+            Sound_Wrong();
         }
         return -1;
       case 1://working state
@@ -413,7 +415,10 @@ int8_t Machine::updateRock(uint8_t input){
             }else{
                 ST7735_FillRect(progX, progY, progH, progW, 0x630C); //fills inside of empty progress bar
             }
-            if((input&material) != EMPTY)return -1;
+            if((input&material) != EMPTY){
+                Sound_Wrong();
+                return -1;
+            }
             uint8_t randOre;
             do{
                 uint32_t randNumber = SysTick->VAL+(TIMG12->COUNTERREGS.CTR&0xFFFF);
