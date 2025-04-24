@@ -128,6 +128,10 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
                 printSmelter();
             }
         }
+        if(workTimer > 0){
+            workTimer--;
+            return -1;
+        }
         if((input&LButton) == 0x20 && ((input&material)==1 || (input&material)==2)){
             holdItem = input&material;
             workTimer = 150; //set work timer
@@ -178,13 +182,14 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
         }else{
             if((input&LButton) == 0 || (input&material) != EMPTY){
                 if(sprite!=1){
-                sprite = 1;
-                printSmelter();
+                    sprite = 1;
+                    printSmelter();
                 }
            }else{
                 state = 0;
                 int temp = holdItem+5;
                 holdItem = EMPTY;
+                workTimer = 15;
                 return temp;
             }
         }
@@ -204,6 +209,7 @@ int8_t Machine::updateSmelter(uint8_t input){ //we will need to make each machin
             if((input&LButton) == 0x20 && (input&material) == EMPTY){
                 state = 0;
                 sprite = 0;
+                workTimer = 20;
                 printSmelter();
                 return TURNIP;
             }
