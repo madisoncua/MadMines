@@ -840,7 +840,7 @@ int8_t Machine::updateTurnInArea(uint8_t input){
                 sprite = 1;
                 printTurnInArea();
             }
-            if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=16)){
+            if((LButton&input)==0x20 && ((input&material)>=1 && (input&material)<=TURNIP)){
                 holdItem = input&material;
                 workTimer = 100; //set work timer
                 state++;
