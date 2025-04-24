@@ -1,6 +1,7 @@
 // images.h
 // contains image buffers for simple space invaders
 // Jonathan Valvano, March 5, 2018
+// Edited: Evan Roberts and Madison Cua, April 23, 2025
 // Capture image dimensions from BMP files
 
 #ifndef __images_h

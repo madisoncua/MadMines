@@ -4,7 +4,7 @@
  * @details   Lab 5. Digital Piano using a Digital to Analog Converter<br>
  * For more information see<br> https://docs.google.com/document/d/1DVmHjqsx24FvLp4x8KKyr5UmDeDlBlfeQPsVvKFQF_k/edit<br>
  * @version   ECE319K Spring 2025
- * @author    Your names go here
+ * @author    Evan Roberts and Madison Cua
  * @copyright Lab solution, do not post,
  * @warning   AS-IS
  * @note      For more information see  http://users.ece.utexas.edu/~valvano/

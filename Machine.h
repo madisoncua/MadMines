@@ -1,8 +1,10 @@
- #ifndef _Machine_h
- #define _Machine_h
- #include <cstdint>
+// Authors: Evan Roberts and Madison Cua
+// Last Modified: 4/24/2025
+#ifndef _Machine_h
+#define _Machine_h
+#include <cstdint>
 #include <iostream>
- using namespace std;
+using namespace std;
 
 typedef struct itemHeld{
   const uint16_t* image;

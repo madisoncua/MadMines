@@ -1,3 +1,5 @@
+//Authors: Madison Cua and Evan Roberts
+
 typedef enum {English, Spanish} Language_t;
 Language_t myLanguage=English;
 typedef enum {HELLO, GOODBYE, LANGUAGE} phrase_t;

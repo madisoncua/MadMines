@@ -6,8 +6,8 @@
  * @file      FIFO2.h
  * @brief     Provide functions for a first in first out queue
  * @details   ECE319H Lab 8H.  
- * @author    change this to your names or look very silly
- * @date     change this to the last modification date or look very silly
+ * @author    Evan Roberts and Madison Cua
+ * @date      04/02/2025
  */
 
 #ifndef __FIFO2_H__

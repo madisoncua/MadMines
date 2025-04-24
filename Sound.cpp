@@ -1,8 +1,8 @@
 // Sound.cpp
 // Runs on MSPM0
 // Sound assets in sounds/sounds.h
-// your name
-// your data 
+// Edited by: Evan Roberts and Madison Cua
+// Last Modified: 4/24/2025
 #include <ti/devices/msp/msp.h>
 #include "../inc/LaunchPad.h"
 #include "../inc/Clock.h"

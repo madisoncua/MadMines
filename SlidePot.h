@@ -2,8 +2,8 @@
 // Runs on MSPM0
 // Provide functions that initialize ADC1 channel 5, PB18 and use a slide pot to measure distance
 // Created: 12/26/2024
-// Student names: change this to your names or look very silly
-// Last modification date: change this to the last modification date or look very silly
+// Student names: Evan Roberts and Madsion Cua
+// Last modification date: 04/02/2025
 
 #ifndef SLIDEPOT_H
 #define SLIDEPOT_H

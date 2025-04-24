@@ -14,7 +14,7 @@
  * 1 start, 8 data bits, 1 stop, no parity.<br>
 
  * @version   ECE319K v1.2
- * @author    your name
+ * @author    // Evan Roberts and Madison Cua
  * @copyright lab 8
  * @warning   AS-IS
  * @note      For more information see  http://users.ece.utexas.edu/~valvano/

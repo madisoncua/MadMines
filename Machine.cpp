@@ -1,12 +1,14 @@
- #include <cstdint>
+// Authors: Evan Roberts and Madison Cua
+// Last Modified: 4/24/2025
+#include <cstdint>
 #include <iostream>
- #include "Machine.h"
- #include "ST7735.h"
+#include "Machine.h"
+#include "ST7735.h"
 #include "IRxmt.h"
 #include "Sound.h"
 #include "UART2.h"
- #include "images.h"
- #include "../inc/Clock.h"
+#include "images.h"
+#include "../inc/Clock.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <ti/devices/msp/msp.h>

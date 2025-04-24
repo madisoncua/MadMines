@@ -1,3 +1,6 @@
+// Authors: Evan Roberts and Madison Cua
+// Last Modified: 4/24/2025
+
  #include <cstdint>
 #include <iostream>
  #include "Player.h"

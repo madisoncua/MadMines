@@ -1,5 +1,5 @@
 /* UART2.cpp
- * Evan Roberts
+ * Evan Roberts and Madison Cua
  * Data: 04/01/2025
  * PA22 UART2 Rx from other microcontroller PA8 IR output<br>
  */

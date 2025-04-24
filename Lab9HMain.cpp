@@ -1,8 +1,8 @@
 // Lab9HMain.cpp
 // Runs on MSPM0G3507
 // Lab 9 ECE319H
-// Evan Roberts and Madison Cua
-// Last Modified: 4/11/2025
+// Authors: Evan Roberts and Madison Cua
+// Last Modified: 4/24/2025
 #include <cassert>
 #include <stdio.h>
 #include <stdint.h>
