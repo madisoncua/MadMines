@@ -844,21 +844,7 @@ int8_t Machine::updateTurnInArea(uint8_t input){
                 holdItem = input&material;
                 workTimer = 100; //set work timer
                 state++;
-                if(holdItem>=SWORD && holdItem<=KEY){ //fix array
-                    if(ToDoArr[holdItem-11]>0){
-                        ToDoArr[holdItem-11]--; //decrement the item in the arr
-                        score+=200;
-                        //output good ding
-                        Sound_Correct();
-                    }
-                }else{
-                    score -= 100;
-                    if(score<-999){
-                        score = -999;
-                    }
-                    //output bad ding
-                    Sound_Wrong();
-                }
+                return EMPTY;
             }
         }
         return -1;
@@ -867,6 +853,21 @@ int8_t Machine::updateTurnInArea(uint8_t input){
         if(workTimer == 0){ //resets the score after "turn in processing is complete"
             sprite = 0;
             printTurnInArea(); //set turn in area back to default
+            if(holdItem>=SWORD && holdItem<=KEY){ //fix array
+                if(ToDoArr[holdItem-11]>0){
+                    ToDoArr[holdItem-11]--; //decrement the item in the arr
+                    score+=200;
+                    //output good ding
+                    Sound_Correct();
+                }
+            }else{
+                score -= 100;
+                if(score<-999){
+                    score = -999;
+                }
+                //output bad ding
+                Sound_Wrong();
+            }
             int x_cursor = 120;
             bool isNeg = false;
             int16_t temp = score;
