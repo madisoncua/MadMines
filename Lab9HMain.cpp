@@ -78,7 +78,7 @@ uint8_t checkWin(void){
 
 // use main1 to observe special characters
 void setUpInstructions(uint8_t mode){ // main1
-  static uint8_t currOption = -1;
+  static uint8_t currOption = 0;
   switch(mode){
     case 0:
     ST7735_SetCursor(1, 1);
@@ -87,6 +87,10 @@ void setUpInstructions(uint8_t mode){ // main1
   ST7735_OutString((char *)Phrases[2][0]); //english
   ST7735_SetCursor(1, 5);
   ST7735_OutString((char *)Phrases[2][1]); //spanish
+
+  ST7735_FillRect(3, 38, 45, 2, 0x475F); //highlights this language 
+  ST7735_SetCursor(1, 3);
+  ST7735_OutString((char *)Phrases[2][0]); //english
 
 
   while((buttons&0x20)==0){
@@ -120,6 +124,7 @@ void setUpInstructions(uint8_t mode){ // main1
       }
     }
   }
+  
   for(int i=0; i<5; i++){//4 pages of instructions
     ST7735_FillScreen(0x630C);//set screen grey
     Clock_Delay1ms(10);
@@ -150,7 +155,7 @@ void setUpInstructions(uint8_t mode){ // main1
    case 3:
    ST7735_SetCursor(0, 1);
    ST7735_OutString((char*)Phrases[5][currOption]);
-
+   return;
    case 4:
     uint8_t madX = 20;
     uint8_t madY = 20;
@@ -236,7 +241,7 @@ uint8_t deadTimer = 0;
 Machine* machineArr1[12] = {&m_refiner, &m_portal, &m_rock1, &m_cart1, &m_todo, &m_counter1, &m_counter2, &m_counter3, &m_todoDown, &m_rock1Mid, &m_rock1Top, &m_rock1Progress};
 int16_t score;
 // ALL ST7735 OUTPUT MUST OCCUR IN MAIN
-int mainP1(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
+int main(void){ // THIS IS THE PLAYER 1 WITH REFINER, SMELTER, AND ORDER WINDOW
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -584,7 +589,7 @@ Machine m_counter6(0, 108, 28, 132, 0, 35, 120, 125, 1);
 Machine* machineArr2[10] = {&m_smelter, &m_anvil, &m_rock2, &m_cart2, &m_counter4, &m_counter5, &m_counter6, &m_rock2Mid, &m_rock2Top, &m_smelterProgress};
 
 Machine Counters2[3] = {m_counter4, m_counter5, m_counter6};
-int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
+int mainP2(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
 //initializations
   __disable_irq();
   PLL_Init(); // set bus speed
@@ -612,8 +617,8 @@ int main(void){ // THIS IS THE PLAYER 2 WITH ROCKS AND ANVIL
    ST7735_FillScreen(0x630C);//set screen grey
    Clock_Delay1ms(200);
   setUpInstructions(0); //does the intro screen
-
   ST7735_FillScreen(0x630C);
+
   UART2_Enable();
   ST7735_SetCursor(0, 1);
   setUpInstructions(3);
