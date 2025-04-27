@@ -14,10 +14,9 @@ ORDERED_OBJS += \
 "./DAC5.o" \
 "./FIFO2.o" \
 "./IRxmt.o" \
-"./LED.o" \
-"./Lab9HMain.o" \
+"./Lab9HMainP2.o" \
 "./LaunchPad.o" \
-"./Machine.o" \
+"./Machine2.o" \
 "./Player.o" \
 "./SPI.o" \
 "./ST7735.o" \
@@ -162,9 +161,9 @@ MadMines.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)
-	-$(RM) "Clock.o" "DAC5.o" "FIFO2.o" "IRxmt.o" "LED.o" "Lab9HMain.o" "LaunchPad.o" "Machine.o" "Player.o" "SPI.o" "ST7735.o" "SlidePot.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "UART2.o" "ticlang\startup_mspm0g3507_ticlang.o" 
+	-$(RM) "Clock.o" "DAC5.o" "FIFO2.o" "IRxmt.o" "Lab9HMainP2.o" "LaunchPad.o" "Machine2.o" "Player.o" "SPI.o" "ST7735.o" "SlidePot.o" "SmallFont.o" "Sound.o" "Switch.o" "TExaS.o" "Timer.o" "UART2.o" "ticlang\startup_mspm0g3507_ticlang.o" 
 	-$(RM) "ticlang\startup_mspm0g3507_ticlang.d" 
-	-$(RM) "Clock.d" "DAC5.d" "FIFO2.d" "IRxmt.d" "LED.d" "Lab9HMain.d" "LaunchPad.d" "Machine.d" "Player.d" "SPI.d" "ST7735.d" "SlidePot.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "UART2.d" 
+	-$(RM) "Clock.d" "DAC5.d" "FIFO2.d" "IRxmt.d" "Lab9HMainP2.d" "LaunchPad.d" "Machine2.d" "Player.d" "SPI.d" "ST7735.d" "SlidePot.d" "SmallFont.d" "Sound.d" "Switch.d" "TExaS.d" "Timer.d" "UART2.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

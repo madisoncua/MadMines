@@ -21,7 +21,7 @@
  uint8_t Player::getSize(){return size;}  //return size
 
  extern itemHeld sprites[17];
- extern int8_t toDoOpen;
+ uint8_t toDoOpen;
 
 bool Player::moveUp(){
       posY-=2;
