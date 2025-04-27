@@ -6,7 +6,7 @@
  *      Edited: Evan Roberts
  */
 #include <ti/devices/msp/msp.h>
-#include "../inc/LaunchPad.h"
+#include "LaunchPad.h"
 // LaunchPad.h defines all the indices into the PINCM table
 void Switch_Init(void){
     // LaunchPad_Init has been called so power should be reset to ports

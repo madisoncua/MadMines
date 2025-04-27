@@ -5,7 +5,7 @@
  * 12-bit ADC input on ADC1 channel 5, PB18
  */
 #include <ti/devices/msp/msp.h>
-#include "../inc/Clock.h"
+#include "Clock.h"
 #include "SlidePot.h"
 #define ADCVREF_VDDA 0x000
 #define ADCVREF_INT  0x200

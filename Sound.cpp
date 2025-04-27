@@ -4,11 +4,11 @@
 // Edited by: Evan Roberts and Madison Cua
 // Last Modified: 4/24/2025
 #include <ti/devices/msp/msp.h>
-#include "../inc/LaunchPad.h"
-#include "../inc/Clock.h"
-#include "../inc/UART.h"
-#include "../inc/Timer.h"
-#include "../inc/DAC5.h"  // student's Lab 5
+#include "LaunchPad.h"
+#include "Clock.h"
+//#include "../inc/UART.h"
+#include "Timer.h"
+#include "DAC5.h"  // student's Lab 5
 #include <stdio.h>
 #include <string.h>
 #include "Sound.h"

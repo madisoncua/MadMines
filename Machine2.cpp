@@ -8,13 +8,12 @@
 #include "Sound.h"
 #include "UART2.h"
 #include "images2.h"
-#include "../inc/Clock.h"
+#include "Clock.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <ti/devices/msp/msp.h>
-#include "../inc/LaunchPad.h"
-#include "../inc/TExaS.h"
-#include "../inc/Timer.h"
+#include "LaunchPad.h"
+#include "Timer.h"
 #include "Sound.h"
 #include "Player.h"
 #include "ti/devices/msp/m0p/mspm0g350x.h"

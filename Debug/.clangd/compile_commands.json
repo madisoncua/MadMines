@@ -2,32 +2,12 @@
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
       "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Player.cpp"
    },
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/SPI.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
       "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/SlidePot.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/SmallFont.cpp"
    },
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
@@ -38,16 +18,6 @@
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
       "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Switch.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp"
    },
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
@@ -82,21 +52,31 @@
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Lab9HMainP2.cpp"
-   },
-   {
-      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
-      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
       "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Machine2.cpp"
    },
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Lab9HMainP1.cpp"
+      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Lab9HMainP2.cpp"
    },
    {
       "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
       "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
-      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Machine1.cpp"
+      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Clock.cpp"
+   },
+   {
+      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
+      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
+      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/LaunchPad.cpp"
+   },
+   {
+      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
+      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
+      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Timer.cpp"
+   },
+   {
+      "directory" : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug",
+      "command"   : "clang++ -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source/third_party/CMSIS/Core/Include\" -I\"C:/ti/mspm0_sdk_2_03_00_07/source\" -D__MSPM0G3507__ -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/armv7em-ti-none-eabihf/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c++/v1\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/lib/clang/18/include\" -isystem\"C:/ti/ccs/tools/compiler/ti-cgt-armllvm_4.0.1.LTS/include/c\" -I\"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/Debug/syscfg\"",
+      "file"      : "C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/MadMines/SPI.cpp"
    }
 ]

@@ -7,9 +7,9 @@
 
 #include <ti/devices/msp/msp.h>
 #include "UART2.h"
-#include "../inc/Clock.h"
-#include "../inc/LaunchPad.h"
-#include "../inc/FIFO2.h"
+#include "Clock.h"
+#include "LaunchPad.h"
+#include "FIFO2.h"
 //extern uint32_t ReceiveCount;
 uint32_t LostData;
 Queue FIFO2;

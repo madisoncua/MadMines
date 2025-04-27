@@ -28,8 +28,8 @@
  */
 #include <stdint.h>
 
-#include "../inc/FIFO2.h"
-#include "../inc/ST7735.h"
+#include "FIFO2.h"
+#include "ST7735.h"
 
 // A class named Queue that defines a FIFO
 Queue::Queue(){

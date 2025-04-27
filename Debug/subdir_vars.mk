@@ -6,22 +6,20 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp \
+../Clock.cpp \
 ../DAC5.cpp \
 ../FIFO2.cpp \
 ../IRxmt.cpp \
 ../Lab9HMainP2.cpp \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp \
+../LaunchPad.cpp \
 ../Machine2.cpp \
 ../Player.cpp \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/SPI.cpp \
+../SPI.cpp \
 ../ST7735.cpp \
 ../SlidePot.cpp \
-../SmallFont.cpp \
 ../Sound.cpp \
 ../Switch.cpp \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp \
-C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp \
+../Timer.cpp \
 ../UART2.cpp 
 
 CMD_SRCS += \
@@ -39,10 +37,8 @@ OBJS += \
 ./SPI.o \
 ./ST7735.o \
 ./SlidePot.o \
-./SmallFont.o \
 ./Sound.o \
 ./Switch.o \
-./TExaS.o \
 ./Timer.o \
 ./UART2.o 
 
@@ -58,10 +54,8 @@ CPP_DEPS += \
 ./SPI.d \
 ./ST7735.d \
 ./SlidePot.d \
-./SmallFont.d \
 ./Sound.d \
 ./Switch.d \
-./TExaS.d \
 ./Timer.d \
 ./UART2.d 
 
@@ -77,10 +71,8 @@ OBJS__QUOTED += \
 "SPI.o" \
 "ST7735.o" \
 "SlidePot.o" \
-"SmallFont.o" \
 "Sound.o" \
 "Switch.o" \
-"TExaS.o" \
 "Timer.o" \
 "UART2.o" 
 
@@ -96,30 +88,26 @@ CPP_DEPS__QUOTED += \
 "SPI.d" \
 "ST7735.d" \
 "SlidePot.d" \
-"SmallFont.d" \
 "Sound.d" \
 "Switch.d" \
-"TExaS.d" \
 "Timer.d" \
 "UART2.d" 
 
 CPP_SRCS__QUOTED += \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Clock.cpp" \
+"../Clock.cpp" \
 "../DAC5.cpp" \
 "../FIFO2.cpp" \
 "../IRxmt.cpp" \
 "../Lab9HMainP2.cpp" \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/LaunchPad.cpp" \
+"../LaunchPad.cpp" \
 "../Machine2.cpp" \
 "../Player.cpp" \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/SPI.cpp" \
+"../SPI.cpp" \
 "../ST7735.cpp" \
 "../SlidePot.cpp" \
-"../SmallFont.cpp" \
 "../Sound.cpp" \
 "../Switch.cpp" \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/TExaS.cpp" \
-"C:/Users/rober/OneDrive/Documents/College/319H/MSPM0_ValvanoWare/inc/Timer.cpp" \
+"../Timer.cpp" \
 "../UART2.cpp" 
 
 

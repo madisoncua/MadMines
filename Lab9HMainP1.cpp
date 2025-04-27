@@ -8,11 +8,10 @@
 #include <stdint.h>
 #include <ti/devices/msp/msp.h>
 #include "ST7735.h"
-#include "../inc/Clock.h"
-#include "../inc/LaunchPad.h"
-//#include "../inc/TExaS.h"
-#include "../inc/Timer.h"
-#include "../inc/DAC5.h"
+#include "Clock.h"
+#include "LaunchPad.h"
+#include "Timer.h"
+#include "DAC5.h"
 #include "Switch.h"
 #include "Sound.h"
 #include "images1.h"
