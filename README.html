@@ -1,3 +1,8 @@
+   MadMines is a collaborative mining game, where two players work together to make magic items. The game involves two microcontrollers communicating through wireless communication via infrared LEDs, sending a cart back and forth with various items and ingredients to complete crafting tasks.  
+   The technical aspects of the game include graphics, sound effects, and wireless communication. A Machine class manages variables related to each machine’s proximity, location, and inventory, while a Player class tracks the player’s position and held items. Both machines and players are updated within the main game loop, running at the frequency of the game engine.
+   The various machines are objects of the machine class. Each machine maintains its own variables and its own FSM. In the main, an ‘update’ function is called for each machine, which updates the state of each machine based on the external inputs given by the player. The state of the machine corresponds to its sprite, its function, and the sound it makes. There is also a player object, which updates its position and what its holding based on the input of the ADC. For the most part, the machines only change state when the player is interacting with it.
+
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html xmlns:v="urn:schemas-microsoft-com:vml"
  xmlns:o="urn:schemas-microsoft-com:office:office"
